@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{xspace}
+\usepackage{color}
+\usepackage{MnSymbol}%dla \oast
+
+%komentarze do tekstu
+\definecolor{grey}{rgb}{0.25, 0.25, 0.25}
+\newcommand{\koment}[1]{
+%	\textcolor{blue}{#1}
+	\textcolor{grey}{komentarz}
+}
+
+%ensuremath
+\newcommand{\ens}[1]{\ensuremath{#1}\xspace}
+
+%classes of graphs
+\newcommand{\treewidth}[1]{\ens{\mathcal{T}_{#1}}}%class of graphs of treewidth #1
+\newcommand{\twk}{\treewidth{k}}
+\renewcommand{\P}{\ens{\mathcal{P}}} %class of paths
+\newcommand{\HomP}{\ens{\Hom_{\P}}}
+
+%\newcommand{\error}{def}
+
+%grafy, operacje na zbiorach krawędzi
+\newcommand{\disjointsum}{+}
+\newcommand{\bigdisjointsum}{\bigsqcup}
+\newcommand{\allv}[1]{\ensuremath{\porty(#1) \cup \{ - \}}\xspace}
+\DeclareMathOperator{\porty}{porty}
+\newcommand{\portyG}{\ens{\porty(G)}}
+\newcommand{\forget}{\ens{\mathrm{forget}}}
+\newcommand{\join}{\ens{\mathrm{join}}}
+%szeregi formalne - funkcje pomocnicze
+\newcommand{\FSAx}[2]{\ensuremath{ \bb{ #1 } \langle\langle #2  \rangle\rangle }\xspace} %Formal Series A<<x>>
+\newcommand{\Atypx}[3]{\ensuremath{ \bb{ #1 }^{\text{#2}} \langle\langle #3  \rangle\rangle }\xspace}
+\newcommand{\quasireg}[1]{\ensuremath{x}#1}
+%szeregi formalne
+\newcommand{\Ax}{\FSAx{A}{x}}
+\newcommand{\Axqr}{\quasireg{\Ax}}
+\newcommand{\Arat}{\Atypx{A}{rat}{x}}
+\newcommand{\Arec}{\Atypx{A}{rec}{x}}
+\newcommand{\Nx}{\FSAx{N}{x}}
+\newcommand{\Nrat}{\Atypx{N}{rat}{x}}
+\newcommand{\Nratqr}{\quasireg{\Nrat}}
+\newcommand{\Nratqralg}{\ensuremath{ ( \Nratqr, +, \cdot, ^+ ) }\xspace}
+\newcommand{\Nratalg}{\ensuremath{ ( \Nrat, +, \cdot, ^+ ) }\xspace}
+\newcommand{\Nrec}{\Atypx{N}{rec}{x}}
+\newcommand{\Zx}{\FSAx{Z}{x}}
+\newcommand{\Zxqr}{\quasireg{\Zx}}
+\newcommand{\Zrat}{\Atypx{Z}{rat}{x}}
+\newcommand{\Zrec}{\Atypx{Z}{rec}{x}}
+
+%
+\newcommand{\proj}[1]{\ensuremath{\mathbb{P}^{1}(#1)}\xspace} %prosta rzutowa
+\newcommand{\simp}{\ensuremath{\preceq_{pol}}\xspace}
+\def\endps{\ensuremath{\mathrm{ endpoints }}} %syntaxem newcommand nie dzialalo, renewcommand tez.
+\newcommand{\error}{\ensuremath{\mathrm{ error }}}
+\DeclareMathOperator{\zero}{zero}
+\DeclareMathOperator{\Hom}{Hom}
+%N, Q, Z
+\newcommand{\bb}[1]{\ensuremath{\mathbb{#1}}\xspace}
+\newcommand{\bbA}{\bb{A}}
+\newcommand{\A}{\bbA}
+\newcommand{\bbN}{\bb{N}}
+\newcommand{\N}{\bbN}
+\newcommand{\bbQ}{\bb{Q}}
+\newcommand{\Q}{\bbQ}
+\newcommand{\bbZ}{\bb{Z}}
+\newcommand{\Z}{\bbZ}
+
+%strzałki
+\newcommand{\ra}{\rightarrow}
+\newcommand{\xra}[1]{\xrightarrow{#1}}
+\newcommand{\lra}{\leftrightarrow}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\llra}{\longleftrightarrow}
+\renewcommand{\iff}{\Lra}
+\newcommand{\iffdef}{\stackrel{def}{\iff}}
+%newtheorem
+\newtheorem{tw}{Theorem}
+\newtheorem{wn}[tw]{Corollary}
+\newtheorem{lm}{Lemma}
+\newtheorem{obs}[tw]{Observation}
+\newtheorem{fakt}[tw]{Fact}
+\theoremstyle{definition}
+\newtheorem{df}{Definition}
+\newtheorem{uw}{Remark}
+\newtheorem{ex}{Example}
+\newtheorem{dozr}{Do zrobienia}
+

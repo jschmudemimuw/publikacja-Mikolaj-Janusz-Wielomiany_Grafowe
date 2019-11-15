@@ -1,0 +1,358 @@
+\input{preamblegroh}
+%\author{Mikołaj Bojańczyk and Janusz Schmude}
+\title{Kompozycjonalność szeregów formalnych $\sum_{n=0}^{\infty}  | \Hom(P_n, (-)) | x^n$ w algebrze grafow o bounded treewidth}
+\begin{document}
+	\maketitle
+\noindent Komentarze włączamy lub wyłączamy w preambule, komenda \textbackslash koment.\\
+Aktualnie komentarze wyświetlają się tak: \koment{To jest przykładowy komentarz 123}.\\
+Jeżeli nic się nie wyświetla lub wyświetla się tekst inny niż ''To jest przykładowy komentarz 123'', to znaczy, że komentarze są wyłączone.\\
+\section{Abstract}
+Let \twk denote the class of graphs of treewidth $k$.
+The goal of this paper is to decide equivalence of \twk-to-\twk transducers, up to certain equivalence relations that measure similarity of outputted graphs. We will do it for two measures: \HomP vectors [see Grohe, Theorem XXX] that count number of homomorphisms from paths to a given graph and spectrum of a graph, which is known to be equivalent to $\Hom_{\mathcal{C}}$ vectors that count number of homomorphism from cycles to a given graph. We use Hilbert Method [see YYY] for rational/recognizable formal power series.
+
+\section{A brief through Hilbert Method}
+Associate to a graph with ports a tuple of elements of some ring, possibly with a finite information about a graph, in a way that is \emph{compositional}, that is, it is possible to, from such information about two graphs, compute this information about their join and for a graph to compute such information about this graph with one node forgotten. Both computations are required to use only ring operations of $+$ and $\cdot$.
+
+Formally, we are looking for a mapping $(\phi, \delta):\twk\ra R^k \times Q$, where $R$ is a ring that satisfies certain conditions and $Q$ is a finite set, such that there are \underline{polynomial} functions $(\alpha_{q,r})_{q, r \in Q}:R^k\ra R^k$ satisfying
+$$
+	\phi(\join(G, H)) = \alpha_{q, r}(\phi(G), \phi(H)),
+$$
+where $q = \delta(G)$ and $r = \delta(H)$. The conditions on a ring are: computable, no zero divisors.
+\section{An idea.}
+Let $P_n$ denote a path of length $n$, $n \geq 0$ and \P a class of all paths \\
+	Zauważmy, że homomorfizm z $P_n$ do $G$ is a \emph{walk} długości $n$ and hence
+	$| \Hom(P_n, G) | = \#$ spacerów długości $n$ po grafie $G$.\\
+\begin{tw}[Grohe 2018, Theorem 1.]
+For graphs $G$ and $H$, the following are equivalent: 
+\begin{enumerate}[(i)]
+	\item $\forall n \Hom(P_n, G) = \Hom(P_n, H)$,
+	\item the system $F_{iso}(G,H)$ of linear equations
+	has a  real solution.
+\end{enumerate}
+\end{tw}
+\textbf{POMYSŁ: }mapować $G \mapsto \sum_{n = 0} ^ {\infty} |\Hom(P_n, G)| x^n$ -- element pierścienia szeregów formalnych $\Zx$.
+ 
+\subsection{Definicje}
+	We call a walk \emph{positive} if it is of nonzero length.\\
+	Let $G$ be a graph with ports. Definiujemy rozbicie szeregu formalnego względem wyróżnionych wierzchołków $G_{v,w}$ dla $v,w \in V(G)$ następująco: 
+	
+	$G_{v,w}$ :=  zbiór spacerów z $v$ do $w$, które
+	\begin{itemize}
+		\item są dodatnie,
+		\item wnętrza nie dotykają portów.
+	\end{itemize}
+
+	Interesują nas zbiory spacerów $G_{i, j}$, gdzie $i, j$ są portami a także $G_{i, -} = G_{-, i} := \bigdisjointsum_{v \in V(G) \setminus \porty(G)} G_{i, v}$.
+
+Funkcję tworzącą zbioru $G_{i,j}, i,j \in \allv{G}$ oznaczamy przez $g_{i,j}$ i definiujemy jako $\sum_{n=1}^{\infty} a_n x^n$, gdzie $a_n = \#$ spacerów z $G_{i,j}$ o długości $n$. 
+Let us emphasize that this mapping, when restricted to graphs without ports, counts positive walks.
+\begin{obs}
+	Dla grafu $G$ bez portów mamy 
+	\begin{align*}
+	G_{-, -} & = \text{ wszystkie spacery dodatnie w $G$},\\
+	g_{-, -} & = \sum_{n=1}^{\infty}| \Hom(P_n, G) |\ \! x^n.
+	\end{align*}
+\end{obs}
+A zatem dalej będziemy rozważać mapowanie of graphs with ports
+	\begin{equation}
+		G \mapsto (g_{i, j})_{i, j \in \allv{G}}.
+	\end{equation}
+Celem następnej sekcji jest udowodnienie poniższego twierdzenia.
+\begin{tw}
+	Mapowanie $G \mapsto (g_{i,j})_{i, j \in \allv{G}}$ jest kompozycjonalne. 
+\end{tw}
+\begin{uw}
+	Actually we mean the mapping above augmented with (finite) information about which pairs of ports are connected, see equation for computing generating function of \join.
+\end{uw}
+\begin{uw}
+	We focus on positive walks. However the zero-walks cannot be forgotten, hence we will map $G$ to a pair $(g = \sum_{n = 1} ^ {\infty} |\Hom(P_n, G)| x^n, |\Hom(P_0, G)|)$. $|\Hom(P_0, G)|$ equals the number of vertices of a graph and clearly is compositional hence in the rest of the paper we deal with $G \mapsto \sum_{n = 0} ^ {\infty} |\Hom(P_n, G)| x^n$, shorter $G \mapsto g$.
+\end{uw}
+\section{Kompozycjonalność $G \mapsto (g_{i,j})_{i,j}$}
+Thanks to considering only walks that are positive, all set operations will be unambiguous.
+\subsection{Zbiory spacerów}
+We denote sets of walks by capital letters, usually $F, G$, and their generating functions by small letters, hence set $F$ has generating function $f$ etc.
+\\
+\textbf{Konkatenacja spacerów} $w_1 \cdot w_2 = $ wiadomy spacer, jeżeli they share a common endpoint,\koment{ w przeciwnym wypadku na razie nie ma znaczenia co, bo zawsze końce będą się zgadzać. Możliwości to \error lub 0}.
+\begin{df}
+	We denote unambiguous versions of set operations as follows (for the moment we assume that edges from $F$ and $G$ occuring in all below operations have a common endpoint, hence in $F^{+}$ they are cycles):
+	\begin{itemize}
+		\item $F \disjointsum G $ to unambiguous sum,
+		\item $F \odot G$ to unambiguous concatenation,
+		\item $F^\oplus $ to unambiguous $F^+$,
+		\item $F^\oast $ to unambiguous $F^*$,
+		\item $F\ominus G$ to $F\setminus G$, gdzie dodatkowo $G\subset F$. \koment{używane w aktualnej wersji}
+	\end{itemize}
+\end{df}
+	We call a zbiór spacerów $F$ \emph{jednorodny}, jeżeli wszystkie spacery from mają ten sam zbiór endpointów (which is 1-element in case of cycles) and \emph{półjednorodne},  czyli gdy jest (wspólny przy mnożeniu dla $F$ i $G$) tylko jeden ustalony endpoint.
+	Walk sets $G_{i,j}, i,j\portyG$ are homogeneous, sets $G_{i, -} = G{-, i}$ are semihomogeneous.
+%
+\subsection{Funkcje tworzące}
+$\A$ -- dowolny półpierścień. Dla naszych zastosowań $\A = \N $ lub $\A = \Z$. 	\Ax = szeregi formalne o współczynnikach w \A.
+\textbf{Funkcję tworzącą} jednorodnego zbioru spacerów dodatnich $F$ oznaczamy przez $f$ i definiujemy jako $\sum_{n=1}^{\infty} a_n x^n$, gdzie $a_n = \#$ spacerów w grafie $G$ o długości $n$.
+
+
+
+\begin{lm}
+	Let $F,G$ be semihomogeneous or homogeneous sets of edges. Zakładamy, że w każdym z poniższych podpunktów końce $F, G$ są takie, że wynik działania jest przede wszystkim, poprawnie określony (nie jest errorem), a ponadto (pół)jednorodny, jeżeli $F,G$ są (pół)jednorodne, czyli explicitly: endpoints $F,G$ są takie same w przypadku sumy, end($F$)=start($G$) w przypadku konkatenacji oraz start($F$)=end($F$) w przypadku iterowanej konktatenacji.
+	 Wówczas wzór na funkcję tworząca zbioru spacerów
+	\begin{itemize}
+		\item $F \disjointsum G $ to $f+g$, 
+		\item $F \odot G$ to $f\cdot g$,
+		\item $F^\oplus $ to $f^+$,
+		\item $F^{\oast}$ to $1 + f^+$.
+	\end{itemize}
+\end{lm}
+gdzie
+	$$
+		f^+:=f + ff + fff + \ldots.
+	$$
+Observe the function $^+$ above is defined only of series with $a_n = 0$, i.e. $^+ : \Axqr \ra \Axqr$, which explains the use positive walks.
+\begin{proof}
+	Pierwszy podpunkt jest wręcz trywialny. Drugi wynika wprost z definicji. Trzeci to wniosek z pierwszego i drugiego, a czwarty wprost z trzeciego.
+	Bardziej wzniośle: Skoro operacje są unambiguous to są to de facto operacje z półpierścienia multizbiorów. Mapowanie $G \mapsto g$ jest po prostu homomorfizmem surjektywnym z tego półpierścienia do \Ax, w dodatku zachowującym gradację elementów tych multizbiorów. Zatem wszystkie punkty są trywialne.
+\end{proof}
+%
+%
+Let us recall fractions in \Ax (and rings in general): szereg $r(x) = \frac{p(x)}{q(x)}$ is, by definition, jedyny szereg o własności $q(x)r(x) = p(x)$, o ile taki istnieje, a równość ułamków $\frac{p(x)}{q(x)} = \frac{r(x)}{s(x)}$ zachodzi wtedy i tylko wtedy, gdy $p(x) \cdot s(x)=q(x) \cdot r(x)$.
+
+Jako, że $f^+ = f + ff^+$, funkcja $ f \mapsto f^+$ może być zapisana w bardziej zwartej formie:
+\begin{equation}\label{eq::^+jestFunkcjaWymierna}
+	f^+ = \frac{f}{1-f}.
+\end{equation}
+Jest to iloraz funkcji wielomianowych. To zbliża nas do celu, jakim jest używanie jedynie funkcji wielomianowych.
+%
+%
+\subsection{Kompozycjonalność}
+\begin{df}
+	Let us adapt a convention that for an induced subgraph $H\subset G$, jeżeli $v \notin V(H)$ lub $w \notin V(H)$, we put $H_{v, w} := \emptyset$. This means that for sets $H_{A,B} = G_{A \cap V(G), B \cap V(G)}$
+\end{df}
+We have the following formulas that allow to compute $G_{i, j}, i, j \in \portyG$ after applying \forget and \join operations.
+\begin{lm}
+	$k \in \porty(G)$, $v,w$ -- dowolne wierzchołki, różne od $k$.
+	\begin{gather}
+		\forget_k(G)_{v, w} = 
+		\overbrace{G_{v,w}}^{\text{ nie zaw. $k$ }} \disjointsum \ \! \overbrace{G_{v, k} \odot (G_{k, k})^{\oast} \odot G_{k,w}}^{\text{ zawierające $k$}},
+		\text{ dla } v,w\neq k
+		\\
+		\join(G, H)_{v, w} = 
+		\begin{cases}
+			G_{v, w} \disjointsum H_{v, w}, \text{ w przeciwnym wypadku}\\
+			(G_{v, w} \ominus(v, w)) \disjointsum (H_{v, w} \ominus(v,w)) \disjointsum (v,w), \text{ jeżeli $(v, w)$ jest parą portów połączona krawędzią}
+		\end{cases}
+	\end{gather}
+	A zatem, dla $i, j \in \allv{G}$, 
+	$$
+		\forget_k(G)_{i, j} = \overbrace{G_{i,j}}^{\text{ nie zaw. $k$ }} \disjointsum \ \! \overbrace{G_{i, k} \odot (G_{k, k})^{\oast} \odot G_{k,j}}^{\text{ zawierające $k$}},
+	$$
+	oraz
+	\[
+		\join(G, H)_{i, j} = 
+		\begin{cases}
+			G_{i, j} \disjointsum H_{i, j}, \text{ w przeciwnym wypadku}\\
+			(G_{i, j} \ominus(i, j)) \disjointsum (H_{i, j} \ominus(i,j)) \disjointsum (i,j), \text{ jeżeli $(i, j)$ jest parą portów połączona krawędzią}
+		\end{cases}
+	\]
+\end{lm}
+Moving to generating functions we obtain, that for $i, j \in \allv{G}$ we have
+	\begin{align}
+		\forget_k(g)_{i, j}& = 
+			\overbrace{g_{i,j}}^{\text{ nie zaw. $k$ }} + \ \! \overbrace{g_{i, k} \cdot (1+{g_{k, k}}^+) \cdot g_{k,j}}^{\text{ zawierające $k$}},
+		\\
+		\join(g, h)_{i, j}& = 
+			\begin{cases}
+				g_{i, j} + h_{i, j}, \text{ w przeciwnym wypadku}\\
+				(g_{i, j} - x) + (h_{i, j} - x) + x, \text{ jeżeli $(i,j )$ jest parą portów połączona krawędzią}
+			\end{cases}
+	\end{align}
+\section{Wybór pierścienia, czyli \Z-rational series}
+Przypomnijmy -- $\A$ -- dowolny półpierścień. Dla naszych zastosowań $\A = \N $ lub $\A = \Z$. 
+Jaki pod(pół)pierścień pierścienia szeregów formalnych \Zx/\Nx wybrać, aby 
+\begin{itemize}
+	\item zawierał nasze ciągi $g$,
+	\item był zamknięty na quasi-inverse, oraz 
+	\item był obliczalny? 
+\end{itemize}
+Observe that the condition of our ring having no zero divisors will always be satisfied as \Ax has no zero divisors if \A has no zero divisors.
+\\
+\textbf{Algebra obliczalna} = operacje oraz relacja ''='' są obliczalne.\\
+Okazuje się, że można wziąć ,,najmniejszy możliwy'' podpierścień\\
+
+Ta sekcja, niemal w całości, korzysta z wyników książki ,,Automata Theoretic Aspects Of Formal Power Series''. 
+
+%A subsemiring of $\Nx$ is \textbf{rationally closed} iff it contains the quasi- inverse of every quasiregular element. The family of \bbN-rational series, in symbols \Nrat, is the smallest rationally closed subset of \Nx which contains all polynomials. Thus, every \bbN-rational series can be constructed from polynomials by a finite number of applications of the operations of sum, (Cauchy) product and quasi-inversion.
+\subsection{}
+\begin{df}[Automata..., str. 14]
+	\A-rational series = \Arat := the smallest subsemiring \Ax which
+	\begin{itemize}
+		\item contains all polynomials. 
+		\item is closed under quasi-inversion of every quasiregular element.
+	\end{itemize}
+\end{df}
+Thus, every $r\in\Arat$ can be constructed from polynomials using $+, \cdot, ^+$. 
+
+\begin{df}[Automata..., str. 14]
+	$r \in \Ax$ is in $\Arec$ (\bbA-recognizable) iff
+	$$
+		r = r_0 + \sum_{n=1}^{\infty} p(M^n) x^n,
+	$$
+	 where $p:\A ^{m \times m} \ra \A$ is a linear mapping of variables $(a_{ij})_{i,j}$, with coefficients in \A.
+\end{df}
+\begin{tw}[Automata..., str 22, Theorem 2.3.]\label{tw::Nrec=Nrat}
+	  $$
+	  	\Arec = \Arat.
+	  $$
+\end{tw}
+\begin{uw}
+		Zakładamy, że Twierdzenie \ref{tw::Nrec=Nrat} jest efektywne. Nie sprawdziłem tego, ale dowody sprawiają wrażenie efektywnych, ale nie sięgnąłem do pełnej głębi łancucha odniesień do poprzednich faktów. Zresztą, i tak nie jest to nam potrzebne, bo my, na mocy twierdzenia, które zaraz zacytujemy, i tak tylko działamy na ilorazach wielomianów -- z kolei mam nadzieję, że ono jest efektywne.
+\end{uw}
+\begin{dozr}
+	Sprawdzić, czy Twierdzenie \ref{tw::Nrec=Nrat} jest efektywne.
+\end{dozr}
+\textbf{Odpowiedź} Wybieramy półpierścień $x\cdot \Nrat$, czyli quasiregular \bbN-rational formal power series.
+\begin{tw}[Automata..., str 74, Theorem 12.2]
+	It is decidable whether given \Z-rational series equals 0.
+\end{tw}
+\begin{wn}
+	It is decidable whether two given \N-rational series are equal.
+\end{wn}
+\begin{wn}
+	\Nratqralg is a computable algebra.
+\end{wn}
+
+
+%Ciekawostka: jest nawet więcej:
+%\begin{tw}[Automata..., str.53, Theorem 9.1.]
+%	 (Tutaj nie można zamienić \Z na \N) Każdy $r \in \Zrat$ jest postaci 
+%	 \[
+%	 	\frac{p(x)}{1 - q(x)}, \quad q\in x \Zrat,
+%	 \]
+%	 i odwrotnie -- każdy taki $r$ jest w \Zrat.
+%\end{tw}
+
+
+\begin{lm}
+Dla każdego grafu $G$ z portami oraz jego wierzchołków $v, w$, szereg $g_{v, w}$ jest \N-rational quasiregular.
+	\end{lm}
+\begin{proof}
+Wystarczy to sprawdzić dla grafów, w których każdy wierzchołek jest portem, a to jest trywialne, bo tutaj, mówiąc już zupełnie prosto, albo jest krawędź albo jej nie ma i tyle.
+\end{proof}
+\begin{uw}
+	Nawet może być graf nie o bounded tree-width, bo mamy $\sum_n 1A^n1 x^n$
+\end{uw}
+\section{Jak poradzić sobie z $f\mapsto f^+$, czyli przestrzeń rzutowa - do modyfikacji i uproszczenia}
+Mamy półpierścień \Nratqr. Niech $K$ będzie ciałem, które go zawiera, np. $K$ = ciało ułamków \Zrat. Operacja \emph{quasi-inverse} nie jest funkcją wielomianową -- jest to funkcja wymierna. Nie jest to więc polynomial automaton.
+\begin{tw}\label{tw::RownowaznoscAutomatowZDzieleniem}
+	Jeżeli dwa automaty wielomianowe z dzieleniem na żadnym wejściu nie wykonują w  trakcie obliczeń dzielenia przez 0, to ich równoważność jest rozstrzygalna.
+\end{tw}
+
+W tej sekcji rozwiążemy ten problem identyfikując ułamek z parą liczb (licznik, mianownik). Pomysł jest inspirowany klasyczną konstrukcją prostej rzutowej, wraz z funkcjami wymiernymi jednej zmiennej na niej.
+\subsection{Polynomial automata z dzieleniem}
+Zauważmy, że
+\[
+	\left( \frac{x_1}{x_2} \right)^+=\frac{\frac{x_1}{x_2}}{1-\frac{x_1}{x_2}} = \frac{x_1}{ x_2 - x_1}.
+\]
+%Funkcję %
+%$x \mapsto \frac{p(x)}{q(x)}$
+%%
+%$\llra$
+%%
+%$
+%(x_1 : x_2) \mapsto (  p\left( \frac{ x_1 }{ x_2 } \right) \cdot x_2^{\deg p} : q\left( \frac{ x_1 }{ x_2 } \right) \cdot x_2^{\deg q} ).
+%$
+%\\
+Mamy zatem operacje na $K \times K$, będące realizacją operacji $+, \cdot, ^+$ w $K$, traktowanego jako zbiór ułamków: \koment{jakby zrobić to na (x,y), (s,t), to dużo wyraźniej byłoby widać wzory, ale nie zachowalibyśmy przyjętej konwencji}
+\begin{subequations}
+	\renewcommand{\theequation}{\theparentequation.\arabic{equation}}
+	\begin{align}\label{eq::ProjJakoKtimesK1}
+	(x_1, x_2) + (y_1, y_2) &, = (x_1 \cdot y_2 + x_2 \cdot y_1, x_2 \cdot y_2)\\
+	(x_1, x_2) \cdot (y_1, y_2) &, = (x_1 \cdot y_1, x_2 \cdot y_2) \\
+	(x_1, x_2)^+      &:= (x_1, x_2 -x_1) \label{eq::ProjJakoKtimesK3}
+	\end{align}
+\end{subequations}
+Wnioskiem z powyższych obserwacji jest poniższe Twierdzenie.
+\begin{proof}[Dowód Twierdzenia \ref{tw::RownowaznoscAutomatowZDzieleniem}]
+	Weźmy dwa $K$-RA z dzieleniem $A_1$ i $A_2$. Niech $B_1, B_2$ to odpowiadające im $(K \times K)$ -RA.
+	Jak już wspomnieliśmy (\eqref{eq::ProjJakoKtimesK1} - \eqref{eq::ProjJakoKtimesK3}), funkcje wymierne w $\proj{K}$ odpowiadają jednorodnym funkcjom wielomianowym w $K \times K$, $B_i$ są więc polynomial automatami.
+	
+	A zatem $A_1 \equiv A_2$ wtw złożenie $(B_1, B_2)$ z  $(x_1, x_2, y_1, y_2) \mapsto (x_1y_2 - y_1x_2)$ jest równoważne 0, a zeroness polynomial automatów jest rozstrzygalny.
+\end{proof}
+Z niego wnioskujemy
+\begin{tw}
+	RA-equivalence nad algebrą $(x\Nrat, +, \times, ^+)$ jest rozstrzygalna.
+\end{tw}
+\begin{proof}
+	Aplikujemy powyższy Lemat do ciała $K$ zawierającego \Nratqr. Funkcja $^+$ jest wymierna, see equation \eqref{eq::^+jestFunkcjaWymierna}.
+\end{proof}
+Z powyższego wnioskujemy
+\begin{tw}
+	$P_n$-Równoważność automatów rejestrowych nad algebrą grafów o ograniczonej szerokości drzewiastej jest rozstrzygalna.
+\end{tw}
+\begin{proof}
+	Pokazaliśmy, że funkcja $G \mapsto g = \sum_{n=1}^{\infty} | \Hom(P_n, G) |$ jest kompozycjonalna. Funkcja $G \mapsto | \Hom(P_0, G) |$ też jest kompozycjonalna, a zatem $G \mapsto (| \Hom(P_0, G) |, g)$ jest symulacją przez $\bbN \times x\Nrat$.
+\end{proof}
+\section{Appendix}
+
+\subsection{Klasyczne fakty o prostej rzutowej}
+\begin{df}
+	\textbf{Funkcja wymierna} jest to funkcja zadana wzorem $x \mapsto \frac{p(x)}{q(x)}$, gdzie $p(x), q(x)$ nie mają wspólnych dzielników.
+\end{df}
+Przywołajmy klasyczną konstrukcję prostej rzutowej.
+\\
+Intuicyjnie $\proj{K} =$ jest rozszerzeniem ciała $K$ do zbioru $K \cup \{ \infty \}$ , gdzie $\frac{x}{0} = \infty$ dla $x \in K$. W \proj{K} wszystkie funkcje wymierne są określone w każdym punkcie.
+
+Formalnie 
+$$
+\proj{K} := K \times K \setminus (0,0) / \sim, \text{ gdzie } (x_1, x_2) \sim (y_1, y_2) \iffdef x_1y_2 = x_2y_1.
+$$
+A zatem elementy \proj{K} sa reprezentowane przez $K \times K$. W tej reprezentacji 
+\begin{enumerate}
+	\item $K$ zanurza się w $\proj{K}$ wzorem $x \mapsto (x, 1)$, ogólnie $\frac{x_1}{x_2} \mapsto (x_1, x_2)$,
+	\item funkcje wymierne (jednej) zmiennej $x$ określone na \proj{K} odpowiadają parom jednorodnych funkcjom wielomianowym zmiennych $(x_1, x_2)$
+\end{enumerate}
+Przykład ilustrujący drugi podpunkt
+\[
+	\left( \frac{x_1}{x_2} \right)^+=\frac{\frac{x_1}{x_2}}{1-\frac{x_1}{x_2}} = \frac{x_1}{ x_2 - x_1}.
+\]
+%Funkcję %
+%$x \mapsto \frac{p(x)}{q(x)}$
+%%
+%$\llra$
+%%
+%$
+%(x_1 : x_2) \mapsto (  p\left( \frac{ x_1 }{ x_2 } \right) \cdot x_2^{\deg p} : q\left( \frac{ x_1 }{ x_2 } \right) \cdot x_2^{\deg q} ).
+%$
+%\\
+Mamy zatem operacje na $K \times K$, będące realizacją operacji $+, \cdot, ^+$ w \proj{K}: \koment{jakby zrobić to na (x,y), (s,t), to dużo wyraźniej byłoby widać wzory, ale nie zachowalibyśmy przyjętej konwencji}
+\begin{subequations}
+	\renewcommand{\theequation}{\theparentequation.\arabic{equation}}
+	\begin{align}\label{eq::ProjJakoKtimesK1}
+	(x_1, x_2) + (y_1:y_2) &:= (x_1 \cdot y_2 + x_2 \cdot y_1, x_2 \cdot y_2)\\
+	(x_1, x_2) \cdot (y_1:y_2) &:= (x_1 \cdot y_1, x_2 \cdot y_2) \\
+	(x_1, x_2)^+      &:= (x_1, x_2 -x_1) \label{eq::ProjJakoKtimesK3}
+	\end{align}
+\end{subequations}
+Algebra o uniwersum $K \times K$ i powyższych operacjach różni się od \proj{K} tym, że w \proj{K} pary $(x_1, x_2), (y_1, y_2)$ reprezentują ten sam punkt wtedy i tylko wtedy, gdy $ x_1y_2 = x_2y_1.$ oraz tym, że $(0, 0) = \frac{0}{0} \notin \proj{K}.$
+\subsection{Possible generalisations of Theorem \ref{tw::RownowaznoscAutomatowZDzieleniem}}
+Można rozważać nie tylko $K$ bez dzielenia przez 0, ale nawet 
+$K$ z dzieleniem przez 0, 
+\begin{enumerate}
+	\item 
+z jedną $\infty$ z dowolnym funkcjami wymiernymi jednej zmiennej (wówczas jest to prosta rzutowa), lub
+	\item  \Q z $+\infty$ i $-\infty$, z ze standardową semantyką operacji i z zakazanym $\infty - \infty$. 
+\end{enumerate}
+Jest to wrzucone tutaj bo przyszło do głowy, może warto to zostawić.
+\begin{lm}
+	RA--equivalence nad \proj{K} z funkcjami wymiernymi jest rozstrzygalne.
+\end{lm}
+\begin{proof}
+	Analogiczny jak dowód Twierdzenia \ref{tw::RownowaznoscAutomatowZDzieleniem}.
+\end{proof}
+\section{Future work}
+\subsection{title}
+Show compositionality of other graph properties, probably of such that admit algebraic characterisation. Our proof for \P homomorphism vector does not rely on algebraic property $\Hom(P_n, G) = 1A^n1$, for $A$ being adjacency matrix of $G$, although it does the same thing essentially when we join graphs. I personally do not believe in such coincedence and claim that algebraically definable properties are the ones that one should look for when applying this technique.
+\subsection{title}
+Uogólnienie tego na drzewa wydaje się niemożliwe. Powody:
+\begin{enumerate}
+	\item Drzewa nie tworzą monoidu, zatem nie wiadomo jaki szereg formalny przyporządkować albo alternatywnie, jak już go po prostu przyporzadkujemy, jak go mnożyć. Nawet gdyby wystarczyły zbalansowane drzewa, to nie widzę tego, bo waga $n$-tego drzewa to $2^n$.
+\end{enumerate}
+\end{document}
