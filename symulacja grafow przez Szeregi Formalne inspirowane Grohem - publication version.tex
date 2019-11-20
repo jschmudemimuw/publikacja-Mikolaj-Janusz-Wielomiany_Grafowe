@@ -22,14 +22,22 @@ where $q = \delta(G)$ and $r = \delta(H)$. The conditions on a ring are: computa
 Let $P_n$ denote a path of length $n$, $n \geq 0$ and \P a class of all paths \\
 	Zauważmy, że homomorfizm z $P_n$ do $G$ is a \emph{walk} długości $n$ and hence
 	$| \Hom(P_n, G) | = \#$ spacerów długości $n$ po grafie $G$.\\
-\begin{tw}[Grohe 2018, Theorem 1.]
-For graphs $G$ and $H$, the following are equivalent: 
-\begin{enumerate}[(i)]
-	\item $\forall n \Hom(P_n, G) = \Hom(P_n, H)$,
-	\item the system $F_{iso}(G,H)$ of linear equations
-	has a  real solution.
-\end{enumerate}
+\begin{tw}[Grohe, Theorem 1.]
+	For all graphs G and H, the following are equivalent: 
+	\begin{enumerate}[(i)]
+		\item $\forall n \Hom(P_n, G) = \Hom(P_n, H)$,
+		\item the system $F_{iso}(G,H)$ of linear equations
+		has a real solution (possibly using negative numbers).
+	\end{enumerate}
 \end{tw}
+where
+\begin{df}
+	$F_{iso}$. $G = (V, A), H = (W, B).$  $X:V \ra W$ supposed to define 'isomorphism'.
+	\begin{align*}
+	AX = XB\\
+	X1_V = 1_W\\
+	X^T1_W = 1_V
+	\end{align*}
 \textbf{POMYSŁ: }mapować $G \mapsto \sum_{n = 0} ^ {\infty} |\Hom(P_n, G)| x^n$ -- element pierścienia szeregów formalnych $\Zx$.
  
 \subsection{Definicje}
