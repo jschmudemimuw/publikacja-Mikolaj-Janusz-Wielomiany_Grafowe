@@ -1,0 +1,125 @@
+\section{Graphs and treewidth}
+The graphs in this paper are finite and undirected, without  parallel edges. 
+
+\subsection{Treewidth}
+\label{sec:treewidth-definition}
+We only consider classes of graphs of bounded treewidth, because the kind of problems studied in this paper (equivalence for \mso transductions) become immediately undecidable for graphs of unbounded treewidth. To define treewidth, we use Courcelle's algebraic approach. 
+
+
+\smallparagraph{Algebras, terms and polynomials} We begin by introducing some terminology from universal algebra. By an \emph{algebra}, we mean a set equipped with some  operations, e.g.~the ring of integers $(\Int, + , \times, 0, 1)$. We write $\aalg, \balg, \ldots$ for algebras. By abuse of notation, we write $a \in \aalg$ if $a$ belongs to the underlying set in the algebra $\aalg$. 
+        For $k \in \set{0,1,\ldots}$, define a \emph{$k$-ary term operation in an algebra $\aalg$} to be  any operation of type $\aalg^k \to \aalg$ that arises from a term constructed using $k$ variables (representing inputs of the operation) and operations of the algebra. A \emph{$k$-ary polynomial operation} is defined the same way, except that the term can also use all elements of the algebra as constants. For example, if  the algebra $\aalg$ is 
+        $
+        (\Real, + , \times, 0 ,1)
+        $
+        then the $k$-ary term operations are the same as polynomials with $k$ variables with coefficients in $\set{0,1,\ldots}$, while the $k$-ary polynomial operations are the same as (general) polynomials with $k$ variables.
+
+        
+\smallparagraph{The algebra of $k$-sourced graphs} To define treewidth, we consider graphs with distinguished vertices and equip them with an algebraic structure. 
+    Let $k \in \set{1,2,\ldots}$. Define a $k$-sourced graph to be a  graph together with a $k$-tuple of pairwise distinct vertices called \emph{sources}. We allow sources to be undefined; in particular when all sources are undefined then we get a graph. Here is a 
+    picture of a 3-sourced graph, where sources 1 and 3 are defined, but source 2 is undefined:
+    \mypic{2}
+    One can equip $k$-sourced graphs with an algebraic structure (in the sense of universal algebra, i.e.~a set that is called the domain, together with operations on it).
+
+
+
+    
+    \begin{definition}
+        [Algebra of $k$-sourced graphs] Let $k \in \set{1,2,\ldots}$. The \emph{algebra of $k$-sourced graphs} has as its underlying set the  $k$-sourced graphs, equipped with the following operations:
+            \begin{itemize}
+                \item {\bf Constants.} Every $k$-sourced graph with at most $k+1$ vertices is a constant.
+                \item {\bf Forget.} For every $i \in \set{1,\ldots,k}$ there is a unary operation, which inputs a $k$-sourced graph and outputs the same $k$-sourced graph, except that the $i$-th source is undefined. 
+                \item {\bf Fuse.} There is one binary operation, called \emph{fusion}, which inputs two $k$-sourced graphs, and output their disjoint union, with same-numbered sources being identified, as explained in the following picture:
+                \mypic{1}
+            \end{itemize}
+        \end{definition}
+    
+  
+
+    \begin{lemma}
+        A graph has treewidth $\le k$, in the sense of Robertson and Seymour,  if and only if it is the value of an arity zero term in the algebra of $k$-sources graphs.
+    \end{lemma}
+    % \begin{definition}[Treewidth]
+    %     For $k \in \set{1,2,\ldots}$, we say that a  graph has treewidth  $\le k$ if it can be produced using the operations of the algebra of $(k+1)$-sourced graphs.
+    % \end{definition}
+
+    % The definition above coincides with the original definition of Robertson and Seymour, which uses tree decompositions with bags of vertices~\cite[Proposition 1.19]{courcelle1991}. 
+
+    \subsection{Monadic second-order logic}
+     We use the name  \emph{vocabulary} for a set of relation names, each one with an associated arity. A \emph{structure over a vocabulary $\tau$} consists of a universe together with an interpretation of the relations names in the vocabulary $\tau$, which maps each relation name to a relation over the universe of same arity. To define properties of such structures, we use mainly monadic second-order logic \mso, which  is the extension of first-order logic that allows quantification over sets of elements (but not sets of pairs, or triples, etc.). We assume that the reader is familiar with \mso, for an introduction see~\cite[Section 2]{Thomas97}.
+     
+     
+      To define properties of graphs in \mso, we represent a graph as a structure. There are two representations, called  \msoone and \msotwo following 
+ Courcelle~\cite[Definition 1.7]{courcelleVI}. In the \msoone representation, the vertices are the universe and there is a binary relation for the edges (the binary relation is symmetric, because graphs are undirected). In the \msotwo representation, the universe is vertices and edges, and there is a binary  \emph{incidence relation} that consists of pairs $(v,e)$ such that vertex $v$ participates in edge $e$. 
+In this paper, we use the \msotwo representation. More properties of graphs can be expressed in \mso with this representation, e.g.~existence of a Hamiltonian cycle can be expressed using the \msotwo representation but not with the \msoone representation~\cite[p.~118]{courcelleVI}.
+
+\smallparagraph{Transductions}  The central topic of this paper is \mso transductions, which are graph transformations definable in \mso. In principle, the transductions are nondeterministic -- i.e.~they represent binary relations and not functions -- but we will show that the functional case is general for the equivalence problems that we consider.
+
+% \begin{definition}\label{def:graph-to-graph-mso}
+%     The syntax of a graph-to-graph \mso transduction consists of:
+%         \begin{enumerate}
+%             \item a finite set of colours $C$;
+%             \item a copying constant $k \in \set{1,2,\ldots}$;
+%             \item \label{msotrans:formulas} two \mso formulas -- a universe formula with one free variable, and an incidence formula with two free variables --  over the following relational vocabulary
+%             \begin{align*}
+%             \underbrace{\mathrm{incident}(x_1,x_2)}_{\txt{arity 2}}  \qquad
+%             \underbrace{\mathrm{copy}(x_1,\ldots,x_k)}_{\txt{arity $k$}}  \qquad 
+%             \underbrace{\mathrm{colour}_c(x)\ \text{for $c \in C$}}_{\txt{arity 1}}.
+%             \end{align*}
+%         \end{enumerate}
+% \end{definition}
+% The semantics of an \mso transdution is a binary relation on graphs, which is defined as follows. The idea is that we take an input graph, colour its vertices with colours from $C$, copy each vertex $k$ times, and then use the formulas from item~\ref{msotrans:formulas} to define a new graph structure. Since there are many ways of choosing the colouring, the same input graph might lead to several different output graphs. A more formal definition is given below.
+
+%  Consider an input graph $G$ together with a colouring $\lambda$ of the vertices by colours from $C$.  Consider a relational structure   which is defined as follows. The universe is pairs $(x,i)$ such that $x$ is either a vertex or edge in $G$, and $i \in \set{1,\ldots,k}$. The   vocabulary is the same as in item~\ref{msotrans:formulas} of Definition~\ref{def:graph-to-graph-mso}, with the relations from the vocabulary interpreted as follows:
+% \begin{align*}
+% \mathrm{incident} = & \set{((v,i),(e,i)) : (v,e) \text{ is incident in $G$ and $i \in \set{1,\ldots,k}$}}\\
+% \mathrm{copy} = & \set{((v,1),\ldots,(v,k)) : \text{$v$ is a vertex of $G$ and $i \in \set{1,\ldots,k}$}} \\
+% \mathrm{color}_c = & \set{(v,i) : \text{$v$ is a vertex of $G$ with colour $c$ and $i \in \set{1,\ldots,k}$}}
+% \end{align*}
+% Define  $G_\lambda$ to be the relational structure,   with one binary incidence relation, which arises from the above relational structure by restricting the universe to those elements which satisfy the universe formula, and defining the incidence relation to be those pairs which satisfy the incidence formula.  The semantics of the \mso interpretation is defined to be 
+% \begin{align*}
+% \set{(G,H) : \text{the \msotwo encoding of $H$ is isomorphic to $G_\lambda$, for some $\lambda$}}
+% \end{align*}
+ A transduction, with input vocabulary $\tau$ and output vocabulary $\sigma$ is a set of pairs 
+\begin{align*}
+    (\myunderbrace{\text{structure over $\tau$}}{input structure}, \ 
+    \myunderbrace{\text{structure over $\sigma$}}{output structure}),
+\end{align*}
+which is isomorphism invariant, in the sense that membership in the transduction is not affected by changing a structure -- on either the input or output coordinate -- to an isomorphic one. The central topic of this paper is transductions that can be defined using \mso, as described in the following definition, whose phrasing is based on~\cite[p.~9--10]{bojanczykOptimizingTreeDecompositions2017a}. 
+
+\begin{definition}[\mso transduction]\label{def:mso-transduction}
+    An \mso transduction is any transduction that can be obtained by composing a finite number of transductions of the following kinds.
+Kind 1 is a partial function, kinds 2, 3, 4 are functions, and kind 5 is a relation.
+\begin{enumerate}
+	\item {\bf Filtering.} For every \mso sentence $\varphi$ over the input vocabulary there is a transduction that filters out structures where $\varphi$ is violated. Formally, the transduction is the partial identity -- with input and output vocabularies being equal --  whose domain consists of the structures that satisfy the sentence. 
+	\item {\bf Universe restriction.} For every \mso formula $\varphi(x)$ over the input vocabulary with one free first-order variable, there is a transduction, which restricts the universe of the input structure to those elements that satisfy $\varphi$. The input and output vocabularies are the same, the interpretation of each relation in the output structure is defined as the restriction of its interpretation 
+	in the input structure to tuples of elements that remain in the universe.
+	\item {\bfseries{\scshape{Mso}} interpretation.} This kind of transduction changes the vocabulary of the structure while keeping the universe intact. To specify an \mso interpretation, for for every relation name $R$ of the output vocabulary, one gives an \mso formula $\varphi_R(x_1,\ldots,x_k)$ over the input vocabulary which has as many free first-order variables as the arity of $R$. The output structure is obtained from the input structure by keeping the same universe, and interpreting each relation $R$ of the output vocabulary as the set of tuples  satisfying $\varphi_R$.
+	\item {\bf Copying.} For  $k \in \set{1,2,\ldots}$, define $k$-copying to be the transduction which inputs a structure and outputs a structure consisting of $k$ disjoint copies of the input, with an additional relation that ties the copies together. Formally, the output universe consists of $k$ copies of the input universe.
+	The output vocabulary is the input vocabulary enriched with a binary predicate $\mathsf{copy}$ which selects pairs which originate from the same element, and unary predicates $\mathsf{layer}_1,\mathsf{layer}_2,\ldots,\mathsf{layer}_k$ which select elements belonging to the first, second, etc. copies of the universe.
+	In the output structure, a relation name $R$ of the input vocabulary is interpreted as the set of all those tuples over the output structure, which are in the same layer, and  where the original elements of the copies were in relation $R$
+	in the input structure.
+	\item {\bf Colouring.} Colouring adds  a new unary predicate to the input structure, and interprets it nondeterministically. Formally, the universe as well as the interpretations of all relation names of the input vocabulary stay intact,
+	but the output vocabulary has one more unary predicate. For every possible interpretation of this unary predicate, there is a different output with this interpretation implemented.
+\end{enumerate}
+\end{definition}
+
+We remark that the above definition is easily equivalent to the one used in~\cite{bojanczyk2016definability}, where filtering, universe restriction, and \mso interpretation are merged into one kind of a transduction.
+
+
+\smallparagraph{The equivalence problem} In this paper, we study the equivalence problem for \mso graph-to-graph transductions, modulo some equivalence relation $\sim$ on output graphs. This problem is stated as follows.
+
+
+\noindent{\bf Open problem.} {\it Is the following decision problem decidable?
+     \begin{itemize}
+        % \item{\bf Parameter} An equivalence relation $\sim$ on graphs.
+        \item {\bf Instance.} Numbers $\ell, k \in \set{1,2,\ldots}$ and graph-to-graph \mso transductions $\Tt_1$ and $\Tt_2$.
+        \item {\bf Question.} Are the transductions equivalent, for inputs of treewidth $\ell$ and outputs of treewidth $k$, which means that
+        \begin{align*}
+        (G,H_1) \in \Tt_1 \text{ and } (G,H_2) \in \Tt_2 \quad \text{implies} \quad \myunderbrace{H_1 \cong H_2}{isomorphic}  \qquad \text{for all }\myunderbrace{G}{treewidth $\ell$} \text{ and } \underbrace{H_1,H_2}_{\text{treewidth $k$}}.
+        \end{align*}
+    \end{itemize}}
+
+We use the name \emph{equivalence for graph-to-graph \mso transductions of bounded treewidth} for the above problem. 
+We do not know how to solve this problem. This paper is dedicated to some remarks about it, and solutions of special cases. 
+
+For every $k \in \set{1,2\ldots}$, the set of graphs of treewidth $k$ is \mso definable.  (A quick justification is that the graphs of treewidth $> k$ are characterised by forbidden minors, and having a fixed graph as a minor is an \mso definable property.) Therefore, thanks to the filtering step in \mso transductions, we can assume that the the two \mso transductions in the instance of the above decision problem have only outputs of treewidth at most $\ell$, and have only outputs of treewidth at most $k$. 

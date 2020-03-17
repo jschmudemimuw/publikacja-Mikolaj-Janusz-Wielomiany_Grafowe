@@ -1,0 +1,50 @@
+\documentclass[a4paper,english]{lipics-v2019}
+
+\usepackage[all]{xy}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+%\usepackage[notref,notcite]{showkeys}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{xspace}
+\usepackage{enumerate}
+\usepackage{mathtools}
+
+\newtheorem{Par}[theorem]{\S}
+\newtheorem{Quest}[theorem]{Q}
+\newtheorem{todo}[theorem]{To do}
+
+\newtheorem{fact}[theorem]{Fact}
+
+
+
+\input{macros}
+
+\title{Some remarks on deciding equivalence for graph-to-graph transducers}
+\author{Miko\l aj Boja\' nczyk}{Institute of Informatics,\\ University of
+Warsaw, Poland}{bojan@mimuw.edu.pl}{}{}
+
+\author{Janusz Schmude}{Institute of Informatics,\\ University of
+Warsaw, Poland}{jschmude@mimuw.edu.pl}{}{}
+\begin{document}
+
+\authorrunning{M. Boja\'nczyk and J. Schmude}%TODO mandatory. First: Use abbreviated first/middle names. Second (only in severe cases): Use first author plus 'et al.'
+
+\Copyright{Miko{\l}aj Boja\'nczyk and Janusz Schmude}%TODO mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
+
+\ccsdesc[100]{Theory of computation~Formal languages and automata}%TODO mandatory: Please choose ACM 2012 classifications from https://dl.acm.org/ccs/ccs_flat.cfm 
+
+\maketitle
+
+\input{introduction}
+\input{treewidth}
+% \input{mso-transductions}
+\input{register-transducers}
+\input{tree-equivalence}
+\input{grohe-equivalence}
+\bibliographystyle{plain}
+\bibliography{bib}
+
+
+\end{document}

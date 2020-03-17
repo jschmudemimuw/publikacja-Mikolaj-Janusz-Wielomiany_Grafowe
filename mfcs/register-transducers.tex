@@ -1,0 +1,56 @@
+\section{Register transducers}
+To approach the equivalence problem for graph-to-graph transductions, we will use tree-to-graph  transducers, or more generally tree-to-$\aalg$ transducers, where $\aalg$ is some algebra. The idea is that the input trees represent tree decompositions, while elements of the output algebra are algebraic objects that represent the output graphs (e.g.~certain graph polynomials, or certain generating functions). 
+
+In this paper, when transducers input trees, then these trees are  ranked trees over a ranked alphabet, as described below. A \emph{ranked alphabet} is defined to be  a set, where every element has an associated arity. Using a ranked alphabet, one can build trees, as explained in the following picture:
+\mypic{4}
+We use standard tree terminology, such as descendant, ancestor or parent. When talking about trees, we mean the ranked trees described above, and not acyclic graphs. We refer to the latter as graphs of treewidth 1. 
+
+We now describe the transducer model that will be used in the paper. The idea is that the transducer processes an input tree bottom-up, and uses register to stores elements of some output algebra.  This idea has its roots in the synthesized attributes of attribute grammars of Knuth~\cite{Knuth:1968aa}, and can also be found in the cost register automata of Alur et al.~\cite[p.~15]{alurDantoniDeshmukhYuan2013}. Our definition is based on the terminology of universal algebra that was discussed in Section~\ref{sec:treewidth-definition}.
+For a short definition, we omit states from the model; states would make some constructions easier, but they do not add expressive power, because they  can be simulated using extra registers.
+
+% Define a \emph{polynomial operation of input arity $k$ and output arity $n$} to be any function of type  $A^k \to A^n$, which is given by a $n$ polynomial operations of type $A^k \to A$.
+\begin{definition}[Register transducer] Let $\aalg$ be an algebra. The syntax of a  \emph{tree-to-$\aalg$ register transducer} consists of:
+    \begin{enumerate}
+        \item an input alphabet $\Sigma$, which is a finite ranked set;
+        \item a number of registers $k \in \set{1,2,\ldots}$;
+        \item for every letter $a \in \Sigma$ of the input alphabet, of arity $n$, an associated \emph{register update} $\delta_a$, which is a polynomial operation in $\aalg$ of input arity $n \cdot k$ and output arity $k$. 
+    \end{enumerate}
+\end{definition}
+% There is a natural extension of the above model with states, which we call \emph{stateful register transducers}. Stateless and stateful register transducers compute the same functions, but the stateful model is  useful when considering the single-use restriction that will be discussed later in this section. 
+
+
+
+We now define the semantics of a  register transducer. For an inputs  tree $t \in \trees \Sigma$, define the \emph{register valuation} of $t$ to be a tuple in $\aalg^k$, which  is defined as follows by induction on the size of the tree $t$. Consider a tree which has root label $a$ and child subtrees $t_1,\ldots,t_n$. The induction base of the construction is when $a$ has arity $n=0$ and there are no child subtrees. Let $v_1,\ldots,v_n \in \aalg^k$ be the register valuations for the child subtrees, which are defined by induction assumption. Concatenate these register valuation into a tuple $\aalg^{nk}$, and apply to this tuple the register update corresponding to $a$. The resulting $k$-tuple is the register valuation for the tree $t$. The function computed by a register transducer is defined to be 
+\begin{align*}
+t \in \trees \Sigma \quad \mapsto \quad \text{first coordinate in the register valuation of $t$}
+\end{align*}
+
+\begin{example} In~\cite{seidlManethKemper2018}, Maneth, Seidl and Kemper study tree-to-string transducers, which are -to-$\aalg$ transducers where  the algebra $\aalg$ consists of strings over a finite alphabet, equipped with string concatenation. Two such transducers are considered equivalent if for every input tree, the output strings are equal. Using Hilbert's Basis Theorem, checking equivalence of tree-to-string transducers is shown decidable~\cite[Corollary 8.2]{seidlManethKemper2018}.
+\end{example}
+
+\smallparagraph{Connection with graph-to-graph transductions} We now show how register transducers can be used to compute graph-to-graph \mso transductions of bounded treewidth. We take different approaches to handling the input and output graphs, as described below.
+\begin{itemize}
+    \item \emph{Input graphs.} The input graphs are represented by tree decompositions. A tree decomposition of width $\ell \in \set{1,2,\ldots}$ can be seen as a tree, where the ranked alphabet is the operations of the algebra of $\ell$-sourced graphs.  Therefore, it makes sense to talk about a register transducer that inputs tree decompositions of width $\ell$. 
+    \item \emph{Output graphs.} The output graphs are computed using the algebra of $k$-sourced graphs, for some $k \in \set{1,2,\ldots}$. We assume that the output graphs do not use sources, i.e.~the register transducer is designed so that the output register always stores are $k$-sourced graph where all sources are undefined, i.e.~a graph.
+\end{itemize}
+
+The following lemma uses the representations described above, to show how graph-to-graph \mso transductions of bounded treewidth can be computed by register transducers. 
+
+\begin{lemma}\label{lem:transduction-to-registers}
+    Let $\ell, k \in \set{1,2,\ldots}$, and  let $f$ be a functional \mso transduction where all output graphs have treewidth at most $k$. There is a  register transducer $g$ over the algebra of $(k+1)$-sourced graphs which makes the following diagram commute:
+    \begin{align*}
+    \xymatrix@C=3cm{
+        \txt{tree decompositions\\ of width $\le \ell$}
+        \ar[d]_{\txt{\scriptsize underlying graph}}
+         \ar[dr]^g \\
+        \txt{graphs of\\ treewidth $\le \ell$}\ar[r]_f &
+        \txt{graphs  of\\ treewidth $\le k$} 
+    }
+    \end{align*}
+\end{lemma}
+The proof of the above lemma is a fairly standard extension of ideas from~\cite{courcelleMonadicSecondorderLogic1990,bloem_comparison_2000,alurStreamingTreeTransducers2017}, and it is relegated to the appendix. 
+
+Suppose that  $f_1,f_2$ are functional graph-to-graph \mso transductions, where all outputs have treewidth at most $k$,  and we want to decide if for every input graph of treewidth $\ell$, the outputs of $f_1$ and $f_2$ are isomorphic. Apply the above lemma to $f_1,f_2$, yielding register transducers $g_1,g_2$. Since every input graph arises from some tree decomposition, it follows that $f_1,f_2$ are equivalent if and only if $g_1,g_2$ are equivalent. In other words,  the  equivalence problem for functional graph-to-graph \mso transductions of bounded treewidth reduces to the equivalence problem for tree-to-$\aalg$ register transducers, where $\aalg$ is the algebra of $k$-sourced graphs. A slight extension of this corollary, for not necessarily functional transduction, is stated below.
+
+\begin{corollary}\label{cor:reduce-to-transducers} The equivalence problem for graph-to-graph \mso transductions of bounded treewidth reduces to the following problem: given $k \in \set{1,2,\ldots}$ and two register transducers over the algebra of $k$-source graphs, decide if they are equivalent. 
+\end{corollary}

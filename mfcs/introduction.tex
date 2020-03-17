@@ -1,0 +1,45 @@
+\section{Introduction}
+In this paper, we  study the following decision problem: given two \mso transductions which input and output graphs bounded treewidth, decide if they are equivalent, i.e.~isomorphic inputs give isomorphic outputs. The question is whether or not this problem is decidable. We do not answer this question, but we propose a solution strategy which uses algebra, and show how the solution strategy can be successful for a variant of the problem, where instead of isomorphism on output graphs, we consider certain relaxations of isomorphism.
+
+% (ideally, graph isomorphism) for every input graph, the output graphs produced by the two transductions are isomorphic.  we state a problem and propose a solution strategy. The problem is deciding  equivalence for graph-to-graph transductions, for graphs of bounded treewidth. The solution strategy is to model graphs as algebraic objects (polynomials, or rational power series) and to use algorithms from algebra (Hilbert's Basis Theorem, or Gr\"obner bases) to decide equivalence. 
+
+
+
+% \begin{itemize}
+%     \item {\bf Parameter.} A number $k \in \set{1,2,\ldots}$ and an equivalence relation $\sim$ on graphs. 
+%     \item {\bf Input.}  Two mso transductions 
+%     \begin{align*}
+%         \xymatrix@C=3cm{
+%     \text{graphs of treewidth $k$} 
+%     \ar[r]^{f_1,f_2} &
+%      \text{graphs of treewidth $k$}}
+%     \end{align*}
+%     \item {\bf Output.} Is $f_1$ equivalent to $f_2$ modulo $\sim$, i.e.~is it the case that
+%     \begin{align*}
+%     f_1(G) \sim f_2(G) \qquad \text{for every graph $G$ of treewidth $\le k$.}
+%     \end{align*}
+% \end{itemize}
+
+% Our long term goal is to find out if the problem above is decidable or not  when  $\sim$ being graph isomorphism, and $k$ is arbitrary. In this paper, we show decidability for two special cases:
+% \begin{itemize}
+%     \item $\sim$ is isomorphism and $k=1$;
+%     \item $\sim$ is a .. and $k$ is arbitrary.
+% \end{itemize}
+
+
+% \begin{lemma}
+%     Given  mso transductions 
+%     \begin{align*}
+%         \xymatrix@C=3cm{
+%     \text{graphs of treewidth $\le k$} 
+%     \ar[r]^{f_1,f_2} &
+%      \text{graphs of treewidth $\le k$}}
+%     \end{align*}
+%     one can compute mso transductions
+%     \begin{align*}
+%         \xymatrix@C=3cm{
+%     \text{trees} 
+%     \ar[r]^{g_1,g_2} &
+%      \text{graphs of treewidth $\le k$}}
+%     \end{align*}
+% \end{lemma}

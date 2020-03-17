@@ -1,0 +1,22 @@
+\section{Graph-to-graph MSO transductions}
+
+The transductions that we mainly care about are isomorphism closed binary relations on graphs of bounded treewidth, as formalised in the following definition.
+\begin{definition}[Graph-to-graph transductions of bounded treewidth]
+For $m, k \in \set{1,2,\ldots}$, define a \emph{treewidth-$m$-to-treewidth-$k$ transduction} to be a binary relation on graphs, such that if the relation contains a pair $(G,H)$, then:
+\begin{itemize}
+    \item  the graph $G$  has treewidth $m$ and $H$ has treewidth $k$; and
+    \item the relation also contains every pair of graphs  coordinatewise isomorphic to $(G,H)$.
+\end{itemize}
+A \emph{graph-to-graph transduction of bounded treewidth} is a treewidth-$m$-to-treewidth-$k$ transduction, for some $m,k$.
+\end{definition}
+In pair $(G,H)$, the first coordinate $G$ is called the \emph{input graph} and the second coordinate $H$ is called the \emph{output graph}. The same input graph might be related, by a transduction, with several non-isomorphic output graphs. A transduction is called \emph{functional} if for every input graph, there is exactly one output graph -- modulo isomorphism -- that is related to it via the transduction.
+\paragraph*{\mso transductions}
+To define transductions, we use monadic second-order logic \mso.
+
+
+
+\begin{lemma}
+    For every $k \in \set{1,2,\ldots}$ and equivalence relation $\sim$ on graphs, the graph-to-graph equivalence problem with parameters $k$ and $\sim$ reduces the following problem, 
+    
+\end{lemma}
+

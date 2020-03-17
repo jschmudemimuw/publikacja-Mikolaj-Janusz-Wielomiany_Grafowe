@@ -3,3 +3,10 @@
 symulacja grafow przez Szeregi Formalne inspirowane Grohem - publication version.log
 *.pdf
 *.gz
+mfcs/*
+!mfcs/*.tex
+!mfcs/*.bib
+!mfcs/*cls
+!mfcs/cc-by.pdf
+!mfcs/lipics-logo.pdf
+
