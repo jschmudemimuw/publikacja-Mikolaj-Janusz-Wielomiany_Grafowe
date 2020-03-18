@@ -63,6 +63,8 @@ $\Box$ \smallskip
 
 \newcommand{\treewidthtotreewidth}[2]{treewidth$_{\leqslant #1}$-to-treewidth$_{\leqslant #2}$}
 
+\newcommand{\treetotreewidth}[1]{tree-to-treewidth$_{\leqslant #1}$\xspace}
+
 \newcommand{\homset}{\mathrm
 {Hom}}
 
@@ -78,5 +80,17 @@ $\Box$ \smallskip
 
 \newcommand{\smallparagraph}[1]{\smallskip \noindent {\bf #1. }}
 
-\newcommand{\Tt}{\mathcal T}
+\newcommand{\Tt}{{\mathcal T}}
 \newcommand{\myunderbrace}[2]{\underbrace{#1}_{\mathclap{\text{#2}}}}
+
+\newcommand{\Aa}{{\mathcal A}}
+\newcommand{\Bb}{{\mathcal B}}
+
+\newcommand{\decisionproblem}[3]
+{
+	\begin{description}
+		\item[Name:] #1
+		\item[Instance:]  #2
+		\item[Question:] #3 
+	\end{description}
+}

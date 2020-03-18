@@ -1,15 +1,23 @@
 
 \section{Equivalence for transducers with outputs of treewidth 1}
-In this section, we show 
+In this section, we consider transductions which output graphs of treewidth 1, i.e.~acyclic graphs. 
+
+\begin{theorem} The following problem is decidable.
+    \decisionproblem{equivalence for functional tree-to-acyclic-graph \mso transductions}{
+         $\ell \in \set{1,2,\ldots}$ and two functional \mso graph-to-graph transductions $\Tt_1, \Tt_2$.
+    }{is it the case that for every input $G$ of treewidth at most $\ell$, the outputs $\Tt_1(G)$ and $\Tt_2(G)$ are isomorphic acyclic graphs?}
+\end{theorem}
+
+The approach we take in this section is an extension of~\cite[Section 3.3]{boiretReducingTransducerEquivalence2018}, which had a similar result, except that both inputs and outputs were rooted acyclic graphs, i.e.~acyclic graphs with a distinguished vertex. 
+
+\begin{center}
+    (finish)
+\end{center}
+
+In the proof, we will reduce 
+We view as a ring as an algebra with $+$ and $\times$, and constants for $0$ and $1$ (in fact, constants could be added for all elements of the ring). We say that a ring is \emph{computable} if its elements can be finitely represented so that the ring operations $+$ and $\times$ become computable. We say that a ring has  \emph{no zero divisors} if $a \times b$ implies $a = 0$ or $b=0$.
+
+
 \begin{theorem}
-    The following problem is decidable:
-    \begin{itemize}
-        % \item{\bf Parameter} An equivalence relation $\sim$ on graphs.
-        \item {\bf Instance.} A numbers $\ell \in \set{1,2,\ldots}$ and graph-to-graph \mso transductions $\Tt_1$ and $\Tt_2$.
-        \item {\bf Question.} Are the transductions equivalent, for inputs of treewidth $\ell$ and outputs of treewidth $1$, which means that
-        \begin{align*}
-        (G,H_1) \in \Tt_1 \text{ and } (G,H_2) \in \Tt_2 \quad \text{implies} \quad \myunderbrace{H_1 \cong H_2}{isomorphic}  \qquad \text{for all }\myunderbrace{G}{treewidth $\ell$} \text{ and } \underbrace{H_1,H_2}_{\text{treewidth $1$}}.
-        \end{align*}
-    \end{itemize}
-    
+    Functionality is decidable for tree-to-$\Ring$ register transducers, where $\Ring$ is any computable ring without zero divisors. 
 \end{theorem}

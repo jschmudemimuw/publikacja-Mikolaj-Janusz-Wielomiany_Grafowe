@@ -1,15 +1,16 @@
 
 \section{Equivalence  modulo a certain equivalence relation}
-In this section, we show that equivalence is decidable for graph-to-graph transducers of bounded treewidth, modulo a certain equivalence on the output graphs which is more relaxed than isomorphism.  
+In this section, we present our main result, which says  that equivalence is decidable for graph-to-graph transducers of bounded treewidth, modulo a certain equivalence on the output graphs which is more relaxed than isomorphism.  
 
 \smallparagraph{Counting homomorphisms} We begin by describing the equivalence on output graphs.
 This equivalence is based on a paper by Grohe, Dell and Rattan~\cite{groheDellRattan2018}, which gives examples of how various equivalence relations on graphs, notably Weisfeiler-Leman equivalence, can be characterised in terms of counting homomorphisms. 
 
-Define a \emph{homomorphism} from a graph $G$ to a graph $H$ to be any function $h$ from vertices of $G$ to vertices of $H$ which preserves edges: if there is an edge from $v$ to $w$ in $G$, then there is an edge from $h(v)$ to $h(w)$ in $H$. We write $\homset(G,H)$ for the set of homomorphism from $G$ to $H$. A seminal result of  Lov\'asz~\cite[p.~326]{lovasz1967operations} says that two graphs are isomorphic if and only if they admit the same number of homomorphisms from every graph:
+Define a \emph{homomorphism} from a graph $G$ to a graph $H$ to be any function $h$ from vertices of $G$ to vertices of $H$ which preserves edges in one direction: if there is an edge from $v$ to $w$ in $G$, then there is an edge from $h(v)$ to $h(w)$ in $H$. We write $\homset(G,H)$ for the set of homomorphism from $G$ to $H$. A seminal result of  Lov\'asz~\cite[p.~326]{lovasz1967operations} says that two graphs are isomorphic if and only if they admit the same number of homomorphisms from every graph:
 \begin{align*}
 \underbrace{G \simeq H}_{\text{isomorphism}} \qquad \text{iff} \qquad  |\homset(F,G)|=|\homset(F,H)| \ \text{for every graph $H$}
 \end{align*}
-Grohe, Dell and Rattan show that if one restricts the class of graphs from which the domain $F$ of the homomorphism is taken, then one obtained various well-studied relaxations of isomorphism. For example, if we only count homomorphisms for graphs $F$ of treewidth at most $k$, then the arising equivalence relation on graphs is Weisfeiler-Leman equivalence of dimension $k$.  Among the results of~\cite{groheDellRattan2018}, the one that we use in this paper is the following one, which counts homomorphisms from paths.
+In~\cite{groheDellRattan2018},
+Grohe, Dell and Rattan show that if one restricts the  class of graphs from which the domain $F$ of the homomorphism is taken, then one gets various well-studied relaxations of isomorphism. For example, if we only count homomorphisms for graphs $F$ of treewidth at most $k$, then the arising equivalence relation on graphs is Weisfeiler-Leman equivalence of dimension $k$.  Among the results of~\cite{groheDellRattan2018}, the one that we use in this paper is the following one, which counts homomorphisms from paths.
 
 \begin{theorem}\label{thm:grohe}(\cite[Theorem 2]{groheDellRattan2018})
     For two graphs, the following conditions are equivalent:
@@ -18,17 +19,18 @@ Grohe, Dell and Rattan show that if one restricts the class of graphs from which
         \begin{align*}
         |\homset(P_i,G_1) | = |\homset(P_i,G_2)|.
         \end{align*}
-        \item there exists matrix $X$ with real coefficients such that:
+        \item there graphs have the same number of vertices, say $n$, and there is an $n \times n$ square matrix $X$ with real coefficients such that:
         \begin{enumerate}
-            \item the number of columns in $X$ is the number of vertices in $G_1$;
-            \item the number of rows in $X$ is the number of vertices in $G_2$;
             \item each row in $X$ sums up to 1
             \item each column in $X$ sums up to 1
             \item $A_1 X = X A_2$, where $A_i$ is the incidence matrix of graph $G_i$.
         \end{enumerate}
     \end{enumerate}
 \end{theorem}
-In condition 2, if we add the requirement that all coefficients in $X$ are nonnegative (real or rational, does not make a difference), then we get  \emph{fractional isomorphism}, which is characterised by homomorphisms from trees~\cite[Theorem 1]{groheDellRattan2018}. If we add the requirement that all coefficients in $X$ are nonnegative integers, then we get isomorphism.  
+Note that a homomorphism from a path of length $n$ is the same thing is a walk of length $n$, i.e.~a sequence of vertices connected by edges, possibly with repetitions.  In other words, condition 1 above says that for every $n$, the two graphs have the same number of walks of length $n$. The number of walks of length 1 is the number of vertices, and hence condition 1 implies that the graphs have the same number of vertices.     
+
+Condition 2 in the above theorem can be seen as a relaxation of isomorphism in the following sense. 
+If in condition 2 we add the requirement that all coefficients in $X$ are non-negative (real or rational, does not make a difference), then we get  \emph{fractional isomorphism}, which is characterised by homomorphisms from trees~\cite[Theorem 1]{groheDellRattan2018}. If we add the requirement that all coefficients in $X$ are non-negative integers, then we get isomorphism.  
 
 \smallparagraph{Decidable equivalence, modulo counting homomorphisms from paths} 
 In the following theorem, we show that equivalence for graph-to-graph \mso transductions of bounded treewidth is decidable, when output graphs are identified modulo the equivalence relation from Theorem~\ref{thm:grohe}. 
@@ -36,31 +38,15 @@ In the following theorem, we show that equivalence for graph-to-graph \mso trans
 \begin{theorem}\label{thm:path-equivalence}
     Let $\sim$ be the equivalence relation on graphs described in Theorem~\ref{thm:grohe}. 
     The following problem is decidable:
-    \begin{itemize}
-        \item {\bf Input.} Numbers $\ell, k \in \set{1,2,\ldots}$ and  graph-to-graph \mso transductions $\Tt_1,\Tt_2$.
-        \item {\bf Output.} Are the transductions equivalent modulo $\sim$, for inputs of treewidth $\ell$ and outputs of treewidth $k$, which means that
-        \begin{align*}
-        (G,H_1) \in \Tt_1 \text{ and } (G,H_2) \in \Tt_2 \quad \text{implies} \quad H_1 \sim H_2  \qquad \text{for all }\myunderbrace{G}{treewidth $\ell$} \text{ and } \underbrace{H_1,H_2}_{\text{treewidth $k$}}.
-        \end{align*}
-    \end{itemize}
+    \decisionproblem{$\sim$-equivalence for functional graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and functional graph-to-graph \mso transductions $\Tt_1,\Tt_2$.}{is it the case that for every input $G$ of treewidth at most $\ell$, the two outputs  $\Tt_1(G),\Tt_2(G)$ are $\sim$-equivalent and have treewidth at most $k$?}
 \end{theorem}
- By (the reasoning behind) Corollary~\ref{cor:reduce-to-transducers}, the problem from the above theorem reduces to the following decision problem:
- \smallskip
-
-\begin{itemize}
-    \item {\bf Input.} A number $k \in \set{1,2,\ldots}$ and two register transducers over the algebra of $k$-sourced graphs, recognising functions
-    \begin{align*}
-    f_1,f_2 : \trees \Sigma \to \text{graphs of treewidth $\le k$}.
-    \end{align*}
-    \item {\bf Output.} Are the transducers $\sim$-equivalent, i.e.~equal inputs give $\sim$-equivalent outputs.
-\end{itemize}
-\smallskip
+% By Lemma~\ref{lem:transduction-to-registers}, the above problem reduces to deciding $\sim$-functionality for nondeterministic tree-to-$\aalg$ register transducers, where $\aalg$ is the algebra of $k$-sourced graphs. Here, $\sim$-functionality means that output graphs are identified modulo $\sim$. 
  
-The rest of this section is devoted to showing that the above problem, about register transducers, is decidable. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series (Section~\ref{sec:power-series}), and then we show that equivalence is decidable for register transducers which manipulate such power series (Section~\ref{sec:decide-power-series}).
+The rest of this section is devoted to showing decidability for the above $\sim$-functionality problem. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series (Section~\ref{sec:power-series}), and then we show that equivalence is decidable for register transducers which manipulate such power series (Section~\ref{sec:decide-power-series}). Combining this with the reduction to register transducers from Lemma~\ref{lem:transduction-to-registers}, we get the theorem.
 
 \subsection{Computing the power series for walks in a graph}
 \label{sec:power-series}
-Define a \emph{univariate formal power series over a semiring $\Ring$} to a sequence of semiring elements $a_0,a_1,\ldots$ which is represented as an infinite univariate polynomial
+Define a \emph{univariate formal power series over a semiring $\Ring$} to be  sequence of semiring elements $a_0,a_1,\ldots$ which is represented as an infinite univariate polynomial
 \begin{align*}
  A = a_0 + a_1x^1 + a_2x^2 + \cdots.
 \end{align*}
@@ -68,32 +54,33 @@ We simply say power series, instead of univariate formal power series.
 We use the name $i$-th term for $a_i$; and we call $a_0$ the constant term.
 We write $\powerseries{\Ring}$ for the  power series over a semiring $\Ring$; this is a semiring. Among all power series, we are particularly interested in the rational ones: a power series is called \emph{rational} if it can be generated from finite power series (a finite power series is one where all but finitely many terms are zero) using the semiring operations $+$ and $\times$ of power series, as well as the following unary  operation called \emph{Kleene plus}:
 \begin{align*}
-A \quad \mapsto \quad A^+ \eqdef A + A^2 + A^3 + \cdots,
+ A^+ \eqdef A + A^2 + A^3 + \cdots,
 \end{align*}   
 which  is defined only when the constant term   in $A$ is zero. The assumption on a zero constant term ensures that the infinite sum in $A^+$ is well defined: under this assumption, the $i$-th term in $A^j$ with $j>i$ is zero. 
 
 
-The first step in the proof of Theorem~\ref{thm:path-equivalence} is the following lemma, which says that if we describe the number of homomorphisms from paths to a given graph using a power series, then this power series is rational, and furthermore it can be computed by a register transducer.
+For a graph $G$, define its \emph{path series} to be the power series 
+\begin{align*}
+  a_1 x^1 + a_2x^2 + \cdots \qquad \text{where $a_i$ is the number of walks in $G$ of length $i$.}
+\end{align*}
+Almost by definition, two graphs are $\sim$-equivalent if and only if they have the same path series. 
+The first step in the proof of Theorem~\ref{thm:path-equivalence} is the following lemma, which says  that the path series is always  rational, and can be computed by a register transducer.
 \begin{lemma}\label{lem:compute-power-series}    
-    Let $\aalg$ be the algebra where  the domain is power series in $\powerseries \Nat$ that are rational and have a zero constant term, and the  operations are  $+$, $\times$ and Kleene plus.
-For every $k \in \set{1,2,\ldots}$ there is an algebra homomorphism
-\begin{align*}
-\varphi : \text{algebra of $k$-sourced graphs} \to \aalg^{[k]}
-\end{align*}
-whose kernel, when restricted to graphs without sources, is exactly $\sim$, i.e.
-\begin{align*}
-\varphi(G_1)=\varphi(G_2) \text{ iff } G_1 \sim G_2 \qquad \text{for every graphs without sources $G_1$ and $G_2$}
-\end{align*}
-
-    For every $k \in \set{1,2,\ldots}$ there is a tree-to-$\aalg$ register transducer which does this:
-    \begin{itemize}
-        \item {\bf Input.} A width $k$ tree decomposition
-        \item {\bf Output.} A rational power series 
-        \begin{align*}
-        a_1 x^1 + a_2 x^2 + \cdots 
-        \end{align*}
-        where $a_i$ is the number of length $i$ in the  underlying graph of the tree decomposition. 
-    \end{itemize} 
+    Let $\aalg$ be the algebra where:
+    \begin{description}
+        \item[Domain:]power series in $\powerseries \Nat$ which are rational and have a  zero constant term;
+        \item[Operations:] $+$, $\times$, Kleene plus and constants $1$ and $x$.
+    \end{description}
+    For every $k \in \set{1,2,\ldots}$ and every nondeterministic  \treetotreewidth{ k} register transducer $\Aa$, there is a nondeterministic tree-to-$\aalg$ register transducer $\Bb$ which makes the following diagram commute (arrows are binary relations):
+    \begin{align*}
+    \xymatrix@C=4cm{
+        \trees \Sigma   
+        \ar[dr]^{\Bb}
+        \ar[d]_{\Aa} \\
+        \txt{graphs of\\
+        treewidth $\le k$} \ar[r]_{G \mapsto \text{path series of $G$}}& \aalg
+    }
+    \end{align*}
 \end{lemma}
 \begin{proof}
     (fill in)
@@ -101,22 +88,10 @@ whose kernel, when restricted to graphs without sources, is exactly $\sim$, i.e.
 
 \subsection{Equivalence for transducers that output rational power series}
 \label{sec:decide-power-series}
-\begin{lemma}
-    Equivalence for register transducers over $\aalg$ is decidable, where $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}. 
+By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}, the  equivalence problem from Theorem~\ref{thm:path-equivalence} reduces to functionality for nondeterministic tree-to-$\aalg$ register transducers. In this section, we complete the proof the theorem by showing that the latter problem is decidable.
+\begin{lemma}\label{lem:functionality-decidable-power-series} If $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}, then functionality is decidable for nondeterministic tree-to-$\aalg$ register transducers. 
 \end{lemma}
+\begin{proof}
+    (fill in)
+\end{proof}
 
-
-
-
-\begin{theorem}
-    Let $\mathbb K$ be a ring which:
-    \begin{itemize}
-        \item is computable, i.e.~its elements can be finitely represented so that the ring operations $+$ and $\times$ become computable;
-        \item has no zero divisors, i.e.~$a \times b$ implies $a = 0$ or $b=0$.
-    \end{itemize}
-    Then equivalence is decidable for tree-to-$\mathbb K$ register transducers.
-\end{theorem}
-
-\begin{lemma}
-    There is a register automaton in 
-\end{lemma}
