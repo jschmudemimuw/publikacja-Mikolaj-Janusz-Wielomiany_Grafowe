@@ -32,7 +32,7 @@ A nondeterministic register transducer computes a binary relation, which consist
 
 For register transducers, we will study the functionality and equivalence problems. If an algebra $\aalg$ is fixed, then the functionality problem is defined as follows.
 \decisionproblem{functionality for nondeterministic tree-to-$\aalg$ register transducers.}{a nondeterministic tree-to-$\aalg$ register transducer.}{is the transducer functional, i.e.~for every input there is exactly one output?}
-The equivalence problem is defined similarly, except that the input is two deterministic register transducers, and the question is whether or not they produce equal outputs for all inputs. 
+The equivalence problem is defined similarly, except that the input is two deterministic register transducers, and the question is whether or not they produce equal outputs for all inputs. By the same reasoning as in Fact~\ref{fact:equi-decidable}, we get the following.
 \begin{fact}
     For every algebra $\aalg$, the functionality and equivalence problems are equi-decidable.
 \end{fact}
