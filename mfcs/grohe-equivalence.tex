@@ -97,7 +97,7 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
     	\forget_k(G)_{i,j} &= g_{i,j} + g_{i,k}\cdot(1 + g_{k,k}^+)\cdot g_{k_j},\\
     	\join(G, H)_{i,j} &= g_{i,j} + h_{i,j} \ (- x \text{ if there is an edge } i\text{--}j)
     \end{align*}
-    The substraction of $x$ in second equation serves for not counting length-1 walk $i$--$j$ twice, if it exists.
+    The substraction of $x$ in second equation serves for not counting length-1 walk $i$--$j$ twice, if it exists both in $G$ and $H$.
     
     The above equations hold, just as in ''DFA to regular expression'' case, because they are substitutions of equalities of sets of walks ($g_{i,j}$ can be obtained from set of walks by substituting $x$ for each edge), and substitution respects operations $+, \cdot, ^+$.
     
