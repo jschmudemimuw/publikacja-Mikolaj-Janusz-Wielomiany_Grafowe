@@ -83,7 +83,7 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
     \end{align*}
 \end{lemma}
 \begin{proof}
-        The proof is essentially an adaptation of a weighted version of the usual ''DFA to regular expression conversion'', with state elimination corresponding to source forgetting.
+        The proof is an adaptation of a weighted version of the usual ''DFA to regular expression conversion'' (i.e. weighted automaton to rational power series), with state elimination corresponding to source forgetting.
     
     Denote set of source nodes by $\sources(G)$ and set of nonsource nodes by a symbol $\bullet$. Define $\varphi$ to map a sourced graph $G$ to a tuple of power series in the following way:
     $$
@@ -93,15 +93,30 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
     
     Now let us investigate how $\varphi(\forget_k(G))$ and $\varphi(\join(G, H))$ can be reconstructed from $\varphi(G), \varphi(H)$.
     Observe that:
-    \begin{align*}
+    \begin{align}\label{eq:equationForForget}
     	\forget_k(G)_{i,j} &= g_{i,j} + g_{i,k}\cdot(1 + g_{k,k}^+)\cdot g_{k_j},\\
-    	\join(G, H)_{i,j} &= g_{i,j} + h_{i,j} \ (- x \text{ if there is an edge } i\text{--}j)
-    \end{align*}
-    The substraction of $x$ in second equation serves for not counting length-1 walk $i$--$j$ twice, if it exists both in $G$ and $H$.
+    	\join(G, H)_{i,j} &= g_{i,j} + h_{i,j} \ (- x \text{ if there is an edge } i\text{--}j \text{ in both } G \text{ and } H)
+    	\label{eq:equationForJoin}
+    \end{align}
+    The substraction of $x$ in second equation serves for not counting length-1 walk $i$--$j$ twice, in case it exists both in $G$ and $H$.
     
+    Above equations can be written in a form that will be suitable in the rest of this proof:
+    \begin{align}
+    	\label{eq:interpretationInAfirst}
+   		\varphi(\forget_k(G)) &= (\varphi(G)_{i,j} + \varphi(G)_{i,k}\cdot(1 + \varphi(G)_{k,k}^+)\cdot \varphi(G)_{k_j})_{i,j \in \allv{G}},\\
+    	\varphi(\join(G, H)) &= (\varphi(G)_{i,j} + \varphi(H)_{i,j}
+    	\label{eq:interpretationInAlast}
+    \end{align}
+    with equation \eqref{eq:interpretationInAlast} modified like equation 
     The above equations hold, just as in ''DFA to regular expression'' case, because they are substitutions of equalities of sets of walks ($g_{i,j}$ can be obtained from set of walks by substituting $x$ for each edge), and substitution respects operations $+, \cdot, ^+$.
     
-    A desired transducer works as follows: it inteprets input term bottom-up in algebra $\aalg^k$ according to above equations, keeping information about edges between sources in state.
+	Let us now construct transducer $\Bb$, which, shortly and informally speaking is an interpretation of $\Aa$ via equations \eqref{eq:interpretationInAfirst}-\eqref{eq:interpretationInAlast}.
+	\begin{itemize}
+		\item for each register $R$ of $\Aa$ create a tuple $(R_{i,j})_{i, j \in \allv{G}}$ of registers of $\Bb$.
+		\item for each initial register valuation $\rho \in A^k$ create initial register valuation $(R_{i,j})_{i,j\in\allv{G}} := \varphi(\rho(R))$,
+		\item for each input letter $a$, denote its arity by $n$, for each register update $p = (R:= p_R(\Registers^n) \text{ for } R \in \Registers)$ create a register update $\varphi\circ p$, defined as $((R_{i,j})_{i,j} := \varphi(p_R(\Registers^n)) \text{ for } R\in\Registers)$ where each function $\varphi\circ p_R$ is realized by a term over $A$ obtained from $p_R$ using equations \eqref{eq:interpretationInAfirst}-\eqref{eq:interpretationInAlast}.
+	\end{itemize}
+	A final remark is that $\Bb$, in order to do a register update, also needs to keep an information about edges between sources of graphs in registers. This however is finite information which can be easily updated and thus can be stored in states, which can be later removed, as observed in (fill-in reference).
 \end{proof}
 
 \subsection{Equivalence for transducers that output rational power series}

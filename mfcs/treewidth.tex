@@ -115,8 +115,6 @@ Kind 1 is a partial function, kinds 2, 3, 4 are functions, and kind 5 is a relat
 \end{enumerate}
 \end{definition}
 
-
-
 \smallparagraph{The equivalence problem}  Define a \emph{graph-to-graph \mso transduction} to be an \mso transduction, where the input and output vocabularies are the same, namely the vocabulary of graphs, and which only contains pairs of graphs (more formally, pairs of \msotwo models of graphs).  By abuse of notation, when $\Tt$ is a graph-to-graph \mso transduction, and $G,H$ are graphs, we write $(G,H) \in \Tt$ instead of the formally correct 
 \begin{align*}
 (\text{\msotwo model of $G$}, \text{\msotwo model of $H$})\in \Tt.
@@ -137,7 +135,7 @@ If the  transductions in the instance are not functional, then there are no requ
     The equivalence and functionality problems described above are equi-decidable, i.e.~if one is decidable then the other is decidable. 
 \end{fact}
 \begin{proof}
-    (fill in  proof sketch)
+    Equivalence reduces to functionality, as $T_1\equiv T_2$ if and only if domains of $T_1$ and $T_2$ are equal and transduction $T_1 \vee T_2$ is functional (constructing $T_1 \vee T_2$ is not as straightforward as in automata-kind transductions, but can be done e.g. by adding a coordinate to colouring that tells which transduction of $T_1$, $T_2$ is used). Now, functionality can be reduced to equivalence of graph transductions, where input graphs are labelled by labels from a finite set, in the following way: we do it by considering input graphs whose nodes are labelled with a pair of colours and testing equivalence of two (deterministic) transductions, one executing $T$ with first colouring, and the other one executing $T$ with second colouring. (fill-in (resolve labelled input))
     % For every $k \in \set{1,2\ldots}$, the set of graphs of treewidth $k$ is \mso definable.  (A quick justification is that the graphs of treewidth $> k$ are characterised by forbidden minors~\cite{}, and having a fixed graph as a minor is an \mso definable property.) Therefore, thanks to the filtering step in \mso transductions, we can assume that the the two \mso transductions in the instance of the above decision problem have only outputs of treewidth at most $\ell$, and have only outputs of treewidth at most $k$. 
 \end{proof}
 

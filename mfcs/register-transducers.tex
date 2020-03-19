@@ -13,9 +13,10 @@ For a short definition, we omit states from the model.  States would make some c
     \begin{enumerate}
         \item an input alphabet $\Sigma$, which is a finite ranked set;
         \item a number of registers $k \in \set{1,2,\ldots}$;
+        \item initial register valuations in $\aalg^{k}$;
         \item for every letter $a \in \Sigma$ of the input alphabet, of arity $n \in \set{0,1,\ldots}$, a finite set of  associated \emph{register updates}, which are  term operations of type  $\aalg^{nk} \to \aalg^k$. 
     \end{enumerate}
-    If for each input letter there is exactly one associated register update, then the register transducer is called deterministic. 
+    If there is exactly one initial register valuation and for each input letter there is exactly one associated register update, then the register transducer is called deterministic. 
 \end{definition}
 % There is a natural extension of the above model with states, which we call \emph{stateful register transducers}. Stateless and stateful register transducers compute the same functions, but the stateful model is  useful when considering the single-use restriction that will be discussed later in this section. 
 
