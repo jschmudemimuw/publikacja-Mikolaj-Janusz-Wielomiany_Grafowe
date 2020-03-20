@@ -1,0 +1,38 @@
+\section{Perspectives}
+In this section we would like to discuss future perspectives of this approach. First question is for what other graph polynomials or power series a similar reasoning can be applied. A first example is Tutte polynomial, denote it $T(G)$, a polynomial that counts many substructures in graphs of given "rank", e.g. spanning forests, colourings. Tutte polynomial of a graph outputted by MSO transduction can be computed in case underlying transducer performs $\join$ operation along at most one vertex at a time, due to recurrences $T(G \cup H) = T(G) \cdot T(H), T(G\sqcup_a H) = T(G) \cdot T(G)$. The distinguishing power of Tutte polynomial is however very low in our context: all trees with $n$ edges have the same Tutte polynomial ($x^n$), hence it is not suitable for deciding equivalence on classes defined by treewidth.
+
+Another examples is characteristic polynomial. Interestingly, two graphs have the same characteristic polynomial if and only if they have the same number of length-$n$ closed walks for each $n$ (cf. beginning of Section \ref{sec:equivalence-modulo}). It can be computed, again under assumption of transducer fusing along at most one common vertex at a time in the following way. For a sourced graph $G$, define $\varphi(G) = ({\widetilde{G}}^a, \overline{G}^a)_{a \in \sources(G)}$ to be a following "split" of characteristic polynomial: consider Laplace expansion of $A_G-t\cdot I$ at row corresponding to vertex $a$
+$$
+	\det(A_G-t\cdot I) = (-t)\cdot \underbrace{\det(A_{G\setminus a} - t\cdot I)}_{{\widetilde{G}}^a} + \underbrace{\text{ rest }}_{\overline{G}^a}.
+$$
+Now take two graphs $G$ with a common vertex $a$. If we order vertices of $G$ and $H$ so that $a$ is the last vertex of $G$ and the first vertex of $H$, adjacency matrix of $G\sqcup_aH$ looks the following way:
+$$
+	(\text{fill-in pic1})
+$$
+and its characteristic polynomial, computed by Laplace expansion at row corresponding to $a$ is the following:
+\begin{multline*}
+	\det(A_{G\sqcup_a H}) = \sum_{v \in (G- a)} G^1_v \cdot (\text{fill-in det1}) + (-t) \cdot (\text{fill-in det2}) + \sum_{w \in (H- a)} H^1_w \cdot (\text{fill-in det3}).
+\end{multline*}
+Now, by the fact that $\begin{vmatrix}
+A & \ast\\
+0 & B
+\end{vmatrix}
+=
+\begin{vmatrix}
+A & 0 \\
+\ast & B
+\end{vmatrix}
+=
+|A|\cdot|B|
+$
+(assume $A,B$ are square matrices, possibly of different size)
+we get it is equal to
+$$
+	{\widetilde{G}}^a\cdot\overline{H}^a + (-t) \cdot {\widetilde{G}}^a \cdot {\widetilde{H}}^a + \overline{G}^a \cdot {\widetilde{H}}^a.
+$$
+The same proof and computation of other graph invariants (graph Laplacians) after $\join$ operation (called \emph{interface gluing} in the paper) can be found in \cite{contrerasGluingLaplacians20}.
+The distinguishing power of characteristic polynomial is low in our context -- a result \cite{schwenkCospectral73} due to Schwenk says that almost all trees, in a sense of probability, are not uniquely characterized by their characteristic polynomial.
+
+Second direction of further research might be to search for classess of graphs where some polynomials or power series have high distinguighing power. Even for the class of edge-labelled cycles, which can be encoded as graphs pathwidth 4 and treewidth 2, %dodając 1 lub 2widełki w każdym wierzchołku cyklu, w zależności czy ma etykiete a czy b
+the question whether edge-labelled version of walk power series (i.e. $\sum_{n,m=0}^{\infty}\eta_{n,m} a^n b^m$, where $\eta_{n,m}$ equals number of walks with $n$ $a$-edges and $m$ $b$-edges) uniquely determines the graph is open.
+%tutaj nie ma literatury na to
