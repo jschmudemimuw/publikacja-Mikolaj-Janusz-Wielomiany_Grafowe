@@ -126,6 +126,44 @@ By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}
 \begin{lemma}\label{lem:functionality-decidable-power-series} If $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}, then functionality is decidable for nondeterministic tree-to-$\aalg$ register transducers. 
 \end{lemma}
 \begin{proof}
-    (fill in)
-\end{proof}
+    First, let us recall that equivalence is decidable for algebra \aalg without Kleene plus, i.e. for ring of one-variable rational power series  (\ref{thm:equivalence-polynomial-automata-over-a-ring}) and this is the problem we are going to reduce to. Let's now focus on handling Kleene plus operation $^+$.
+    
+  	Observe that $ff+ + f = f^+$, hence
+  	$$
+  		f^+ = \frac{f}{1-f}.
+  	$$
+  	This makes any tree-to-\aalg register transducer a polynomial tree automaton \emph{with division}, which is an extension of a notion of polynomial automaton \cite{worrellBenediktDuffSharad2017}, also called polynomial program (without disequality guards) \cite{seidlMuller-polynomial-programs04}, which we introduce below.
+  	\begin{definition}
+  		A \emph{polynomial automaton with division} is a register transducer over an algebra $(R, +, \times, \div)$, where $(R, +, \times)$ is a computable ring without zero divisors and $\div$ is division operation, which has a semantic property of never dividing by a noninvertible element (in particular, by 0) in any step of computation.
+  	\end{definition}
+  		The rest of the proof is devoted to showing that equivalence is decidable for polynomial automata with division. We will proceed as in classical construction of projective line.
+  		
+  		Let $R$ be any ring, e.g. of one-variable power series. Shortly speaking, the reduction is given by the fact, that when elements of $R$ are represented (non-uniquely) as pairs $(x,y)\in R^2$, where $(x,y)$ represents $\frac{x}{y}$ (assume $y$ is invertible, e.g. 1) then division in $R$ becomesa polynomial function in $R^2$. The same holds for operations $+, \cdot$.
+  
+  		Formally, since
+  		\begin{align*}
+  			&\frac{x}{y} + \frac{z}{t} = \frac{xt+yz}{yt},\\ 
+  			&\frac{x}{y} \cdot \frac{z}{t} = \frac{xz}{yt},\\
+  			&\left(\frac{x}{y}\right)^+ = \frac{\frac{x}{y}}{1-\frac{x}{y}} = \frac{x}{y-x},
+  		\end{align*}
+  		we define an algebra $B$ the following way: (fill-in: unify the algebra definition with previous ones)
+  		\begin{itemize}
+  			\item universe is $R^2$,
+  			\item operations: operations $+_B, \cdot_B$ of arity 2, operation $^+$ of arity 1:
+  			\begin{align*}
+  				&(x,y) +_B (z,t) = (xt+yz, yt),\\
+  				&(x,y)\cdot(z,t) = (xz, yt),\\
+  				&(x,y)^{+_B} = (x, y-x).
+  			\end{align*}
+  		Now, for a polynomial tree automaton with division over ring $R$ $\Aa$ one can make a polynomial tree automaton (without division) $\Bb$ using equations above in a similar way as in (fill-in Lm/Thm reference). Then for each input tree $t$, $\Bb(t)$ represent $\Aa(t)$, i.e.
+  		$$
+  			\Bb(t) = (x,y), \text{ where } \frac{x}{y} = \Aa(t).
+  		$$
+  		
+  		The reduction is as follows: for polynomial tree automata with division $\Aa_1, \Aa_2$ take corresponding polynomial tree automata $\Bb_1, \Bb_2$. Then, since the output of $\Bb_i$ is a pair (numerator, denominator) representing $\Aa_i$, we get $\Aa_1 \equiv \Aa_2 \Leftrightarrow (xt-yz)\circ(\Bb_1, \Bb_2) \equiv 0$.
+  		\end{itemize}
 
+
+  		
+\end{proof}
+.
