@@ -1,38 +1,53 @@
 \section{Perspectives}
-In this section we would like to discuss future perspectives of this approach. First question is for what other graph polynomials or power series a similar reasoning can be applied. A first example is Tutte polynomial, denote it $T(G)$, a polynomial that counts many substructures in graphs of given "rank", e.g. spanning forests, colourings. Tutte polynomial of a graph outputted by MSO transduction can be computed in case underlying transducer performs $\join$ operation along at most one vertex at a time, due to recurrences $T(G \cup H) = T(G) \cdot T(H), T(G\sqcup_a H) = T(G) \cdot T(G)$. The distinguishing power of Tutte polynomial is however very low in our context: all trees with $n$ edges have the same Tutte polynomial ($x^n$), hence it is not suitable for deciding equivalence on classes defined by treewidth.
+In this section we discuss future perspectives of our approach. First direction is taking other polynomials or series. Let us start with two well known graph polynomials: Tutte polynomial and characteristic polynomial.
 
-Another examples is characteristic polynomial. Interestingly, two graphs have the same characteristic polynomial if and only if they have the same number of length-$n$ closed walks for each $n$ (cf. beginning of Section \ref{sec:equivalence-modulo}). It can be computed, again under assumption of transducer fusing along at most one common vertex at a time in the following way. For a sourced graph $G$, define $\varphi(G) = ({\widetilde{G}}^a, \overline{G}^a)_{a \in \sources(G)}$ to be a following "split" of characteristic polynomial: consider Laplace expansion of $A_G-t\cdot I$ at row corresponding to vertex $a$
+Tutte polynomial, denote it $T(G)$, counts many substructures of given "rank" in $G$, e.g. spanning forests, colourings. If we assume that a register transducer $\join$s along at most one vertex at a time, then, due to recurrences $T(G \cup H) = T(G) \cdot T(H), T(G\sqcup_a H) = T(G) \cdot T(H)$, Tutte polynomial of outputted graph can be easily computed by a register transducer. The distinguishing power of Tutte polynomial is however very low, at least in our context: all trees with $n$ edges have the same Tutte polynomial ($x^n$).
+
+Let us now move to characteristic polynomial. Interestingly, two graphs have the same characteristic polynomial if and only if they have the same numbers of length-$n$ closed walks for all $n$ (cf. remarks after Theorem \ref{thm:grohe}). Let us assume again that a register transducer $\join$s only along at most one vertex at a time. For a sourced graph $G$, define $\varphi(G) = ({\widetilde{G}}^a, \overline{G}^a)_{a \in \sources(G)}$, where $({\widetilde{G}}^a, \overline{G}^a)_{a \in \sources(G)}$ is the following "split" of characteristic polynomial, induced by Laplace expansion of $A_G-t\cdot I$ at a row corresponding to vertex $a$:
 $$
-	\det(A_G-t\cdot I) = (-t)\cdot \underbrace{\det(A_{G\setminus a} - t\cdot I)}_{{\widetilde{G}}^a} + \underbrace{\text{ rest }}_{\overline{G}^a}.
+	\det(A_G-t\cdot I) = (-t)\cdot \underbrace{\det(A_{G\setminus a} - t\cdot I)}_{{\widetilde{G}}^a} + \underbrace{\sum_{v \in (G-a)}G^a_v \cdot \ldots}_{\overline{G}^a}.
 $$
-Now take two graphs $G$ with a common vertex $a$. If we order vertices of $G$ and $H$ so that $a$ is the last vertex of $G$ and the first vertex of $H$, adjacency matrix of $G\sqcup_aH$ looks the following way:
-$$
-	(\text{fill-in pic1})
-$$
-and its characteristic polynomial, computed by Laplace expansion at row corresponding to $a$ is the following:
+Now take two graphs $G, H$ with a common vertex $a$. If we order vertices of $G$ and $H$ so that $a$ is the last vertex of $G$ and the first vertex of $H$, adjacency matrix of $G\sqcup_aH$ looks like this:\\
+\input{pic-matadjacency}
+Now, take Laplace expansion at row corresponding to vertex $a$:
 \begin{multline*}
-	\det(A_{G\sqcup_a H}) = \sum_{v \in (G- a)} G^1_v \cdot (\text{fill-in det1}) + (-t) \cdot (\text{fill-in det2}) + \sum_{w \in (H- a)} H^1_w \cdot (\text{fill-in det3}).
+	\det(A_{G\sqcup_a H}) = \sum_{v \in (G- a)} G^1_v \cdot \ldots + (-t) \cdot \ldots + \sum_{w \in (H- a)} H^1_w \cdot \ldots = \ldots (\text{ to be ctd. })
 \end{multline*}
-Now, by the fact that $\begin{vmatrix}
+Observe that $v$-cofactor, $a$-cofactor and $w$-cofactor, for $v\in (G-a), w \in (H-a)$ are determinants of, respectively:\\
+\input{picc-styl-macierzy}%to ma juz \begin{tikzpicture}[styl]
+\begin{scope}
+\input{pic-Laplace-exp-at-vinG}
+\begin{scope}[xshift=\picPrzesuniecie]
+\input{pic-Laplace-exp-at-a}
+\begin{scope}[xshift=\picPrzesuniecie + \picPrzesuniecie]
+\input{pic-Laplace-exp-at-winH}
+\end{tikzpicture}
+\\
+Now, by the fact that $\left|\begin{array}{c|c}
 A & \ast\\
+\hline
 0 & B
-\end{vmatrix}
+\end{array}\right|
 =
-\begin{vmatrix}
+\left|\begin{array}{c|c}
 A & 0 \\
+\hline
 \ast & B
-\end{vmatrix}
+\end{array}\right|
 =
-|A|\cdot|B|
+\det(A) \cdot \det(B),
 $
-(assume $A,B$ are square matrices, possibly of different size)
-we get it is equal to
+where $A,B$ are square matrices, possibly of different size,
+we get $\det(A_{G\sqcup_a H})$ is equal to
 $$
-	{\widetilde{G}}^a\cdot\overline{H}^a + (-t) \cdot {\widetilde{G}}^a \cdot {\widetilde{H}}^a + \overline{G}^a \cdot {\widetilde{H}}^a.
+\ldots = {\widetilde{G}}^a \cdot \det(H') + (-t) \cdot \det(G') \cdot \det(H') + \det(G') \cdot {\widetilde{H}}^a,
 $$
-The same proof and computation of other graph invariants (graph Laplacians) after $\join$ operation (called \emph{interface gluing} in the paper) can be found in \cite{contrerasGluingLaplacians20}.
-The distinguishing power of characteristic polynomial is low in our context -- a result \cite{schwenkCospectral73} due to Schwenk says that almost all trees, in a sense of probability, are not uniquely characterized by their characteristic polynomial.
+that is,
+\begin{equation}
+	{\widetilde{G}}^a\cdot\overline{H}^a + (-t) \cdot {\widetilde{G}}^a \cdot {\widetilde{H}}^a + \overline{G}^a \cdot {\widetilde{H}}^a. \text{}(why left aligned?)
+\end{equation}
+Lat us remark that \cite{contrerasGluingLaplacians20} provides the same proof of above fact. It also studies the behaviour of graph Laplacians after $\join$ operation (called \emph{interface gluing} in the paper), which are determinants of other matrices associated to graphs.
+The distinguishing power of characteristic polynomial is also low in our context -- a result \cite{schwenkCospectral73} due to Schwenk says that almost all trees, in a sense of probability, are not uniquely characterized by their characteristic polynomial.
 
-Second direction of further research might be to search for classess of graphs where some polynomials or power series have high distinguighing power. Even for the class of edge-labelled cycles, which can be encoded as graphs pathwidth 4 and treewidth 2, %dodając 1 lub 2widełki w każdym wierzchołku cyklu, w zależności czy ma etykiete a czy b
-the question whether edge-labelled version of walk power series (i.e. $\sum_{n,m=0}^{\infty}\eta_{n,m} a^n b^m$, where $\eta_{n,m}$ equals number of walks with $n$ $a$-edges and $m$ $b$-edges) uniquely determines the graph is open.
-%Jedyna literatura warta uwagi, którą udało mi się znaleźć to "Negami, Polynomial Invariants of Graphs" oraz "Polynomial invariants of graphs II Seiya Negami & Katsuhiro Ota " Planuję je przeczytać.
+Second direction of further research might be to search for classess of graphs that admit polynomials or power series with high distinguighing power. We conjecture that (edge-labelled version of) walk series (i.e. $\sum_{n,m=0}^{\infty}\eta_{n,m} a^n b^m \in \mathbb{Z}[[a,b]]$, where $\eta_{n,m}$ equals number of walks with $n$ $a$-edges and $m$ $b$-edges) is injective on the class of edge-labelled cycles (which, by a suitable encoding, can be seen as a subclass of unlabelled graphs of pathwidth 4 and treewidth 2). %dodając 1 lub 2widełki w każdym wierzchołku cyklu, w zależności czy ma etykiete a czy b
+%Jedyna literatura warta uwagi, którą udało mi się znaleźć to "Negami, Polynomial Invariants of Graphs" oraz "Polynomial invariants of graphs II Seiya Negami & Katsuhiro Ota " przeczytam je i zobaczę co da się z nich napisać.

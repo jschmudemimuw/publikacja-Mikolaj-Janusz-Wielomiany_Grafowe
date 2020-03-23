@@ -45,7 +45,7 @@ The kind of problems studied in this paper (equivalence for \mso transductions) 
   
 
     \begin{lemma}
-        A graph has treewidth $\le k$, in the sense of Robertson and Seymour,  if and only if it is the value of an arity zero term in the algebra of $k$-sources graphs.
+        A graph has treewidth $\le k$, in the sense of Robertson and Seymour,  if and only if it is the value of an arity zero term in the algebra of $k$-sourced graphs.
     \end{lemma}
     % \begin{definition}[Treewidth]
     %     For $k \in \set{1,2,\ldots}$, we say that a  graph has treewidth  $\le k$ if it can be produced using the operations of the algebra of $(k+1)$-sourced graphs.
@@ -135,8 +135,8 @@ If the  transductions in the instance are not functional, then there are no requ
     The equivalence and functionality problems described above are equi-decidable, i.e.~if one is decidable then the other is decidable. 
 \end{fact}
 \begin{proof}
-	%J
-    Equivalence reduces to functionality, as $T_1\equiv T_2$ if and only if domains of $T_1$ and $T_2$ are equal and transduction $T_1 \vee T_2$ is functional (constructing $T_1 \vee T_2$ is not as straightforward as in automata-kind transductions, but can be done e.g. by adding a coordinate to colouring that tells which transduction of $T_1$, $T_2$ is used). Now, functionality can be reduced to equivalence of graph transductions, where input graphs are labelled by labels from a finite set, in the following way: we do it by considering input graphs whose nodes are labelled with a pair of colours and testing equivalence of two (deterministic) transductions, one executing $T$ with first colouring, and the other one executing $T$ with second colouring. (fill-in (resolve labelled input))
+	%(fill-in)
+    Equivalence reduces to functionality, because $T_1\equiv T_2$ holds if and only if $\dom(T_1) = \dom(T_2)$ and transduction $T_1 \vee T_2$ is functional (constructing $T_1 \vee T_2$ can be done e.g. by adding a coordinate to colouring that tells which one of $T_1$, $T_2$ is used). For the opposite direction, functionality can be reduced to equivalence of transductions where input is labelled: for a given transduction $T$, test equivalence of two (deterministic) transductions that input graphs labelled with pairs of colours used by $T$ and execute $T$, using first, respectively second colouring. (fill-in (resolve labelled input))
     % For every $k \in \set{1,2\ldots}$, the set of graphs of treewidth $k$ is \mso definable.  (A quick justification is that the graphs of treewidth $> k$ are characterised by forbidden minors~\cite{}, and having a fixed graph as a minor is an \mso definable property.) Therefore, thanks to the filtering step in \mso transductions, we can assume that the the two \mso transductions in the instance of the above decision problem have only outputs of treewidth at most $\ell$, and have only outputs of treewidth at most $k$. 
 \end{proof}
 

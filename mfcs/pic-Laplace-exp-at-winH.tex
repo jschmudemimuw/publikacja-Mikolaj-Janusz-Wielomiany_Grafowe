@@ -1,0 +1,61 @@
+%\documentclass{article}
+%\usepackage{tikz}
+%\usepackage{geometry}
+%\usepackage{amsmath}
+%\usetikzlibrary{matrix,positioning}
+
+%\begin{document}
+
+	\matrix[stylmacierzy] (matadjacency)
+	{
+		& & & & & & & \\
+		& & & & & & & \\
+		& & & & & & & \\
+		& & & & & & & \\
+		& & & & & & & \\
+		& & & & & & & \\
+		& & & & & & & \\
+		& & & & & & & \\
+	};
+	\draw[]%pionowy prawy po G'
+		(matadjacency-1-3.north east) -- (matadjacency-3-3.south east);
+	\draw[]%poziomy dolny po G'
+		(matadjacency-3-1.south west) -- (matadjacency-3-3.south east);
+	\draw[]%poziomy górny po H'
+		(matadjacency-3-4.south west) -- (matadjacency-3-8.south east);
+	\draw[loosely dashed]%pionowy lewy boczny po H'
+		(matadjacency-4-5.north west) -- (matadjacency-8-5.south west);	
+	%\draw[]% poziomy przy Ga
+	%	(matadjacency-3-4.south west) -- (matadjacency-3-4.south east);
+	\draw[]%pionowy prawy przy lewe dolne 0, 
+		(matadjacency-4-3.north east) -- (matadjacency-8-3.south east);	
+	\draw[loosely dashed]%pionowy lewy przy prawe górne 0, 
+		(matadjacency-1-5.north west) -- (matadjacency-3-5.south west);	
+	%
+	\node[font=\GprimSize] 
+		at (matadjacency-2-2) {$G'$};
+	\node[font=\GaSize] 
+		at (matadjacency-2-4) {$G^a$};
+	\node[font=\GaSize] 
+	at (matadjacency-6-4) {$H^a$};
+	\node[font=\HprimSize]
+		at (matadjacency-6-6) {$H'_{\hat{w}}$};
+	\node[font=\ZeroSize, xshift=-4pt]%prawe górne 0
+		at (matadjacency-2-7) {$0$};
+	\node[font=\ZeroSize]%lewe dolne 0
+		at (matadjacency-6-2) {$0$};
+	%
+	%\draw[]
+	%	(matadjacency-3-1.south) --
+	%	node[left=41pt] {Laplace}
+	%	(matadjacency-3-1.south)
+	%	;
+	%\draw[]
+	%	(matadjacency-4-1) --
+	%	node[left=25pt] {w in $H-a$}
+	%	(matadjacency-4-1)
+	%	;
+\end{scope}
+%\end{tikzpicture}
+
+%\end{document}

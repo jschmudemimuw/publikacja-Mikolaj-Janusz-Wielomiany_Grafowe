@@ -59,12 +59,12 @@ We write $\powerseries{\Ring}$ for the  power series over a semiring $\Ring$; th
 which  is defined only when the constant term   in $A$ is zero. The assumption on a zero constant term ensures that the infinite sum in $A^+$ is well defined: under this assumption, the $i$-th term in $A^j$ with $j>i$ is zero. 
 
 
-For a graph $G$, define its \emph{path series} to be the power series 
+For a graph $G$, define its \emph{walk series} to be the power series 
 \begin{align*}
   a_1 x^1 + a_2x^2 + \cdots \qquad \text{where $a_i$ is the number of walks in $G$ of length $i$.}
 \end{align*}
-Almost by definition, two graphs are $\sim$-equivalent if and only if they have the same path series. 
-The first step in the proof of Theorem~\ref{thm:path-equivalence} is the following lemma, which says  that the path series is always  rational, and can be computed by a register transducer.
+Almost by definition, two graphs are $\sim$-equivalent if and only if they have the same walk series. 
+The first step in the proof of Theorem~\ref{thm:path-equivalence} is the following lemma, which says  that the walk series is always  rational, and can be computed by a register transducer.
 \begin{lemma}\label{lem:compute-power-series}    
     Let $\aalg$ be the algebra where:
     \begin{description}
@@ -78,7 +78,7 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
         \ar[dr]^{\Bb}
         \ar[d]_{\Aa} \\
         \txt{graphs of\\
-        treewidth $\le k$} \ar[r]_{G \mapsto \text{path series of $G$}}& \aalg
+        treewidth $\le k$} \ar[r]_{G \mapsto \text{walk series of $G$}}& \aalg
     }
     \end{align*}
 \end{lemma}
@@ -86,11 +86,11 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
 	%J
         The proof is an adaptation of a weighted version of the usual ''DFA to regular expression conversion'' (i.e. weighted automaton to rational power series), with state elimination corresponding to source forgetting.
     
-    Denote set of source nodes by $\sources(G)$ and set of nonsource nodes by a symbol $\bullet$. Define $\varphi$ to map a sourced graph $G$ to a tuple of power series in the following way:
+    Denote set of source nodes by $\sources(G)$ and set of nonsource nodes by $\bullet$. Define $\varphi$ to map a sourced graph $G$ to a following ''split'' of walk series, namely a tuple of power series
     $$
-    \varphi: G \longmapsto (g_{i,j})_{i,j \in \allv{G}},
+    	\varphi: G \longmapsto (g_{i,j})_{i,j \in \allv{G}},
     $$
-    where $g_{i,j}$ is the power series of set of walks from $i$ to $j$ which are positive length and whose interiors do not touch sources (if $j=\bullet$ we take the set of such walks from $i$ to any nonsource node). More precisely, $g_{i,j} = \sum_{n=1}^{\infty} a_n x^n$, where $a_n$ is the number of such walks of length $n$. Note that a particular $g_{i,j}$ is defined if all sources among $\{i,j\}$ are defined. A graph without sources is mapped to (a tuple with one element:) $g_{\bullet, \bullet}$ and obviously for graphs without sources $G, H$ we have $\varphi(G) = \varphi(H)$ if and only if $G \sim H$.
+    where $g_{i,j}$ is the power series of set of walks from $i$ to $j$ of positive length and whose interiors do not touch sources (if $j=\bullet$ we take the set of such walks from $i$ to any nonsource node). More precisely, $g_{i,j} = \sum_{n=1}^{\infty} a_n x^n$, where $a_n$ is the number of such walks of length $n$. Note that a particular $g_{i,j}$ is defined only if all sources among $\{i,j\}$ are defined in $G$. A graph without sources is mapped to $g_{\bullet, \bullet}$ and hence for graphs without sources $G, H$ we have $\varphi(G) = \varphi(H)$ if and only if $G \sim H$.
     
     Now let us investigate how $\varphi(\forget_k(G))$ and $\varphi(\join(G, H))$ can be reconstructed from $\varphi(G), \varphi(H)$.
     Observe that:
@@ -101,23 +101,23 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
     \end{align}
     The substraction of $x$ in second equation serves for not counting length-1 walk $i$--$j$ twice, in case it exists both in $G$ and $H$.
     
-    Above equations can be written in a form that will be suitable in the rest of this proof:
+    Above equations can be written in a form that is more suitable for the rest of the proof:
     \begin{align}
-    	\label{eq:interpretationInAfirst}
-   		\varphi(\forget_k(G)) &= (\varphi(G)_{i,j} + \varphi(G)_{i,k}\cdot(1 + \varphi(G)_{k,k}^+)\cdot \varphi(G)_{k_j})_{i,j \in \allv{G}},\\
-    	\varphi(\join(G, H)) &= (\varphi(G)_{i,j} + \varphi(H)_{i,j}
-    	\label{eq:interpretationInAlast}
+    	\label{eq:interpretationInAfirst}%\tag{\ref*{firsteq}${}^\prime$}
+   		\varphi(\forget_k(G)) &= (\varphi(G)_{i,j} + \varphi(G)_{i,k}\cdot(1 + \varphi(G)_{k,k}^+)\cdot \varphi(G)_{k_j})_{i,j \in \allv{G}}, \tag{\ref*{eq:equationForForget}${}^\prime$}\\
+    	\varphi(\join(G, H)) &= (\varphi(G)_{i,j} + \varphi(H)_{i,j},
+    	\label{eq:interpretationInAlast} \tag{\ref*{eq:equationForJoin}${}^\prime$}
     \end{align}
-    with equation \eqref{eq:interpretationInAlast} modified like equation 
-    The above equations hold, just as in ''DFA to regular expression'' case, because they are substitutions of equalities of sets of walks ($g_{i,j}$ can be obtained from set of walks by substituting $x$ for each edge), and substitution respects operations $+, \cdot, ^+$.
+    equation \eqref{eq:interpretationInAlast} having the same constraint as \eqref{eq:equationForJoin}.
+    The above equations hold, just as in ''DFA to regular expression'' proof, as they are substitutions ($x$ for each edge) of equalities that hold for sets of walks.
     
-	Let us now construct transducer $\Bb$, which, shortly and informally speaking is an interpretation of $\Aa$ via equations \eqref{eq:interpretationInAfirst}-\eqref{eq:interpretationInAlast}.
+	Let us now construct transducer $\Bb$, which, informally speaking, is an interpretation of $\Aa$ via equations \eqref{eq:interpretationInAfirst}-\eqref{eq:interpretationInAlast}:
 	\begin{itemize}
-		\item for each register $R$ of $\Aa$ create a tuple $(R_{i,j})_{i, j \in \allv{G}}$ of registers of $\Bb$.
-		\item for each initial register valuation $\rho \in A^k$ create initial register valuation $(R_{i,j})_{i,j\in\allv{G}} := \varphi(\rho(R))$,
-		\item for each input letter $a$, denote its arity by $n$, for each register update $p = (R:= p_R(\Registers^n) \text{ for } R \in \Registers)$ create a register update $\varphi\circ p$, defined as $((R_{i,j})_{i,j} := \varphi(p_R(\Registers^n)) \text{ for } R\in\Registers)$ where each function $\varphi\circ p_R$ is realized by a term over $A$ obtained from $p_R$ using equations \eqref{eq:interpretationInAfirst}-\eqref{eq:interpretationInAlast}.
+		\item for each register $R$ of $\Aa$ create a tuple of registers $(R_{i,j})_{i, j \in \allv{G}}$,
+		\item for each initial register valuation $\rho \in A_k^{\Registers}$ create initial register valuation $(R_{i,j})_{i,j\in\allv{G}} := \varphi(\rho)$,
+		\item for each input letter $a$ of arity $n$, for each register update $p = (R:= p_R(\Registers^n) \text{ for } R \in \Registers)$ create a register update $\varphi\circ p$, defined as $((R_{i,j})_{i,j} := \varphi(p_R(\Registers^n)) \text{ for } R\in\Registers)$ where each function $\varphi\circ p_R$ is realized by a terms over $A_k$ obtained from $p_R$ using equations \eqref{eq:interpretationInAfirst}-\eqref{eq:interpretationInAlast}.
 	\end{itemize}
-	A final remark is that $\Bb$, in order to do a register update, also needs to keep an information about edges between sources of graphs in registers. This however is finite information which can be easily updated and thus can be stored in states, which can be later removed, as observed in (fill-in reference).
+	A final remark is that $\Bb$, due to constraint in \eqref{eq:equationForJoin}, also needs to keep information about edges between sources of graphs stored in registers. This however is finite information and can be stored in states (and easily updated). States can be later removed, as observed in the beginning of Section \ref{sec:register-transducers}.
 \end{proof}
 
 \subsection{Equivalence for transducers that output rational power series}
@@ -126,19 +126,19 @@ By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}
 \begin{lemma}\label{lem:functionality-decidable-power-series} If $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}, then functionality is decidable for nondeterministic tree-to-$\aalg$ register transducers. 
 \end{lemma}
 \begin{proof}
-    First, let us recall that equivalence is decidable for algebra \aalg without Kleene plus, i.e. for ring of one-variable rational power series  (\ref{thm:equivalence-polynomial-automata-over-a-ring}) and this is the problem we are going to reduce to. Let's now focus on handling Kleene plus operation $^+$.
+    First, let us recall that equivalence is decidable for algebra \aalg without Kleene plus, i.e. for ring of one-variable rational power series  (see Theorem \ref{thm:equivalence-polynomial-automata-over-a-ring}) and this is the problem we are going to reduce to.
     
-  	Observe that $ff+ + f = f^+$, hence
+  	Observe that $ff^+ + f = f^+$, hence
   	$$
   		f^+ = \frac{f}{1-f}.
   	$$
-  	This makes any tree-to-\aalg register transducer a polynomial tree automaton \emph{with division}, which is an extension of a notion of polynomial automaton \cite{worrellBenediktDuffSharad2017}, also called polynomial program (without disequality guards) \cite{seidlMuller-polynomial-programs04}, which we introduce below.
+  	This makes tree-to-\aalg register transducer a polynomial tree automaton \emph{with division}, an extension of a notion of polynomial automaton \cite{worrellBenediktDuffSharad2017}(also called polynomial program (without disequality guards) in \cite{seidlMuller-polynomial-programs04}), to tree inputs, more general output rings, and using division during computation, which we introduce below.
   	\begin{definition}
-  		A \emph{polynomial automaton with division} is a register transducer over an algebra $(R, +, \times, \div)$, where $(R, +, \times)$ is a computable ring without zero divisors and $\div$ is division operation, which has a semantic property of never dividing by a noninvertible element (in particular, by 0) in any step of computation.
+  		A \emph{polynomial automaton with division} is a register transducer over an algebra $(R, +, \times, \div)$, where $(R, +, \times)$ is a field, $\div$ is division operation, which has a semantic property of never dividing by 0, in any update, in any run.
   	\end{definition}
-  		The rest of the proof is devoted to showing that equivalence is decidable for polynomial automata with division. We will proceed as in classical construction of projective line.
+  		The rest of the proof is devoted to showing that equivalence is decidable for polynomial automata with division. We will now proceed as in the classical construction of projective line.
   		
-  		Let $R$ be any ring, e.g. of one-variable power series. Shortly speaking, the reduction is given by the fact, that when elements of $R$ are represented (non-uniquely) as pairs $(x,y)\in R^2$, where $(x,y)$ represents $\frac{x}{y}$ (assume $y$ is invertible, e.g. 1) then division in $R$ becomesa polynomial function in $R^2$. The same holds for operations $+, \cdot$.
+  		Let $R$ be any field, e.g. of one-variable rational functions. Shortly speaking, the reduction is given by the fact, that when elements of $R$ are represented (non-uniquely) as pairs $(x,y)\in R^2$, where $(x,y)$ represents $\frac{x}{y}$ (assume $y$ is invertible, e.g. 1) then division in $R$ becomes a polynomial function in $R^2$. The same holds for operations $+, \cdot$.
   
   		Formally, since
   		\begin{align*}
@@ -146,24 +146,23 @@ By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}
   			&\frac{x}{y} \cdot \frac{z}{t} = \frac{xz}{yt},\\
   			&\left(\frac{x}{y}\right)^+ = \frac{\frac{x}{y}}{1-\frac{x}{y}} = \frac{x}{y-x},
   		\end{align*}
-  		we define an algebra $B$ the following way: (fill-in: unify the algebra definition with previous ones)
+  		we define an algebra $B$ the following way:
   		\begin{itemize}
-  			\item universe is $R^2$,
+  			\item universe is $R \times R$,
   			\item operations: operations $+_B, \cdot_B$ of arity 2, operation $^+$ of arity 1:
   			\begin{align*}
   				&(x,y) +_B (z,t) = (xt+yz, yt),\\
-  				&(x,y)\cdot(z,t) = (xz, yt),\\
+  				&(x,y)\cdot_B(z,t) = (xz, yt),\\
   				&(x,y)^{+_B} = (x, y-x).
   			\end{align*}
-  		Now, for a polynomial tree automaton with division over ring $R$ $\Aa$ one can make a polynomial tree automaton (without division) $\Bb$ using equations above in a similar way as in (fill-in Lm/Thm reference). Then for each input tree $t$, $\Bb(t)$ represent $\Aa(t)$, i.e.
+  		Now, for $\Aa$ being polynomial tree automaton with division over ring $R$, one can make a polynomial tree automaton (without division) $\Bb$, using equations above in a similar way as in Lemma \ref{lem:compute-power-series}. Then for each input tree $t$, $\Bb(t)$ represent $\Aa(t)$, i.e.
   		$$
   			\Bb(t) = (x,y), \text{ where } \frac{x}{y} = \Aa(t).
   		$$
   		
-  		The reduction is as follows: for polynomial tree automata with division $\Aa_1, \Aa_2$ take corresponding polynomial tree automata $\Bb_1, \Bb_2$. Then, since the output of $\Bb_i$ is a pair (numerator, denominator) representing $\Aa_i$, we get $\Aa_1 \equiv \Aa_2 \Leftrightarrow (xt-yz)\circ(\Bb_1, \Bb_2) \equiv 0$.
+  		Thus the reduction is as follows: for polynomial tree automata with division $\Aa_1, \Aa_2$ take corresponding polynomial tree automata $\Bb_1, \Bb_2$. Then we get $\Aa_1 \equiv \Aa_2 \Leftrightarrow (xt-yz)\circ(\Bb_1, \Bb_2) \equiv 0$ ($(xt-yz)\circ(\Bb_1, \Bb_2)$ is a polynomial automaton).
   		\end{itemize}
 
 
   		
 \end{proof}
-.
