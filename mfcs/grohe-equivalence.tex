@@ -1,25 +1,24 @@
 
 \section{Equivalence  modulo a certain equivalence relation}\label{sec:equivalence-modulo}
-In this section, we present our main result, which says  that equivalence is decidable for graph-to-graph transducers of bounded treewidth, modulo a certain equivalence on the output graphs which is more relaxed than isomorphism.  
+In this section, we present our main result, which says  that equivalence is decidable for graph-to-graph transducers of bounded treewidth, modulo a certain equivalence on the output graphs. This equivalence is a relaxation of isomorphism.  
 
-\smallparagraph{Counting homomorphisms} We begin by describing the equivalence on output graphs.
-This equivalence is based on a paper by Grohe, Dell and Rattan~\cite{groheDellRattan2018}, which gives examples of how various equivalence relations on graphs, notably Weisfeiler-Leman equivalence, can be characterised in terms of counting homomorphisms. 
+\smallparagraph{Counting homomorphisms} The equivalence on output graphs is based on a paper by Grohe, Dell and Rattan~\cite{groheDellRattan2018}, which gives examples of how various equivalence relations on graphs, notably Weisfeiler-Leman equivalence, can be characterised in terms of counting homomorphisms. 
 
 Define a \emph{homomorphism} from a graph $G$ to a graph $H$ to be any function $h$ from vertices of $G$ to vertices of $H$ which preserves edges in one direction: if there is an edge from $v$ to $w$ in $G$, then there is an edge from $h(v)$ to $h(w)$ in $H$. We write $\homset(G,H)$ for the set of homomorphism from $G$ to $H$. A seminal result of  Lov\'asz~\cite[p.~326]{lovasz1967operations} says that two graphs are isomorphic if and only if they admit the same number of homomorphisms from every graph:
 \begin{align*}
-\underbrace{G \simeq H}_{\text{isomorphism}} \qquad \text{iff} \qquad  |\homset(F,G)|=|\homset(F,H)| \ \text{for every graph $H$}
+\underbrace{G \simeq H}_{\text{isomorphism}} \qquad \text{iff} \qquad  |\homset(F,G)|=|\homset(F,H)| \ \text{for every graph $H$.}
 \end{align*}
 In~\cite{groheDellRattan2018},
-Grohe, Dell and Rattan show that if one restricts the  class of graphs from which the domain $F$ of the homomorphism is taken, then one gets various well-studied relaxations of isomorphism. For example, if we only count homomorphisms for graphs $F$ of treewidth at most $k$, then the arising equivalence relation on graphs is Weisfeiler-Leman equivalence of dimension $k$.  Among the results of~\cite{groheDellRattan2018}, the one that we use in this paper is the following one, which counts homomorphisms from paths.
+Grohe, Dell and Rattan show that if one restricts the  class of graphs from which $F$ is taken, then one gets various well-studied relaxations of isomorphism. For example, if we only count homomorphisms from graphs $F$ of treewidth at most $k$, then the arising equivalence relation on graphs is Weisfeiler-Leman equivalence of dimension $k$.  The result of~\cite{groheDellRattan2018},  that we use in this paper counts homomorphisms from paths.
 
 \begin{theorem}\label{thm:grohe}(\cite[Theorem 2]{groheDellRattan2018})
-    For two graphs, the following conditions are equivalent:
+    For every  graphs $G_1,G_2$, the following  are equivalent:
     \begin{enumerate}
         \item for every $i \in \set{1,2,\ldots}$, if $P_i$ is the path of length $n$ then
         \begin{align*}
         |\homset(P_i,G_1) | = |\homset(P_i,G_2)|.
         \end{align*}
-        \item there graphs have the same number of vertices, say $n$, and there is an $n \times n$ square matrix $X$ with real coefficients such that:
+        \item $G_1$ and $G_2$  have the same number of vertices, say $n$, and there is an $n \times n$ square matrix $X$ with real coefficients such that:
         \begin{enumerate}
             \item each row in $X$ sums up to 1
             \item each column in $X$ sums up to 1
@@ -38,11 +37,13 @@ In the following theorem, we show that equivalence for graph-to-graph \mso trans
 \begin{theorem}\label{thm:path-equivalence}
     Let $\sim$ be the equivalence relation on graphs described in Theorem~\ref{thm:grohe}. 
     The following problem is decidable:
-    \decisionproblem{$\sim$-equivalence for functional graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and functional graph-to-graph \mso transductions $\Tt_1,\Tt_2$.}{is it the case that for every input $G$ of treewidth at most $\ell$, the two outputs  $\Tt_1(G),\Tt_2(G)$ are $\sim$-equivalent and have treewidth at most $k$?}
+    \decisionproblem{$\sim$-functionality for graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and a graph-to-graph \mso transductions $\Tt$.}{is there some input of treewidth at most $\ell$, which can produce two outputs of treewidth at most $k$ that are not equivalent under $\sim$?}
 \end{theorem}
 % By Lemma~\ref{lem:transduction-to-registers}, the above problem reduces to deciding $\sim$-functionality for nondeterministic tree-to-$\aalg$ register transducers, where $\aalg$ is the algebra of $k$-sourced graphs. Here, $\sim$-functionality means that output graphs are identified modulo $\sim$. 
  
-The rest of this section is devoted to showing decidability for the above $\sim$-functionality problem. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series (Section~\ref{sec:power-series}), and then we show that equivalence is decidable for register transducers which manipulate such power series (Section~\ref{sec:decide-power-series}). Combining this with the reduction to register transducers from Lemma~\ref{lem:transduction-to-registers}, we get the theorem.
+For the same reasons as in Fact~\ref{fact:equi-decidable}, the above problem is equi-decidable with the $\sim$-equivalence problem, where one asks if two functional transductions produce $\sim$-equivalent outputs, under assumption of bounded treewidth. 
+
+The rest of this section is devoted to showing decidability for the  $\sim$-functionality problem. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series (Section~\ref{sec:power-series}), and then we show that equivalence is decidable for register transducers which manipulate such power series (Section~\ref{sec:decide-power-series}). Combining this with the reduction to register transducers from Lemma~\ref{lem:transduction-to-registers}, we get the theorem.
 
 \subsection{Computing the power series for walks in a graph}
 \label{sec:power-series}
@@ -66,63 +67,99 @@ For a graph $G$, define its \emph{walk series} to be the power series
 Almost by definition, two graphs are $\sim$-equivalent if and only if they have the same walk series. 
 The first step in the proof of Theorem~\ref{thm:path-equivalence} is the following lemma, which says  that the walk series is always  rational, and can be computed by a register transducer.
 \begin{lemma}\label{lem:compute-power-series}    
-    Let $\aalg$ be the algebra where:
+    Define  $\aalg$ to be the  algebra where
     \begin{description}
         \item[Domain:]power series in $\powerseries \Nat$ which are rational and have a  zero constant term;
         \item[Operations:] $+$, $\times$, Kleene plus and constants $1$ and $x$.
     \end{description}
     For every $k \in \set{1,2,\ldots}$ and every nondeterministic  \treetotreewidth{ k} register transducer $\Aa$, there is a nondeterministic tree-to-$\aalg$ register transducer $\Bb$ which makes the following diagram commute (arrows are binary relations):
     \begin{align*}
-    \xymatrix@C=4cm{
-        \trees \Sigma   
+    \xymatrix@C=1cm{
+       &  \trees \Sigma   
         \ar[dr]^{\Bb}
-        \ar[d]_{\Aa} \\
-        \txt{graphs of\\
-        treewidth $\le k$} \ar[r]_{G \mapsto \text{walk series of $G$}}& \aalg
+        \ar[dl]_{\Aa} \\
+        \txt{graphs of
+        treewidth $< k$} \ar[rr]_-{G \mapsto \text{walk series of $G$}}& & \natx
     }
     \end{align*}
 \end{lemma}
 \begin{proof}
-	%J
-        The proof is an adaptation of a weighted version of the usual ''DFA to regular expression conversion'' (i.e. weighted automaton to rational power series), with state elimination corresponding to source forgetting.
     
-    Denote set of source nodes by $\sources(G)$ and set of nonsource nodes by $\bullet$. Define $\varphi$ to map a sourced graph $G$ to a following ''split'' of walk series, namely a tuple of power series
-    $$
-    	\varphi: G \longmapsto (g_{i,j})_{i,j \in \allv{G}},
-    $$
-    where $g_{i,j}$ is the power series of set of walks from $i$ to $j$ of positive length and whose interiors do not touch sources (if $j=\bullet$ we take the set of such walks from $i$ to any nonsource node). More precisely, $g_{i,j} = \sum_{n=1}^{\infty} a_n x^n$, where $a_n$ is the number of such walks of length $n$. Note that a particular $g_{i,j}$ is defined only if all sources among $\{i,j\}$ are defined in $G$. A graph without sources is mapped to $g_{\bullet, \bullet}$ and hence for graphs without sources $G, H$ we have $\varphi(G) = \varphi(H)$ if and only if $G \sim H$.
+    %J
     
-    Now let us investigate how $\varphi(\forget_k(G))$ and $\varphi(\join(G, H))$ can be reconstructed from $\varphi(G), \varphi(H)$.
-    Observe that:
-    \begin{align}\label{eq:equationForForget}
-    	\forget_k(G)_{i,j} &= g_{i,j} + g_{i,k}\cdot(1 + g_{k,k}^+)\cdot g_{k_j},\\
-    	\join(G, H)_{i,j} &= g_{i,j} + h_{i,j} \ (- x \text{ if there is an edge } i\text{--}j \text{ in both } G \text{ and } H)
-    	\label{eq:equationForJoin}
-    \end{align}
-    The substraction of $x$ in second equation serves for not counting length-1 walk $i$--$j$ twice, in case it exists both in $G$ and $H$.
+        % The proof is an adaptation of a weighted version of the usual ''DFA to regular expression conversion'' (i.e. weighted automaton to rational power series), with state elimination corresponding to source forgetting.
     
-    Above equations can be written in a form that is more suitable for the rest of the proof:
-    \begin{align}
-    	\label{eq:interpretationInAfirst}%\tag{\ref*{firsteq}${}^\prime$}
-   		\varphi(\forget_k(G)) &= (\varphi(G)_{i,j} + \varphi(G)_{i,k}\cdot(1 + \varphi(G)_{k,k}^+)\cdot \varphi(G)_{k_j})_{i,j \in \allv{G}}, \tag{\ref*{eq:equationForForget}${}^\prime$}\\
-    	\varphi(\join(G, H)) &= (\varphi(G)_{i,j} + \varphi(H)_{i,j},
-    	\label{eq:interpretationInAlast} \tag{\ref*{eq:equationForJoin}${}^\prime$}
-    \end{align}
-    equation \eqref{eq:interpretationInAlast} having the same constraint as \eqref{eq:equationForJoin}.
-    The above equations hold, just as in ''DFA to regular expression'' proof, as they are substitutions ($x$ for each edge) of equalities that hold for sets of walks.
-    
-	Let us now construct transducer $\Bb$, which, informally speaking, is an interpretation of $\Aa$ via equations \eqref{eq:interpretationInAfirst}-\eqref{eq:interpretationInAlast}:
-	\begin{itemize}
-		\item for each register $R$ of $\Aa$ create a tuple of registers $(R_{i,j})_{i, j \in \allv{G}}$,
-		\item for each initial register valuation $\rho \in A_k^{\Registers}$ create initial register valuation $(R_{i,j})_{i,j\in\allv{G}} := \varphi(\rho)$,
-		\item for each input letter $a$ of arity $n$, for each register update $p = (R:= p_R(\Registers^n) \text{ for } R \in \Registers)$ create a register update $\varphi\circ p$, defined as $((R_{i,j})_{i,j} := \varphi(p_R(\Registers^n)) \text{ for } R\in\Registers)$ where each function $\varphi\circ p_R$ is realized by a terms over $A_k$ obtained from $p_R$ using equations \eqref{eq:interpretationInAfirst}-\eqref{eq:interpretationInAlast}.
-	\end{itemize}
-	A final remark is that $\Bb$, due to constraint in \eqref{eq:equationForJoin}, also needs to keep information about edges between sources of graphs stored in registers. This however is finite information and can be stored in states (and easily updated). States can be later removed, as observed in the beginning of Section \ref{sec:register-transducers}.
+        
+        % Define an \emph{internal walk} to be a walk that does not visit any sources,  with the possible exception of the first and last vertices in the walk, which are allowed to be sources. 
+        Define the \emph{type} of a vertex in a $k$-sourced graph to be  $i$ if the vertex is the $i$-th source for $i \in \set{1,\ldots,k}$, and $0$ otherwise. For types
+        $i,j \in \set{0,\ldots,k}$,
+        define an  $(i,j)$-walk to be a walk where the first vertex has type $i$, the last vertex has type $j$, and the remaining vertices in the walk are not sources. Define the $(i,j)$-walk series of a $k$-sourced graph, denoted by $\varphi_{ij}(G)$, to be the power series where the $n$-th term is the number of nonempty $(i,j)$-walks of length $n$. (In particular, the constant term  of this power series is zero, since we only consider nonempty walks.) Finally, define 
+        \begin{align*}
+        \varphi_{ij} : \text{$k$-sourced graphs} \to \aalg^{\set{0,\ldots,k}^2} \qquad G \mapsto (\varphi_{ij}(G))_{i,j \in \set{0,\ldots,k}}.
+        \end{align*}
+        The main observation is that $\varphi$ is an algebra homomorphism, in the following sense.
+        \begin{claim}
+            For every term operation $f$ 
+            in the algebra of $k$-sourced graphs, there is a term operation $f^\varphi$ in the algebra $\aalg$ which makes the following diagram commute
+            \begin{align*}
+            \xymatrix{
+                (\text{$k$-sourced graphs})^X 
+                \ar[r]^f
+                \ar[d]_{\varphi^X}
+                &
+                 (\text{$k$-sourced graphs})^Y
+                \ar[d]^\varphi
+                \\
+                \aalg^{\set{0,\ldots,k}^2 \times X}
+                \ar[r]_{f^\varphi}
+                &
+                \aalg^{\set{0,\ldots,k}^2 \times Y}
+            }
+            \end{align*}
+        \end{claim}
+        Before proving the claim, we use it to finish the proof of the lemma. Suppose that $\Aa$ has registers $R$. The automaton $\Bb$ has the same input alphabet, and registers $\set{0,\ldots,k}^2  \times R$.  The register updates of $\Bb$ are defined by applying the operation $f \mapsto f^\varphi$ to the register updates of $\Aa$. 
+        If $r$ is the output register of $\Aa$, then the output register of $\Bb$ is $(0,0,r)$.  From the claim it follows 
+        \begin{align*}
+        \text{$\Aa$ can output $G$ on input $t$} \qquad \iff \qquad 
+        \text{$\Bb$ can output $\varphi_{00}(G)$ on input $t$}.
+        \end{align*}
+        Since $\varphi_{00}(G)$ is the walk series of $G$ when $G$ has no sources, the lemma follows. It remains to prove the claim.
+
+        \begin{proof} 
+            It is enough to prove the claim for the case when $f$ is one of the basic operations in the algebra of $k$-sourced graphs. In particular, $Y$ has one element. Here the proof is similar to conversion of a nondeterministic automaton into a regular expression, as in the Kleene Theorem.
+            
+            \begin{itemize}
+                \item Suppose that $f$ is a constant, which represents a  $k$-sourced graph where all vertices are sources. Then we have 
+                \begin{align*}
+                \varphi_{ij}(f) = \begin{cases}
+                    1 & \text{if there is an edge from $i$ to $j$ in $f$}\\
+                    0 & \text{otherwise.}
+                \end{cases}
+                \end{align*}
+                \item Suppose that $f$ is the  basic operation which inputs two $k$-sourced graphs and outputs their fusion.  
+                An $(i,j)$-walk in the fusion $f(G_1,G_2)$ is the same thing as an $(i,j)$-walk in $G_1$ or an $(i,j)$-walk in $G_2$. Furthermore, these cases are disjoint, since we are working with graphs that have parallel edges.  This leads to the following equation for fusions:
+                \begin{align*}
+                \varphi_{ij}(f(G_1,G_2)) = \varphi_{ij}(G_1) + \varphi_{ij}(G_2).
+                \end{align*}
+                The right hand side uses component-wise addition, which is a basic operation in $\aalg$.
+                \item The last case is when $f$ is a unary operation which forgets  source $c \in \set{1,\ldots,k}$.  Let then $G$ a $k$-sourced graph. A nonempty $(i,j)$-walk in $f(G)$ is either a nonempty $(i,j)$-walk in $G$, or it has the form
+                \begin{enumerate}
+                    \item a nonempty $(i,c)$-walk in $G$; followed by 
+                    \item finitely many (possibly zero) nonempty  $(c,c)$-walks in $G$; followd by
+                    \item a nonempty $(c,i)$-walk in $G$.
+                \end{enumerate}
+                This leads to the following equation:
+                \begin{align*}
+                \varphi_{ij}(f(G))) = \varphi_{ij}(G)) +  \varphi_{ic}(G) \times (1+ \varphi_{cc}(G))^+  \times \varphi_{cj}(G).
+                \end{align*}                
+            \end{itemize}
+        \end{proof}
+        
 \end{proof}
 
 \subsection{Equivalence for transducers that output rational power series}
 \label{sec:decide-power-series}
-By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}, the  equivalence problem from Theorem~\ref{thm:path-equivalence} reduces to functionality for nondeterministic tree-to-$\aalg$ register transducers. In this section, we complete the proof the theorem by showing that the latter problem is decidable.
+By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}, the  equivalence problem from Theorem~\ref{thm:path-equivalence} reduces to functionality for nondeterministic tree-to-$\aalg$ register transducers, where $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}. In this section, we complete the proof the theorem by showing that the latter problem is decidable.
 \begin{lemma}\label{lem:functionality-decidable-power-series} If $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}, then functionality is decidable for nondeterministic tree-to-$\aalg$ register transducers. 
 \end{lemma}
 \begin{proof}
