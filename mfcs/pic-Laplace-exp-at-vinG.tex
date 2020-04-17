@@ -5,7 +5,7 @@
 %\usetikzlibrary{matrix,positioning}
 
 %\begin{document}
-
+\input{picc-styl-macierzy}%to ma juz \begin{tikzpicture}[styl]
 	\matrix[stylmacierzy] (matadjacency)
 	{
 		& & & & & & & \\
@@ -33,11 +33,11 @@
 		(matadjacency-1-4.north west) -- (matadjacency-3-4.south west);	
 	%
 	\node[font=\GprimSize] 
-		at (matadjacency-2-2) {$G'_{\hat{v}}$};
+		at (matadjacency-2-1.5) {$G'_{\cdot, \widehat{v}}$};
 	\node[font=\GaSize] 
-		at (matadjacency-2-3) {$G^a$};
+		at (matadjacency-2-3) {$G_{\cdot, a}$};
 	\node[font=\GaSize] 
-	at (matadjacency-6-3) {$H^a$};
+	at (matadjacency-6-3) {$H_{\cdot, a}$};
 	\node[font=\HprimSize]
 		at (matadjacency-6-6) {$H'$};
 	\node[font=\ZeroSize]%prawe górne 0
@@ -55,7 +55,7 @@
 	%	node[left=25pt] {v in $G-a$}
 	%	(matadjacency-4-1)
 	%	;
-\end{scope}
-%\end{tikzpicture}
+
+\end{tikzpicture}
 
 %\end{document}

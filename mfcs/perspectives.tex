@@ -1,53 +1,274 @@
-\section{Perspectives}
-In this section we discuss future perspectives of our approach. First direction is taking other polynomials or series. Let us start with two well known graph polynomials: Tutte polynomial and characteristic polynomial.
+\section{Final remarks and Perspectives}
+Let us now put the proofs in a common context/setting and try to generalise to other graph polynomial and classess of graphs.
 
-Tutte polynomial, denote it $T(G)$, counts many substructures of given "rank" in $G$, e.g. spanning forests, colourings. If we assume that a register transducer $\join$s along at most one vertex at a time, then, due to recurrences $T(G \cup H) = T(G) \cdot T(H), T(G\sqcup_a H) = T(G) \cdot T(H)$, Tutte polynomial of outputted graph can be easily computed by a register transducer. The distinguishing power of Tutte polynomial is however very low, at least in our context: all trees with $n$ edges have the same Tutte polynomial ($x^n$).
+Let $R$ be a ring of polynomials or algebra \aalg from (fill-in reference in paper) and $m$ be any positive natural number. We call a mapping $\varphi$ from sourced graphs algebra to $R^m$ \emph{compositional}, if both $\varphi(\join(G, H))$ and $\varphi(\forget_i(G))$ can be expressed as a polynomial function of $\varphi(G), \varphi(H)$, in a sense of Definition (fill-in Introduction reference), i.e. a function defined by a term that uses + and $\cdot$ and also Kleene plus $^+$ in case $R = \aalg$, where $i$ is a source of $G$; mappings $\varphi$ from Lemma ... and Lemma ... (fill-in reference) are examples of such mappings. We call a graph polynomial or power series $p(G)$ \emph{compositional}, if there exists a compositional mapping $\varphi$ of sourced graphs which extends $p$, in a sense that for all graphs $G$, $p(G)$ is $i$-th coordinate of $\varphi(G)$, for some $1\leq i\leq m$.
 
-Let us now move to characteristic polynomial. Interestingly, two graphs have the same characteristic polynomial if and only if they have the same numbers of length-$n$ closed walks for all $n$ (cf. remarks after Theorem \ref{thm:grohe}). Let us assume again that a register transducer $\join$s only along at most one vertex at a time. For a sourced graph $G$, define $\varphi(G) = ({\widetilde{G}}^a, \overline{G}^a)_{a \in \sources(G)}$, where $({\widetilde{G}}^a, \overline{G}^a)_{a \in \sources(G)}$ is the following "split" of characteristic polynomial, induced by Laplace expansion of $A_G-t\cdot I$ at a row corresponding to vertex $a$:
+Let \Cc be a class of graphs. A graph polynomial or power series is a complete isomorphism invariant on \Cc if it uniquely characterizes a graph from \Cc among other graphs from \Cc, i.e. for $G,H\in \Cc$ $p(G)$ and $p(H)$ are equal if and only if $G$ and $H$ are isomorphic. %w literaturze występuje też podobna, ale inna własność: każdy graf z klasy ma unikatowy wielomian wśród *wszystkich grafów*.
+ As existence of a graph polynomial or power series $p(G)$ that is a compositional complete isomorphism invariant on the class of all graphs would imply decidability of equivalence of bounded treewidth graph-to-graph MSO transductions (via proof analogous to the one of Lemma (fill-in reference, at the moment 14)), for any $p(G)$ we are interested if (1) is it compositional and (2) is it a complete isomorphism invariant or (2') is relation $G \sim H \iffdef p(G) = p(H)$ ''close'' to isomorphism.
+
+We answered questions (1) and (2') for $p(G)$ being walk series in section \ref{sec:equivalence-modulo}. A further direction could be to try to do the same for graph polynomials that exists in literature and are well-studied. We will now sketch such attempt for Tutte polynomial and characteristic polynomial. We will prove that they are compositional in a restricted, but nontrivial scope, but unfortunately they are very far from being a complete isomorphism invariant on the class of graphs of treewidth 1. They still might be ''close'' on classess of larger treewidth, in a sense that, there might not be many counterexamples apart from pairs of graphs of treewidth 1.
+\subsection{Notation}
+Let $G,H$ be sourced graphs. If they have no common sources then their $\join$ is disjoint union, and we denote it by $G\cup H$. If they have exactly one common source, we denote their $\join$ by $G\sqcup_a H$, where $a$ is the name of the common source. 
+
+An edge is called a \emph{bridge} if removing it disconnects the connected component it belongs to. We call an edge \emph{ordinary} if it is not a bridge nor a loop (note all graphs in our setting have no loops). \emph{Contraction} of an edge is defined as deleting it and then identifying its endpoints. For an edge $e$, by $G \setminus e$ we denote a graph resulting from deleting $e$, and by $G/e$ the graph resulting from contracting $e$. By $A_G$ we denote adjacency matrix of $G$, defined as matrix indexed by pairs of vertices of $G$. By $I$ we denote identity matrix of appriopriate size, which always will be clear from the context. For a matrix $M$, we denote its $(i,j)$-th entry by $M_{i,j}$, its $i$-th row by $M_{i,\cdot}$ and its $j$-th column by $M_{\cdot, j}$. By $\widehat{v}$ we represent the \emph{absence} of $v$, for example $M_{i, \widehat{v}}$ represents $i$-th row without its $v$-entry.
+\subsection{Two polynomials: Tutte and characteristic}
+Tutte polynomial is a graph polynomial that encodes numbers of certain patterns in a graph. For example one can read from it number of spanning trees of graph $G$ and number of $k$-colourings for each $k$. It can be defined by a recursive formula, called deletion-contraction formula:
 $$
-	\det(A_G-t\cdot I) = (-t)\cdot \underbrace{\det(A_{G\setminus a} - t\cdot I)}_{{\widetilde{G}}^a} + \underbrace{\sum_{v \in (G-a)}G^a_v \cdot \ldots}_{\overline{G}^a}.
+	T(G) = T(G\setminus e) + T(G/e), \text{ where } e \text{ is an ordinary edge}
 $$
-Now take two graphs $G, H$ with a common vertex $a$. If we order vertices of $G$ and $H$ so that $a$ is the last vertex of $G$ and the first vertex of $H$, adjacency matrix of $G\sqcup_aH$ looks like this:\\
+\indent otherwise, $G$ consists of $i$ bridges and $j$ loops and
+$$
+	T(G) = x^iy^j.
+$$
+(fill-in ten akapit) Tutte polynomial admits another characterisation, as a generating function: $T(G) = ...$, where $...$ is the rank function and $...$ is the nullity function (we omit the definitions, as they will not be used).
+
+Tutte polynomial satisfies the following equalities (fill-in reference, with Lemma number):
+$$
+T(G\cup H) = T(G) \cdot T(H), \qquad T(G\sqcup_a H) = T(G) \cdot T(H).
+$$
+In consequence, Tutte polynomial is compositional, with respect to fusions along at most one source-vertex. %We don't study the general case where fusions can be performed along arbitrary sets of source-vertices, because Tutte polynomial is not a good candidate anyway -- 
+Its distinguishing power on the class of graphs of treewidth 1 is however low -- all graphs of treewidth 1 with $n$ edges have the same Tutte polynomial, equal to $x^n$.
+
+Let us now study another graph polynomial -- characteristic polynomial of a graph, denoted by $\charact(G)$. Characteristic polynomial of a graph $G$ is defined as characteristic polynomial of its adjacency matrix $A_G$, i.e. a polynomial in one variable $t$, equal to $\det(A_G - t \cdot I)$. Interestingly, characteristic polynomial also admits a characterisation by homomorphism counting (cf. remarks after Theorem \ref{thm:grohe}): two graphs have the same characteristic polynomial if and only if they have the same number of length-$n$ \emph{closed walks}, i.e. walks that start and end in the same vertex, for all $n \geq 0$. We will now show that characteristic polynomial is compositional, again with a restriction that fusions are performed along at most one source-vertex. Before defining mapping $\varphi$, let us take a closer look at characteristic polynomial of $G \sqcup_a H$.
+
+Put $G':= G-a, H':=H-a$. By assumption $G'$ and $H'$ are disjoint.
+If we order vertices of $G$ and $H$ so that $a$ is the last vertex of $G$ and the first vertex of $H$, adjacency matrix of $G\sqcup_aH$ looks like this: (to avoid double subscripts, we write  $G_{a,\cdot}$ instead of ${A_G}_{a,\cdot}$, $G'$ instead of $A_{G'}$ etc.)\\
+\scalebox{\skalamatadjacency}{
 \input{pic-matadjacency}
-Now, take Laplace expansion at row corresponding to vertex $a$:
-\begin{multline*}
-	\det(A_{G\sqcup_a H}) = \sum_{v \in (G- a)} G^1_v \cdot \ldots + (-t) \cdot \ldots + \sum_{w \in (H- a)} H^1_w \cdot \ldots = \ldots (\text{ to be ctd. })
-\end{multline*}
-Observe that $v$-cofactor, $a$-cofactor and $w$-cofactor, for $v\in (G-a), w \in (H-a)$ are determinants of, respectively:\\
-\input{picc-styl-macierzy}%to ma juz \begin{tikzpicture}[styl]
-\begin{scope}
-\input{pic-Laplace-exp-at-vinG}
-\begin{scope}[xshift=\picPrzesuniecie]
-\input{pic-Laplace-exp-at-a}
-\begin{scope}[xshift=\picPrzesuniecie + \picPrzesuniecie]
-\input{pic-Laplace-exp-at-winH}
-\end{tikzpicture}
+}
 \\
-Now, by the fact that $\left|\begin{array}{c|c}
+where distinguished row and column are the ones corresponding to vertex $a$.
+Then Laplace expansion at row corresponding to vertex $a$ is of the following form (cofactors are replaced by ellipsis for simplicity of notation):
+\begin{equation*}
+	\det(A_{G\sqcup_a H}) = \sum_{v \in (G-a)} G_{a, v} \cdot \ldots + (-t) \cdot \ldots + \sum_{w \in (H-a)} H_{a,w} \cdot \ldots
+\end{equation*}
+Observe that $v$-cofactor, $a$-cofactor and $w$-cofactor, for $v\in (G-a), w \in (H-a)$ are determinants of matrices depicted in Figure \ref{fig:kofaktory-adjacency-matrix} (recall that for any vertex $v$, $\widehat{v}$ represents the \emph{absence} of $v$)\\
+
+\begin{figure}
+	\label{fig:kofaktory-adjacency-matrix}
+\scalebox{\skalamacierzy}{
+	\input{pic-Laplace-exp-at-vinG}
+}
+	\caption{$v$-cofactor}
+
+%\end{figure*}
+%\begin{figure*}
+\scalebox{\skalamacierzy}{
+	\input{pic-Laplace-exp-at-a}
+}
+	\caption{$a$-cofactor}
+%\end{figure*}
+%\begin{figure*}
+\scalebox{\skalamacierzy}{
+	\input{pic-Laplace-exp-at-winH}
+}
+	\caption{$w$-cofactor}
+
+\end{figure}
+
+
+\noindent By the fact that $\det\left(\left|\begin{array}{c|c}
 A & \ast\\
 \hline
 0 & B
-\end{array}\right|
+\end{array}\right|\right)
 =
-\left|\begin{array}{c|c}
+\det\left(\left|\begin{array}{c|c}
 A & 0 \\
 \hline
 \ast & B
-\end{array}\right|
+\end{array}\right|\right)
 =
 \det(A) \cdot \det(B),
 $
-where $A,B$ are square matrices, possibly of different size,
-we get $\det(A_{G\sqcup_a H})$ is equal to
+where $A,B$ are any square matrices, of possibly different sizes,
+we get that:
+\begin{itemize}
+	\item for $v \in G-a$, $v$-cofactor of $A_{G\sqcup_a H}$ is equal to $v$-cofactor of $G$ multiplied by $\det(H' - t\cdot I)$, 
+	\item $a$-cofactor of $A_{G\sqcup_a H}$ is equal to $\det(G' - t\cdot I) \cdot \det(H' - t\cdot I)$,
+	\item for $w \in H-a$, $w$-cofactor of $A_{G\sqcup_a H}$ is equal to $w$-cofactor of $H$ multiplied by $\det(G' - t\cdot I)$.
+\end{itemize}
+Now let us define $\varphi(G)$. If $G$ has at least one source-vertex, define $\varphi(G)$ to be a tuple $(\rest{G}{a}, \primecofact{G}{a})_{a \in \sources(G)}$, where for each source $a$, pair $(\rest{G}{a}, \primecofact{G}{a})$ is a ''split'' of characteristic polynomial of $G$, induced by Laplace expansion of $A_G-t\cdot I$ at a row corresponding to vertex $a$, defined as follows: (cofactors are replaced again by ellipsis, except of $a$-cofactor, which is denoted by $\primecofact{G}{a}$)
 $$
-\ldots = {\widetilde{G}}^a \cdot \det(H') + (-t) \cdot \det(G') \cdot \det(H') + \det(G') \cdot {\widetilde{H}}^a,
+\det(A_G-t\cdot I) = (-t)\cdot \underbrace{\det(A_{G'} - t\cdot I)}_{\primecofact{G}{a}} + \underbrace{\sum_{v \in (G-a)}G_{a,v} \cdot \ldots}_{\rest{G}{a}}.
 $$
-that is,
-\begin{equation}
-	{\widetilde{G}}^a\cdot\overline{H}^a + (-t) \cdot {\widetilde{G}}^a \cdot {\widetilde{H}}^a + \overline{G}^a \cdot {\widetilde{H}}^a. \text{}(why left aligned?)
-\end{equation}
-Lat us remark that \cite{contrerasGluingLaplacians20} provides the same proof of above fact. It also studies the behaviour of graph Laplacians after $\join$ operation (called \emph{interface gluing} in the paper), which are determinants of other matrices associated to graphs.
-The distinguishing power of characteristic polynomial is also low in our context -- a result \cite{schwenkCospectral73} due to Schwenk says that almost all trees, in a sense of probability, are not uniquely characterized by their characteristic polynomial.
+If $G$ has no sources, define $\varphi(G)$ to be the characteristic polynomial of $G$.
 
-Second direction of further research might be to search for classess of graphs that admit polynomials or power series with high distinguighing power. We conjecture that (edge-labelled version of) walk series (i.e. $\sum_{n,m=0}^{\infty}\eta_{n,m} a^n b^m \in \mathbb{Z}[[a,b]]$, where $\eta_{n,m}$ equals number of walks with $n$ $a$-edges and $m$ $b$-edges) is injective on the class of edge-labelled cycles (which, by a suitable encoding, can be seen as a subclass of unlabelled graphs of pathwidth 4 and treewidth 2). %dodając 1 lub 2widełki w każdym wierzchołku cyklu, w zależności czy ma etykiete a czy b
-%Jedyna literatura warta uwagi, którą udało mi się znaleźć to "Negami, Polynomial Invariants of Graphs" oraz "Polynomial invariants of graphs II Seiya Negami & Katsuhiro Ota " przeczytam je i zobaczę co da się z nich napisać.
+$a$-entries of $\phi(G\sqcup_a H)$ are immediately polynomial functions of $\varphi(G), \varphi(H)$ --
+we get that the mentioned ''split'' of characteristic polynomial, now of $G\sqcup_a H$, at $a$-row, is the following:
+\begin{align*}
+&(-t) \cdot \underbrace{\det(A_{G'} - t\cdot I) \cdot \det(A_{H'}-t\cdot I)}_{\primecofact{G\sqcup_a H}{a}} +\\
++&\underbrace{\left(\sum_{v\in G-a} G_{a,v} \cdot \ldots \cdot \det(A_{H'} - t\cdot I) \right)+
+\left(\sum_{w\in H-a} H_{a,w} \cdot \ldots \cdot \det(A_{H'} - t\cdot I)\right)}_{\rest{G\sqcup_a H}{a}},
+\end{align*}
+in other words
+\begin{align*}%nadaję (a właściwie: planuję nadać) numer żeby podkreślić znaczenie tej równości
+&\primecofact{G\sqcup_a H}{a} = \primecofact{G}{a} \cdot \primecofact{H}{a},\\
+&\rest{G\sqcup_a H}{a} = \rest{G}{a} \cdot \primecofact{H}{a} + \rest{H}{a} \cdot \primecofact{G}{a}.
+\end{align*}
+
+Before we continue the proof of compositionality of $\varphi$ w.r.t. $\join$ operation, observe that $\varphi$ is immediately compositional with respect to forget operation. If source $i$ is the last remaining source of $G$, $\varphi(\forget_i(G)) = \charact(G) = (-t)\cdot\primecofact{G}{i} + \rest{G}{i}$; if it is not, $\varphi(\forget_i(G))$ is a subtuple of $\varphi(G)$.
+
+$b$-entries of $\varphi(G \sqcup_aH)$, for a source $b$ different than $a$, if there is such, can be computed by similar analysis, this time by Laplace expansion taken along a \emph{pair} of rows: $b$-row and $a$-row and using the fact that, in general, $v$-cofactor is the sum of all $(v, v')$-cofactors, %(say, $a$ first, as we have it pictured already)
+ we get: (first coordinate is taken from row $b$, second one from row $a$) (fill-in: it is better to verify this statement)
+\begin{itemize}
+	\item for $v \in G, v' \in G, v' \neq v$ each $(v, v')$-cofactor of $A_{G\sqcup_a H}$ equals $(v, v')$-cofactor of $G$ multiplied by $\det(H' - t\cdot I)$,  (observe we do not require either $v$, nor $v'$ not to be equal to $a$ or $b$)
+	%\item $a$-cofactor of $A_{G\sqcup_a H}$ equals $\det(G' - t\cdot I) \cdot \det(H' - t\cdot I)$
+	\item for $v \in G, w \in H-a$ each $(v,w)$-cofactor of $A_{G\sqcup_a H}$ equals:
+	\begin{itemize}
+		\item for $w \in H-a, v \in G-a = G'$, $w$-cofactor of $H$ multiplied by $v$-cofactor of $G'$,
+		\item for $w \in H-a, v = a$, it equals 0,
+	\end{itemize}
+	\item for $v \notin G$, $v$-entries of $b$-row are equal to 0, hence we do not compute cofactors for them
+\end{itemize}
+and in consequence,
+in row $b$, for each $v\in G-a$, each $v$-cofactor in $A_{G\sqcup_a H}$ equals:
+\begin{center}
+	$v$-cofactor in $G$ multiplied by $\det(H' - t\cdot I)$\\
+	+\\
+	$v$-cofactor of $G'$ multiplied by sum of (not $a$)-cofactors in $H$, i.e. $\rest{H}{a}$.
+\end{center}
+ From this we get
+\begin{align*}
+	&\primecofact{G\sqcup_a H}{b} = \primecofact{G}{b} \cdot \primecofact{H}{a} + \rest{H}{a} \cdot \primecofact{G'}{b},\\
+	&\rest{G\sqcup_a H}{b} = \rest{G}{b} \cdot \primecofact{H}{a} + \rest{H}{a} \cdot \rest{G'}{b}.
+\end{align*}
+Analogous equations hold for sources $c$ of graph $H$. 
+This shows that
+$
+\varphi(G \sqcup_a H)$ is a polynomial function of tuple: $(\varphi(G), (\varphi(G-b))_{b\in\sources(G)}, \varphi(H), (\varphi(H-c))_{c\in \sources(H)}).
+$
+This does not imply that $\varphi(G)$ is compositional --- however, iterating this observation recursively on sources of $G\sqcup_a H$, implies that a tuple
+$$\psi(G) := (\varphi(G-b))_{B\subset\sources(G)}$$ is compositional with respect to fusion along one vertex. Observe that for any sourced graph operation, compositionality of $\varphi$ implies compositionality of $\psi$, hence for the remaining ones it suffices to prove compositionality of $\varphi$.
+
+When $\join$ is considered along 0 vertices, that is, when it is disjoint union, for a source $b$ of graph $G$ we have that in row $b$, for all $v \in G$, $v$-cofactor of $G \cup H$ is equal to $v$-cofactor of $G$ multiplied by characteristic polynomial of $H$. In consequence we get equations 
+\begin{align*}
+\primecofact{G\cup H}{b} = \primecofact{G}{b} \cdot \det(H - t\cdot I), \\
+\rest{G\cup H}{b} = \rest{G}{b} \cdot \det(H - t\cdot I).
+\end{align*}
+In other words, $b$-entries of $\varphi(G \sqcup_a H)$ are $b$-entries of $\varphi(G)$ multiplied by characteristic polynomial of $H$, which, as we have seen, is a polynomial function of $\varphi(H)$. The symmetric statement holds for sources of $H$. This finishes the proof of compositionality of $\varphi$, with a restriction that $\join$ operation is performed along at most one source.
+
+Distinguishing power of characteristic polynomial is, like for Tutte polynomial, low on the class of graphs of treewidth 1 -- for almost every graph of treewidth 1, in the sense of probability, there is another acyclic graph with the same characteristic polynomial \cite{schwenkCospectral73}.
+
+Let us mention a related paper \cite{contrerasGluingLaplacians20}, which studies characteristic polynomial and graph Laplacians (which are determinants of other matrices associated to a graph) of fusion of graphs, which is denoted \emph{interface gluing} in the paper. Characteristic polynomial is considered with the same restriction of fusing along at most one vertex.
+\subsection{Restriction to subclassess}
+Now let us take the same perspective, with a restriction on class of graphs. For a class \Cc, existence of a compositional graph polynomial or a power series which is a complete isomorphism invariant on \Cc implies decidability of equivalence of graph-to-\Cc {} \mso transductions.
+Let us remark that for any \mso-definable class \Cc, one can restrict to \Cc the codomain of an \mso-definable graph-to-graph transduction, which is a way to produce graph-to-\Cc {} \mso-transductions out of already existing graph-to-graph ones.
+We will now consider an example class and a candidate power series.
+
+The example class will be of edge-labelled graphs. Let us hence note that the notions of: \mso-transduction, sourced graph algebra and walk series can be generalised to edge-labelled version. The useful facts about them remain true, in particular compositionality of walk series.
+
+The choice of class is motivated by the following problem: 
+	\decisionproblem{cyclic shift-equivalence for functional string-to-string \mso transductions.}
+	{functional string-to-string \mso transductions $\Tt_1,\Tt_2$.}
+	{is it the case that for every input $w$, the two outputs  $\Tt_1(w),\Tt_2(w)$ are equivalent up to cyclic shift?}
+\iffalse
+\mso string-to-string transductions can be defined by string-to-($\Sigma^*, \cdot$) register transducers (fill-in reference), and in consequence, when considered modulo cyclic shift-equivalence, they can be seen as string-to-\algcyclic register transducers, where \algcyclic is the following (sorted) algebra: (fill-in czy używać sortów. Są one przydatne też przy dowodzie kompozycjonalności szeregu ścieżkowego, ale sam nie jestem przekonany)
+\algebradefinition{
+	$\algcyclic_1$: (sort 1 ) words of positive length over alphabet $\Sigma$,\\
+	$\algcyclic_0$: (sort 0 ) cyclic words of positive length, labelled by alphabet $\Sigma$.
+}
+{
+	$\cdot : \algcyclic_1 \times \algcyclic_1 \to \algcyclic_1$ - concatenation of words.\\
+	$\cyclic:\algcyclic_1 \to \algcyclic_0$ - maps a word to cyclic word it represents.\\
+}
+\fi
+Let us remark that, with a suitable encoding, above transductions can be seen as an \mso string-to-graph transductions, where the image is of treewidth 2 (and even pathwidth 2). This can be easily obtained if we allow outputted graphs to be labelled cycles, which can be later composed with ''delabelling'', i.e. injective mapping of labelled cycles to unlabelled graphs by an \mso transduction without increasing their treewidth and pathwidth. % (bo ta algebra jest symulowalna algebrą pathwidth 2, w następujący sposób:) %słowo reprezentujemy jako dwie poziome kreski z wyznaczoną ilością widełek. Grafy są nieskierowane, więc słowo zapisujemy ze znacznikami końców. Użycie znaczników z kolei powoduje użycie separatorów, bo przez znaczniki niemożliwa jest konkatencja ''zwyczajnie'' przez sklejanie, tylko tutaj znacznik końca zostanie zastąpiony separatorem - dajmy, że znacznik końca ma 2 widełki, a separator 3 widełki, to taka zamiana będzie wymagała po prostu dodania widełki.
+%Opis symulacji
+%Stałe:
+%	wprowadzimy teraz pojęcie litery, ale uwaga: litery z algebry \algcyclic nie będą mapowane na litery, tylko na ich konkatenacje.
+	%litera to jest graf \bullet - \bullet - \bullet, gdzie ze środkowego wierzchołka wychodzi $k$ widełek, $k >= 1 $.
+%	znacznik poczatku: 1 widełka
+%	znacznik końca : 2 widełki
+%	separator : są to 2 litery, znacznik końca złączony ze znacznikiem początku
+%	litera a : 4 widełki
+%	litera b : 5 widełek
+%	
+%	litera z algebry \algcyclic jest mapowana na (znacznik pocz)(litera)(znacznik końc)
+%	słowo z algebry \algcyclic jest mapowane na (znacznik pocz)(litera1)(separator)(litera2)...(separator)(litera ostatnia)(znacznik końc)
+%Konkatencja - zwyczajne łączenie grafów, końca pierwszego z początkiem drugiego
+%Operacja cyclic: sklejenie portu końcowego z początkowym (tego nie ma w algebrze pathwidth/treewidth, ale łatwo to zasymulować, np. przez nigdy nie dopisywanie "ostatniej" krawędzi znacznika końcowego (tego co naprawdę stoi na końcu, te w separatorach zostawiamy normalnie)) i narysowanie jej dopiero w momencie wykonania operacji cyclic.
+
+
+Throughout the paper we treat both words and cyclic words as directed edge-labelled graphs, i.e. paths and cycles, for example we treat word $aba$ as $\bullet\xra{a}\bullet\xra{b}\bullet\xra{a}\bullet$. Also, a walk is treated as a product of consecutive labelled edges. This enables us to define walk (power) series for them, denote it $\eta$, analogously to walk series of unlabelled graphs (fill-in reference).
+
+Let $\eta(G)$ for a directed graph $G$ be a series obtained by substituting for each edge in the set of all walks an indeterminate in a ring of polynomials:
+$$
+\eta(G) = \sum_{P: P \text{ is path in } G}a^{\#_a(P)}b^{\#_b(P)}.
+$$
+Putting same monomials together, we get $$\eta(G) = \sum_{n,m=0}^{\infty}\eta_{n,m}(G)\cdot a^n b^m \in \mathbb{Z}[[a,b]],$$ where $\eta_{n,m}(G)$ is the number of walks in $G$ with $n$ $a$-labelled edges and $m$ $b$-labelled edges. For example, walk series of a cyclic word $\overline{ab}$ (treated as directed cycle) equals $a + b + 2ab + a^2b + ab^2+2a^2b^2+\ldots.$
+
+\iffalse
+
+Throughtout the proof we assume all paths and words to be nonempty.
+
+	We start with compositionality with respect to operation $\cyclic$. We try to define for a word a tuple of series, from which we can reconstruct the walk series of cyclic word it represents with operations $+, \cdot$ and $^+$ -- the Kleene plus (fill-in reference, myślę że potrzebny)) that can be updated with the same operations after concatenating words. Hence we first define the following ''split''/partition (fill-in wybrać) of set of positive-length paths in word $w$ (which are the same as its nonempty subwords (fill-in chyba można usunąć tę uwagę)) 	
+ \begin{itemize}
+ 	\item $w^{()}$ - paths that do not touch any endpoint,
+ 	\item $w^{(]}$ - paths that touch right endpoint, but do not touch left endpoint,
+ 	\item $w^{[)}$ - paths that do not touch right endpoint, but touch left endpoint,
+ 	\item $w^{[]}$ - paths (in fact exactly one), that touch both endpoints.
+ \end{itemize}
+Now we define $\varphi$ to be a similar ''split'' of $\eta(w)$. Define
+$
+\varphi(w)$ to be the tuple $(\eta^{lr}(w))_{l,r}
+$
+where $(l,r)$ are all four possible ''bracketings'' as in definition above and $\eta^{lr}$ is the walk series with summation restricted to paths from $w^{lr}$. 
+For example,
+$$
+\eta^{(]}(w) = \sum_{P: P \text{ is path in } w^{(]}}a^{\#_a(P)}b^{\#_b(P)},
+$$
+etc. The set of all paths in a cyclic word $\overline{w}$ can be obtained from our partition (fill-in czy może użyć split, dla jedności z oznaczeniem w pozostałych dowodach) by the expression
+$
+w^{()} + (w^{(]} + 1)(1 + (w^{[]})^+)(1 + w^{[)}) - 1,
+$
+hence by analogous expression $\eta(w) = \varphi(\cyclic(w))$ can be obtained from $\varphi(w)$. In conseqeunce $\varphi$ is compositional with respect to operation $\cyclic$.\\
+Now let us move to concatenation operation.
+Recall that we assume words $w,v$ to be of positive length.
+We have following equalities
+\begin{itemize}
+	\item $(wv)^{()} = w^{()} + (1+w^{(]})(1 + v^{[)}) - 1 + v^{()}$ 
+	\item $(wv)^{(]} = (w^{(]}+1)v^{[]} + v^{(]}$
+	\item $(wv)^{[)} = w^{[)} + w^{[]}(1 + v^{[)})$
+	\item $(wv)^{[]} = w^{[]}v^{[]}$.
+\end{itemize}
+and hence analogous formulas hold for $\eta$. This proves compositionality of $\varphi$ with respect to concatenation, proving that $\varphi$ is compositional.
+\fi
+Let us discuss $\eta$'s distinguishing power on the class of edge-labelled cycles. First observe, that $\eta$ is the same for any cyclic word and its reverse. But there is even more: there are pairs of cyclic words, one not being reverse of another, for which $\varphi$ is the same, for example:
+$
+w = bbaabbabaaba,
+v = bbaababbabaa.
+$
+%A proof of $\eta(w)$ being equal to $\eta(v)$ is not that quick by hand and was done by computer. (Recursive formulas (fill-in reference do equations) for concatenation however make the hand calculation quick enough for shorter words.)
+
+One could refine walk series to ''back-and-forth walks'', with back-going arrows having a different copy of label. This is simply a walk series for a graph equipped with additional back-going edges, hence it is compositional too. It has at least the distinguishing power of ordinary walk series, because the latter is an evalution of the former with back-going copies of letters put to 0. It is an interesting question if back-and-forth walk series distinguishes the mentioned pair of cyclic words $(w,v)$.
+
+\section{Fill-iny, Uwagi}
+Wyjaśnić bardziej kwestię joinowanie wzdłuż co najwyżej jednego wierzchołka, tego, że to ograniczenie da się wprowadzić, bo transducer może pamiętać w stanach, dla każdego rejestru jakie sources są zdefiniowane w grafie w nim przechowywanym. Może dopisać, że to czy transducer robi join względem co najwyżej jednego źródła można decydować (i to w łatwy sposób, bo to jest sprawdzanie register transducerów o wartościach w algebrze skończonej, czyli tak naprawdę, jak to zostało zauważone w przykładzie z algebrą boolowską, języków regularnych)?
+
+Przy $b$-entries: (fill-in tutaj też jest tak, że funkcja użyta do update'u będzie inna w zależności od tego, którym sourcem sklejamy, jej inność polega na braniu innych elementów krotki. Czyli ponownie przydałaby się nam sorted algebra.)
+
+Fix the case of ''double'' Laplace expansion.
+
+Może zamienić ''split'' na decomposition.
+
+Może row corresponding to vertex a $\rightarrow$ a-row? Dopisać to wtedy do Notation.
+
+Można zrobić sourced graph algebrę żeby była sorted. Całe szczeście można włożyć w stany zapamiętywanie jakiego sortu obiekt jest w danym rejestrze (po to, żeby stan podpowiadał jakiego joina użyć, co ma znaczenia gdy obliczamy wielomiany grafowe grafów powstałych przez join)
+
+Czy własność '''ma treewidth <=k'' jest mso definiowalna?
+
+(fill-in może można też by sprawdzić, czy faktycznie jest tak, że nie ma wielomianowej funkcji na join wzdłuż dwóch wspólnych wierzchołków, bo tam w pracy jest napisane, że jest taka formuła, ale mi się wydaje, że nie ma)
+
+
+
+%A third direction of future research might be to consider matrix version of this polynomial.
+
+%%formalny zapis
+%\begin{itemize}
+%	\item $\eta^{()}(wv) = \eta^{()}(w) + (1+\eta^{(]}(w))(1 + \eta^{[)}(v)) - 1 + \eta^{()}(v)$ ,
+%	\item $\eta^{(]}(wv) = (\eta^{(]}(w)+1)\eta^{[]}(v) + \eta^{(]}(v)$,
+%	\item $\eta^{[)}(wv) = \eta^{[)}(w) + \eta^{[]}(w)(1 + \eta^{[)}(v))$,
+%	\item $\eta^{[]}(wv) = \eta^{[]}(w)\eta^{[]}(v)$.
+%\end{itemize}
+%Jedyna literatura warta uwagi, którą udało mi się znaleźć to ''Negami, Polynomial Invariants of Graphs'' oraz ''Polynomial invariants of graphs II Seiya Negami & Katsuhiro Ota '' przeczytam je i zobaczę co da się z nich napisać.
