@@ -33,18 +33,41 @@
 \newcommand{\poly}[2]{\mathsf{pol}_{#1}#2}
 
 %%Janusz%%
+\newcommand{\xra}[1]{\xrightarrow{#1}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}\xspace}
 \DeclareMathOperator{\join}{fuse}
 \DeclareMathOperator{\forget}{forget}
 \DeclareMathOperator{\sources}{sources}
+\DeclareMathOperator{\cyclic}{cycle}
+\DeclareMathOperator{\charact}{char}%komenda \char jest już defined
 \newcommand{\allv}[1]{\ensuremath{\sources(#1) \cup \{\bullet\}}\xspace} %"allv = all vertices", czyli source'y plus \bullet
 \newcommand{\Registers}{\ensuremath{\mathcal{R}}\xspace}
-\def\sizemacierzy{0.2cm}
+\newcommand{\enum}[3]{#1_{#2}, \ldots, #1_{#3}}
+\newcommand{\iffdef}{\stackrel{def}{\Leftrightarrow}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Cc}{\ensuremath{\mathcal{C}}\xspace}
+\def\sizemacierzy{0.4cm}
 \def\GaSize{\large}
 \def\ZeroSize{\Large}
 \def\GprimSize{\Large}
 \def\HprimSize{\LARGE}
 \newlength{\picPrzesuniecie}
 \setlength{\picPrzesuniecie}{4.5cm}
+\def\skalamatadjacency{0.8}
+\def\skalamacierzy{1}
+\newcommand{\primecofact}[2]{\overline{#1}^{#2}}%definicja phi dla wielomianu charakterystycznego -- pierwszy komponent, argumenty #1 = graf, #2 = nazwa source'a względem którego sklejamy
+\newcommand{\rest}[2]{\widetilde{#1}^{#2}}%definicja phi dla wielomianu charakterystycznego -- drugi komponent, argumenty #1 = graf, #2 = nazwa source'a względem którego sklejamy
+\newcommand{\algcyclic}{\ensuremath{\mathbf{C}}\xspace}
+\newcommand{\algebradefinition}[2]%argumenty to: Uniwersum i Operacje
+{
+	{
+		\begin{description}
+			\item[Domain:] \hfill \\ #1
+			\item[Operations:] \hfill \\ #2
+		\end{description}
+	}
+} 
+
 %%Janusz-koniec
 
 \newcounter{ourexamplecounter}
