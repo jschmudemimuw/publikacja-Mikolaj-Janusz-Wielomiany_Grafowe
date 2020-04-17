@@ -31,7 +31,49 @@ Defined an \emph{unranked tree decomposition of width $k$} in the same way as a 
     \end{align*}
 \end{theorem}
 
-Apply Theorem~\ref{thm:boj-pil}, yielding an \mso transduction $\Ss$.
+
+
+\smallparagraph{Forest algebra.} In the next step of the proof, we describe a transducer model for \mso transductions that output unranked trees. 
+
+To model unranked trees, we  use a variant of forest algebra~\cite{bojanczykForestAlgebras2008}.
+ Let $\Sigma$ be an alphabet. A \emph{forest} over $\Sigma$ is a directed acyclic graph, with nodes labelled by $\Sigma$, where every vertex has indegree zero or one.  Here is a picture of a forest:
+\mypic{6}
+A forest has to be nonempty, i.e.~there should be at least one vertex.
+Under the definition used in this paper, forests do not have a sibling order, i.e.~there is no such thing as a ``first child'', unlike in the original definition of forest algebra~\cite[Section 3]{bojanczykForestAlgebras2008}.
+If $s,t$ are forests, then we write $s+t$ for their disjoint union. Define a \emph{context over $\Sigma$} to be a forest with an extra dangling edge (an edge with a source but without a target), as in the following picture:
+\mypic{7}
+There is exactly one dangling edge. Again, contexts need to be nonempty, i.e.~there should be at least one vertex (if only because the dangling edge needs a source).
+If $p$ is a context and $t$ is a forest, then we write $p+t$ for their disjoint union (which is a context, since there is a dangling edge). Apart from disjoint union, there is a substitution operation defined as follows. If $p$ is a context and $t$ is a forest, then we write $p(t)$ for the forest which is obtained by attaching every root node of $s$ as a child of the parent of the dangling edge in $p$, and then removing the dangling edge from $p$. For example, if $t,p$ are the forest and context in the pictures above, then the $p(t)$ looks like this:
+\mypic{8}
+The same definition of substitution can be applied also for two contexts $p,q$: we define $p(q)$ in the same way as above; only this time we get a context (which uses the dangling edge of $q$).
+
+
+In principle, forest algebra is a two-sorted algebra. Since we want to avoid introducing extra notation for multisorted algebras, we coerce it into a one-sorted setting, as described below. 
+\newcommand{\forsort}{\mathrm{for}}
+\newcommand{\consort}{\mathrm{con}}
+\begin{definition}[Forest algebra]
+    Let $\Sigma$ be a finite set. Define \emph{the free forest algebra over $\Sigma$} to be the following algebra. The underlying set consists of forest and contexts  over $\Sigma$, plus a propagating error element $\bot$.  This set is equipped with  the following operations:
+    \begin{itemize}
+        \item There is a constant for every forest or context with exactly one vertex.
+        \item There is a binary operation $a + b$. If one of the arguments is $\bot$, or both arguments are contexts, then $a+ b$ is $\bot$.  Otherwise, $a+b$ is the disjoint union.
+        \item There is a binary operation $a(b)$ for substitution. If one of the arguments is $\bot$, or the first argument $a$ is not a context, then the $a(b)$ is $\bot$. Otherwise, $a(b)$ is the substitution of $b$ into $a$, as defined when describing contexts. 
+    \end{itemize}
+\end{definition}
+
+
+A forest can be viewed as a model, where the universe consists of vertices, there is a binary child relation, and unary relations for every label. Therefore, it makes sense to discuss \mso transductions that input or output forests.  It turns out that register transducers can compute \mso transductions. The following theorem,  adjusting for a different notation, was shown in ~\cite[Theorem 4.6]{alurStreamingTreeTransducers2017}.
+\begin{theorem}\label{thm:alur-tree}
+    For every \mso transductions which inputs trees over a ranked alphabet $\Sigma$, and which outputs forests over a (not ranked) alphabet $\Gamma$, there is an equivalent nondeterministic register transducer where the output algebra is the free forest algebra over $\Gamma$.
+\end{theorem}
+
+
+
+
+
+
+\smallparagraph{Proof of Lemma~\ref{lem:transduction-to-registers}} We now resume the proof of Lemma~\ref{lem:transduction-to-registers}.
+Let $\Tt$ be an \mso transduction that inputs graphs of treewidth $\le \ell$ and outputs graphs of treewidth $\le k$. 
+Apply Theorem~\ref{thm:boj-pil} to $k$, yielding an \mso transduction $\Ss$.
 Define $\Rr$ to  be the composition of the  red arrows in the following diagram:
 \begin{align*}
     \xymatrix@C=3cm{
@@ -47,4 +89,31 @@ Define $\Rr$ to  be the composition of the  red arrows in the following diagram:
         \ar@[red][u]_{\Ss}
     }
     \end{align*}
-Like every composition of \mso transductions, $\Rr$ is an \mso transduction. Therefore, it is computed by a nondeterministic tree-to-forest-algebra register transducer.
+Like every composition of \mso transductions, $\Rr$ is an \mso transduction.
+By Theorem~\ref{thm:alur-tree}, $\Rr$ is computed by a nondeterministic register transducer, call it $\Aa$, where the output algebra is forest algebra (over the labels used by unranked tree decompositions). By construction, the following diagram commutes:
+\begin{align*}
+    \xymatrix@C=3cm{
+        \txt{tree decompositions\\ of width $\le \ell$}
+        \ar@[red][d]_{\txt{\scriptsize underlying graph}}
+         \ar[r]^\Aa & 
+         \txt{unranked \\ 
+         tree decompositions\\
+         of width $\le k$}
+         \ar[d]^{\text{underlying graph}}
+         \\
+        \txt{graphs of\\ treewidth $\le \ell$}\ar@[red][r]_\Tt &
+        \txt{graphs  of\\ treewidth $\le k$} 
+    }
+    \end{align*}
+
+To finish the proof of the lemma, we will show that there is a nondeterministic register transducer over the algebra of $k$-sourced graphs which computes the composition of $\Aa$ with the function that computes the underlying graph of an unranked tree decomposition. 
+
+Here the idea is very simple. Let $\aalg$ be free forest algebra, over the alphabet which consists of the operation names in the algebra of $k$-sourced graphs. We say that $a \in \aalg$ is well-formed if: nodes labelled by constants have zero outgoing edges (the dangling edge counts) and nodes labelled by the forget operation have exactly one outgoing edge. Define a function
+\begin{align*}
+    \varphi : \aalg \to \bot + \text{$2k$-sourced graphs}
+\end{align*}
+as follows. If $a \in \aalg$ is not well-formed, then $\varphi(a)$ is $\bot$. If $a$ is a well-formed forest, i.e.~it is an unranked tree decomposition with possibly several roots, then $\varphi(a)$ is the fusion of the  underlying $k$-sourced graph of the trees in the forest (this $k$-sourced graph is viewed as a $2k$-sourced graph, which only uses the first $k$ sources). If $a$ is a well-formed context, we define $\varphi(a)$ in the same was as for trees (treating $a$ as a forest, by ignoring the dangling edge), except that we also have  extra sources for vertices that of the underlying graph which are sources in $\varphi(t)$, where $t$ is the subtree of the parent of the dangling edge in $a$. The extra sources are the reason why we use $2k$-sourced graphs instead of $k$-sourced graphs. For some contexts, we do not need all of the $k$ extra sources, since some sources might appear both in $t$ and in the roots of the tree decomposition.
+
+By putting together sourced graphs instead of their tree decompositions, the reader can easily come up with a register transducer $\Bb$, over the algebra of $2k$-sourced graphs, which has the same registers, which has the same registers as $\Aa$, and such that if $\Aa$ stores $a$ in its register, then $\Bb$ stores $\varphi(a)$ in its register. (In the construction, it is useful to have states, so that $\Bb$ can remember which srtates )
+
+If $a$ is a forest, then its underlying $k$-sourced graph is defined to be the fusion of the underlying $k$-sourced graphs of the trees in the forest. If $a$ is a context, then 
