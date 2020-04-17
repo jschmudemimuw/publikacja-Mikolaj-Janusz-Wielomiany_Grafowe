@@ -1,0 +1,50 @@
+\section{From transductions to register transducers}
+\label{sec:transductions-to-transducers}
+This part of the appendix proves Lemma~\ref{lem:transduction-to-registers}. The statement of the lemma is as follows. 
+    Let $\ell, k \in \set{1,2,\ldots}$, and  let $\Tt$ be an \mso transduction where all output graphs have treewidth at most $k$. There is a nondeterministic \treetotreewidth{ k} transducer $\Aa$ which makes the following diagram commute (arrows in the diagram are binary relations):
+    \begin{align*}
+    \xymatrix@C=0.3cm{
+         & \txt{tree decompositions of width $< \ell$}
+        \ar[dl]_-{\txt{\scriptsize underlying graph \qquad \qquad}}
+         \ar[dr]^\Aa\\
+        \txt{graphs of treewidth $< \ell$}\ar[rr]_\Tt & &
+        \txt{graphs  of treewidth $< k$} 
+    }
+    \end{align*}
+
+
+Defined an \emph{unranked tree decomposition of width $k$} in the same way as a tree decomposition of width $k$, except that the fusion operation is now viewed as unranked (i.e.~it can have any finite number of children, which are unordered). An unranked tree decomposition can be viewed as a model, where the universe is the nodes, there is binary child relation, and for each  node label (which is a name of an operation in the algebra of $k$-sourced graphs) there is a unary relation that selects nodes with that label.  In~\cite[Corollary 3]{bojanczykOptimizingTreeDecompositions2017a}, it is shown that \mso transductions can compute (nondeterministically) tree decompositions for graphs of bounded treewidth, as stated in the following theorem.
+ 
+\begin{theorem}\label{thm:boj-pil}
+    For every $k \in \set{1,2,\ldots}$ there is an \mso transduction $\Ss$ which makes the following diagram commute (arrows are relations, the double arrow is the identity):
+    \begin{align*}
+        \xymatrix@C=-0.3cm{ 
+              & \txt{graphs of treewidth $<k$}
+             \ar[dl]_{\Ss}
+             \ar@{-}@<-.5ex>[dr] \ar@{-}@<.5ex>[dr]
+             \\
+            \txt{unranked\\ tree decompositions\\
+            of width $\le k$} 
+            \ar[rr]_-{\text{ \qquad underlying graph}}
+             & & \txt{graphs of treewidth $<k$}
+        }
+    \end{align*}
+\end{theorem}
+
+Apply Theorem~\ref{thm:boj-pil}, yielding an \mso transduction $\Ss$.
+Define $\Rr$ to  be the composition of the  red arrows in the following diagram:
+\begin{align*}
+    \xymatrix@C=3cm{
+        \txt{tree decompositions\\ of width $\le \ell$}
+        \ar@[red][d]_{\txt{\scriptsize underlying graph}}
+         \ar[r]^\Rr & 
+         \txt{unranked \\ 
+         tree decompositions\\
+         of width $\le k$}
+         \\
+        \txt{graphs of\\ treewidth $\le \ell$}\ar@[red][r]_\Tt &
+        \txt{graphs  of\\ treewidth $\le k$} 
+        \ar@[red][u]_{\Ss}
+    }
+    \end{align*}
+Like every composition of \mso transductions, $\Rr$ is an \mso transduction. Therefore, it is computed by a nondeterministic tree-to-forest-algebra register transducer.

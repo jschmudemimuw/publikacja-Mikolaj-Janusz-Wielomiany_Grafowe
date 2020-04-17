@@ -1,27 +1,46 @@
 \section{Graphs, treewidth, and logic on graphs}
 The graphs in this paper are finite and undirected, without  parallel edges. 
 
-\subsection{Treewidth}
+\subsection{Treewidth} 
 \label{sec:treewidth-definition}
-The kind of problems studied in this paper (equivalence for \mso transductions) become immediately undecidable for graphs of unbounded treewidth. Therefore, we  only consider classes of graphs of bounded treewidth.  To define treewidth, we use Courcelle's  approach via universal algebra. (Later on in the paper, we also use algebra in the classical sense: rings, fields, polynomials, etc.)
+For every class of graphs with unbounded treewidth, its \mso theory (assuming the \msotwo encoding described later in this paper) is undecidable~\cite[Theorem 8]{seese1991structure}. This undecidability result immediately extends to the equivalence problems for \mso transductions that are studied in this paper. Therefore, we  only consider classes of graphs of bounded treewidth.  To define treewidth, we use Courcelle's  approach via universal algebra. (Later on in the paper, we also use algebra in the classical sense: rings, fields, polynomials, etc.)
 
 
-\smallparagraph{Algebras, terms and polynomials} We begin by introducing some terminology from universal algebra. By an \emph{algebra}, we mean a set equipped with some  operations, e.g.~the ring of integers $(\Int, + , \times, 0, 1)$ or the free monoid $(\Sigma^*, \cdot, \varepsilon)$. We write $\aalg, \balg, \ldots$ for algebras. By abuse of notation, we write $a \in \aalg$ if $a$ belongs to the underlying set in the algebra $\aalg$. 
-        For $k \in \set{0,1,\ldots}$, define a \emph{$k$-ary term operation in an algebra $\aalg$} to be  any operation of type $\aalg^k \to \aalg$ that arises from a term constructed using $k$ variables (representing inputs of the operation) and operations of the algebra. For example, 
+\smallparagraph{Algebras and terms operations} We begin by introducing some terminology from universal algebra. By an \emph{algebra}, we mean an underlying set equipped with some  operations, e.g.~the ring of integers $(\Int, + , \times, 0, 1)$ or the free monoid $(\Sigma^*, \cdot, \varepsilon)$. We write $\aalg, \balg, \ldots$ for algebras. By abuse of notation, we write $a \in \aalg$ if $a$ belongs to the underlying set in the algebra $\aalg$. 
+
+We use the name \emph{basic operations} for the operations that are given in the algebra. This is to distinguish them from the more general \emph{term operations}, which are defined below.
+        For two finite sets $X,Y$ and an algebra $\aalg$, a function
         \begin{align*}
-        (x,y) \qquad \mapsto \qquad xyxxxy
-        \end{align*}
-        is a binary term operation in the free monoid. 
-        A \emph{$k$-ary polynomial operation} is defined the same way, except that the term can also use all elements of the algebra as constants.  For example, 
-        \begin{align*}
-        (x,y) \qquad \mapsto \qquad  xyabaxyxa
-        \end{align*}
-        is a binary polynomial in the free monoid with $a,b \in \Sigma$. Here is another example, which explains the terminology: if  the algebra $\aalg$ is 
-        $
-        (\Real, + , \times, 0 ,1)
-        $
-        then the $k$-ary term operations are the same as polynomials with $k$ variables with coefficients in $\set{0,1,\ldots}$, while the $k$-ary polynomial operations are the same as (general) polynomials with $k$ variables.
+            f : \aalg^X \to \aalg^Y,
+            \end{align*}
+            is called a \emph{term operation} if it is induced by a family of terms, one for each $y \in Y$, with each term  constructed using the basic operations of the algebra and variables from $X$.  If the set $Y$ has one element, then we talk about term operations of type $\aalg^X \to 
+        \aalg$, and if furthermore the set $X$ is $\set{0,\ldots,k-1}$ then we talk about term operations of type $\aalg^k \to \aalg$. 
 
+        For example, the polynomial
+        \begin{align*}
+        f : \Real \to \Real \qquad x \mapsto 3x^2 -2x+1,
+        \end{align*}
+     and more generally any polynomial with integer coefficients,  is a term operation in the algebra
+        \begin{align*}
+            (\Real, +,\times, -1,0,1).
+        \end{align*}
+        Polynomials with non-integer coefficients such as $0.5$  are not term operations; for this the coefficients would need to be added as constants to the algebra. 
+        % In the same algebra, an example of a  for this the 
+        % while the operation $x \mapsto xa$ which appends an 
+        %  the operation $x \mapsto xx$ is a unary term operation. 
+        % set $X$ of variables,  define a \emph{term operation with  variables $X$ in an algebra $\aalg$} to be  any operation of type $\aalg^X \to \aalg$ that arises from a term constructed using  variables $X$ and operations of the algebra.  For example, $x \mapsto xxx$ is a term operation in the free monoid. 
+        % If the set of variables is $X=\set{1,\ldots,k}$, then we talk about $k$-ary operations. We  also use 
+        %  \emph{vectorial term operation};  is a function
+        
+        % which arises from a family of term operations $f_y : \aalg^X \to \aalg$, one for each $y \in Y$.
+        %  For example,  the term $xyxxy$ over variables $\set{x,y}$ in the free monoid gives rise to a binary term operation in the free monoid. 
+        % A \emph{polynomial operation with variables $X$} is defined in the same way, except that the term can also use all elements of the algebra as constants.  Here is another example, which explains the terminology: if  the algebra $\aalg$ is 
+        % $
+        % (\Real, + , \times, 0 ,1)
+        % $
+        % then the $k$-ary term operations are the same as polynomials with $k$ variables with coefficients in $\set{0,1,\ldots}$, while the $k$-ary polynomial operations are the same as (general) polynomials with $k$ variables.
+
+        
         
 \smallparagraph{The algebra of $k$-sourced graphs} To define treewidth, we consider graphs with distinguished vertices and equip them with an algebraic structure. 
     Let $k \in \set{1,2,\ldots}$. Define a $k$-sourced graph to be a  graph together with a $k$-tuple of pairwise distinct vertices called \emph{sources}. We allow sources to be undefined; in particular when all sources are undefined then we get a graph. Here is a 
@@ -33,36 +52,36 @@ The kind of problems studied in this paper (equivalence for \mso transductions) 
 
     
     \begin{definition}
-        [Algebra of $k$-sourced graphs] Let $k \in \set{1,2,\ldots}$. The \emph{algebra of $k$-sourced graphs} has as its underlying set the  $k$-sourced graphs, equipped with the following operations:
+        [Algebra of $k$-sourced graphs] Let $k \in \set{1,2,\ldots}$. The \emph{algebra of $k$-sourced graphs} has as its underlying set the  $k$-sourced graphs,  with the following basic operations:
             \begin{itemize}
-                \item {\bf Constants.} Every $k$-sourced graph with at most $k+1$ vertices is a constant.
+                \item {\bf Constants.} There is a constant for every $k$-sourced graph where all vertices are sources and there is at most one edge.
                 \item {\bf Forget.} For every $i \in \set{1,\ldots,k}$ there is a unary operation, which inputs a $k$-sourced graph and outputs the same $k$-sourced graph, except that the $i$-th source is undefined. 
                 \item {\bf Fuse.} There is one binary operation, called \emph{fusion}, which inputs two $k$-sourced graphs, and output their disjoint union, with same-numbered sources being identified, as explained in the following picture:
                 \mypic{1}
             \end{itemize}
         \end{definition}
     
+        Terms in this algebra correspond to tree decompositions in the original sense of Robertson and Seymour~\cite[Section 12.3]{diestel}. More precisely, a graph has treewidth $< k$  if and only if it can be produced using the operations of the algebra of $(k+1)$-sourced graphs. This justifies the following definition.
+
+
+  \begin{definition}[Treewidth]
+        For $k \in \set{1,2,\ldots}$, we say that a  graph has treewidth  $\le  k$ if it can be produced using the operations of the algebra of $(k+1)$-sourced graphs.
+    \end{definition}
+
   
-
-    \begin{lemma}
-        A graph has treewidth $\le k$, in the sense of Robertson and Seymour,  if and only if it is the value of an arity zero term in the algebra of $k$-sourced graphs.
-    \end{lemma}
-    % \begin{definition}[Treewidth]
-    %     For $k \in \set{1,2,\ldots}$, we say that a  graph has treewidth  $\le k$ if it can be produced using the operations of the algebra of $(k+1)$-sourced graphs.
-    % \end{definition}
-
+    
     % The definition above coincides with the original definition of Robertson and Seymour, which uses tree decompositions with bags of vertices~\cite[Proposition 1.19]{courcelle1991}. 
 
     \subsection{Monadic second-order logic}
-    We will use logic, especially monadic second-order logic, to define properties of graphs and transformations on graphs. 
+    We  use logic, especially monadic second-order logic, to define properties and transformations of graphs. 
 
     \smallparagraph{Logical terminology}
-    We use the name  \emph{vocabulary} for a set of relation names, each one with an associated arity. A \emph{model over a vocabulary $\tau$} consists of a universe together with an interpretation of the relations names in the vocabulary $\tau$, which maps each relation name to a relation over the universe of same arity. To define properties of such models, we use mainly monadic second-order logic \mso, which  is the extension of first-order logic that allows quantification over sets of elements (but not sets of pairs, or triples, etc.). We assume that the reader is familiar with \mso, for an introduction see~\cite[Section 2]{Thomas97}.
+    A  \emph{vocabulary} is defined to be  a set of relation names, each one with an associated arity. A \emph{model over vocabulary $\tau$} consists of a set, called the \emph{universe} of the model, together with an \emph{interpretation}, maps the relations names from the vocabulary $\tau$ to  relations over the universe of same arity. To define properties of such models, we use mainly monadic second-order logic \mso, which  is the extension of first-order logic that allows quantification over sets of elements (but not sets of pairs, or triples, etc.). We assume that the reader is familiar with \mso, for an introduction see~\cite[Section 2]{Thomas97}.
      
      
-      To define properties of graphs in \mso, we represent a graph as models. There are two representations, called  \msoone and \msotwo following 
+      To define properties of graphs in \mso, we represent a graph as models. There are at least two ways to do this, called  \msoone and \msotwo following 
  Courcelle~\cite[Definition 1.7]{courcelleVI}. In the \msoone model, the  universe is the vertices and there is a binary relation for the edges (the binary relation is symmetric, because graphs are undirected). In the \msotwo model, the universe is the disjoint union of vertices and edges, and there is a binary  \emph{incidence relation} that consists of pairs $(v,e)$ such that vertex $v$ participates in edge $e$. 
-In this paper, we use the \msotwo model. More properties of graphs can be expressed in \mso with this representation, e.g.~existence of a Hamiltonian cycle can be expressed using the \msotwo representation but not with the \msoone representation~\cite[p.~118]{courcelleVI}. However, for graphs of bounded treewidth, \msoone and \msotwo have the same expressive power~\cite{}. 
+In this paper, we use the \msotwo model. For general graphs, more properties of graphs can be expressed in \mso using the \msotwo representation, e.g.~existence of a Hamiltonian cycle can be expressed using the \msotwo representation but not with the \msoone representation~\cite[p.~118]{courcelleVI}. However, for graphs of bounded treewidth, \msoone and \msotwo have the same expressive power~\cite[Theorem 9.37]{courcelleGraphStructureMonadic2012}. 
 
 \smallparagraph{Transductions}  The central topic of this paper is \mso transductions, which are graph transformations definable in \mso. In principle, the transductions are nondeterministic -- i.e.~they represent binary relations and not functions -- but we will show that the case of functions is general for the equivalence problems that we consider.
 
@@ -91,7 +110,7 @@ In this paper, we use the \msotwo model. More properties of graphs can be expres
 % \begin{align*}
 % \set{(G,H) : \text{the \msotwo encoding of $H$ is isomorphic to $G_\lambda$, for some $\lambda$}}
 % \end{align*}
- A transduction, with input vocabulary $\tau$ and output vocabulary $\sigma$ is a set of pairs 
+ A \emph{transduction}, with input vocabulary $\tau$ and output vocabulary $\sigma$ is defined to be a set of pairs 
 \begin{align*}
     (\myunderbrace{\text{model over $\tau$}}{input model}, \ 
     \myunderbrace{\text{model over $\sigma$}}{output model}),
@@ -102,28 +121,28 @@ which is isomorphism invariant, in the sense that membership in the transduction
     An \mso transduction is any transduction that can be obtained by composing a finite number of transductions of the following kinds.
 Kind 1 is a partial function, kinds 2, 3, 4 are functions, and kind 5 is a relation.
 \begin{enumerate}
-	\item {\bf Filtering.} For every \mso sentence $\varphi$ over the input vocabulary there is a transduction that filters out models where $\varphi$ is violated. Formally, the transduction is the partial identity -- with input and output vocabularies being equal --  whose domain consists of the models that satisfy the sentence. 
+	\item {\bf Filtering.} \label{mso-trans:filtering} For every \mso sentence $\varphi$ over the input vocabulary there is a transduction that filters out models where $\varphi$ is violated. Formally, the transduction is the partial identity -- with input and output vocabularies being equal --  whose domain consists of the models that satisfy the sentence. 
 	\item {\bf Universe restriction.} For every \mso formula $\varphi(x)$ over the input vocabulary with one free first-order variable, there is a transduction, which restricts the universe of the input model to those elements that satisfy $\varphi$. The input and output vocabularies are the same, the interpretation of each relation in the output model is defined as the restriction of its interpretation 
 	in the input model to tuples of elements that remain in the universe.
 	\item {\bfseries{\scshape{Mso}} interpretation.} This kind of transduction changes the vocabulary of the model while keeping the universe intact. To specify an \mso interpretation, for for every relation name $R$ of the output vocabulary, one gives an \mso formula $\varphi_R(x_1,\ldots,x_k)$ over the input vocabulary which has as many free first-order variables as the arity of $R$. The output model is obtained from the input model by keeping the same universe, and interpreting each relation $R$ of the output vocabulary as the set of tuples  satisfying $\varphi_R$.
-	\item {\bf Copying.} For  $k \in \set{1,2,\ldots}$, define $k$-copying to be the transduction which inputs a model and outputs a model consisting of $k$ disjoint copies of the input, with an additional relation that ties the copies together. Formally, the output universe consists of $k$ copies of the input universe.
+	\item {\bf Copying.} \label{mso-trans:copying} For  $k \in \set{1,2,\ldots}$, define $k$-copying to be the transduction which inputs a model and outputs a model consisting of $k$ disjoint copies of the input, with an additional relation that ties the copies together. Formally, the output universe consists of $k$ copies of the input universe.
 	The output vocabulary is the input vocabulary enriched with a binary predicate $\mathsf{copy}$ which selects pairs which originate from the same element, and unary predicates $\mathsf{layer}_1,\mathsf{layer}_2,\ldots,\mathsf{layer}_k$ which select elements belonging to the first, second, etc. copies of the universe.
 	In the output model, a relation name $R$ of the input vocabulary is interpreted as the set of all those tuples over the output model, which are in the same layer, and  where the original elements of the copies were in relation $R$
 	in the input model.
-	\item {\bf Colouring.} Colouring adds  a new unary predicate to the input model, and interprets it nondeterministically. Formally, the universe as well as the interpretations of all relation names of the input vocabulary stay intact,
+	\item {\bf Colouring.} \label{mso-trans:colouring} Colouring adds  a new unary predicate to the input model, and interprets it nondeterministically. Formally, the universe as well as the interpretations of all relation names of the input vocabulary stay intact,
 	but the output vocabulary has one more unary predicate. For every possible interpretation of this unary predicate, there is a different output with this interpretation implemented.
 \end{enumerate}
 \end{definition}
 
-\smallparagraph{The equivalence problem}  Define a \emph{graph-to-graph \mso transduction} to be an \mso transduction, where the input and output vocabularies are the same, namely the vocabulary of graphs, and which only contains pairs of graphs (more formally, pairs of \msotwo models of graphs).  By abuse of notation, when $\Tt$ is a graph-to-graph \mso transduction, and $G,H$ are graphs, we write $(G,H) \in \Tt$ instead of the formally correct 
+\smallparagraph{The equivalence problem}  Define a \emph{graph-to-graph \mso transduction} to be an \mso transduction, where the input and output vocabularies are the same, namely the vocabulary of graphs (one binary relation for incidence), and which only contains pairs of graphs (more formally, pairs of \msotwo models of graphs).  By abuse of notation, when $\Tt$ is a graph-to-graph \mso transduction, and $G,H$ are graphs, we write $(G,H) \in \Tt$ instead of the formally correct 
 \begin{align*}
 (\text{\msotwo model of $G$}, \text{\msotwo model of $H$})\in \Tt.
 \end{align*}
 It $\Tt$ is functional, which means that for every input graph there is exactly one output graph up to isomorphism, then we write $\Tt(G)$ for the (isomorphism type of the) resulting graph. 
-The topic of this paper is   the following  equivalence problem for functional \mso graph-to-graph transductions, which  we do not know how to solve.
+The topic of this paper is   the following  decision problem for functional \mso graph-to-graph transductions, which  we do not know how to solve.
 
 
-\decisionproblem{equivalence for functional graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and functional graph-to-graph \mso transductions $\Tt_1,\Tt_2$.}{is it the case that for every input $G$ of treewidth at most $\ell$, the two outputs  $\Tt_1(G),\Tt_2(G)$ are isomorphic and have treewidth at most $k$?}
+\decisionproblem{equivalence for functional graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and two functional graph-to-graph \mso transductions $\Tt_1,\Tt_2$.}{is it the case that for every input $G$ of treewidth at most $\ell$, the two outputs  $\Tt_1(G),\Tt_2(G)$ are isomorphic and have treewidth at most $k$?}
 
 If the  transductions in the instance are not functional, then there are no requirements on the answer to the algorithm. This motivates the following problem:
 
@@ -135,8 +154,18 @@ If the  transductions in the instance are not functional, then there are no requ
     The equivalence and functionality problems described above are equi-decidable, i.e.~if one is decidable then the other is decidable. 
 \end{fact}
 \begin{proof}
-	%(fill-in)
-    Equivalence reduces to functionality, because $T_1\equiv T_2$ holds if and only if $\dom(T_1) = \dom(T_2)$ and transduction $T_1 \vee T_2$ is functional (constructing $T_1 \vee T_2$ can be done e.g. by adding a coordinate to colouring that tells which one of $T_1$, $T_2$ is used). For the opposite direction, functionality can be reduced to equivalence of transductions where input is labelled: for a given transduction $T$, test equivalence of two (deterministic) transductions that input graphs labelled with pairs of colours used by $T$ and execute $T$, using first, respectively second colouring. (fill-in (resolve labelled input))
+    %(fill-in)
+    Equivalence reduces to functionality, because two transductions are  equivalent if and only if they have the same domains when restricted to treewidth at most $\ell$, and their union is  functional, when restricted to inputs of treewidth at most $\ell$ and outputs of treewidth at most $k$.  The domain of an \mso transduction can be effectively constructed~\cite[Backwards Translation Theorem]{courcelleGraphStructureMonadic2012}, while equivalence for \mso for sentences on graphs of bounded treewidth is decidable~\cite[Theorem 5.80]{courcelleGraphStructureMonadic2012}.
+
+    Consider now the converse reduction: from functionality to equivalence. Suppose that $\mathcal T$ is an \mso transduction, and we want to check if $T$ is functional for inputs of treewidth at most $\ell$ and outputs of treewidth at most $k$. Because colourings can be pushed to the head of an \mso transduction, see~\cite[Section 1.7]{courcelleGraphStructureMonadic2012}, we can decomposed $\Tt$ as a  composition $\mathcal T =  \mathcal F \circ \mathcal S$, where:
+    \begin{itemize}
+        \item $\mathcal C$ is a colouring, i.e.~a composition of transduction as in item~\ref{mso-trans:colouring} of Definition~\ref{def:mso-transduction}.
+        \item $\mathcal F$ is a composition of transductions from items~\ref{mso-trans:filtering}-\ref{mso-trans:copying} of Definition~\ref{def:mso-transduction}.
+    \end{itemize}
+    In particular, since items~\ref{mso-trans:filtering}-\ref{mso-trans:copying} of Definition~\ref{def:mso-transduction} describe partial functions, it follows that $\mathcal F$ is a partial function. There is some finite set of colours $C$ (more precisely, if $\Ff$ is a composition of $n$ copying transductions, then $C=2^n$) such that the  transduction $\mathcal C$ inputs a graph, and nondeterministically outputs a $C$-coloured graph (i.e.~a graph with vertices labelled by colours from $C$). For $i  \in \set{1,2}$, define $\Ff_i$ to be the \mso transduction which inputs a $C^2$-coloured  graph, projects the colours to the $i$-th coordinate, and then applies $\Ff$. The transduction $\Tt$ is functional if and only if the transductions $\Ff_1$ and $\Ff_2$ are equivalent (and the same statement is true if we restrict inputs and outputs to have given treewidth). Therefore, the functionality problem reduces to the equivalence problem for coloured graphs. Finally, colours can be simulated by the graph structure without affecting treewidth,  as explained in the following picture:
+    \mypic{5}
+    The transformation from a coloured graph to its un-coloured representation, as explained above, is an injective \mso transduction, and the same is true for its (one-sided) inverse. Therefore, the functionality and equivalence problems for coloured graphs reduce to the same problems for un-coloured graphs.
+    % (constructing $T_1 \vee T_2$ can be done e.g. by adding a coordinate to colouring that tells which one of $T_1$, $T_2$ is used). For the opposite direction, functionality can be reduced to equivalence of transductions where input is labelled: for a given transduction $T$, test equivalence of two (deterministic) transductions that input graphs labelled with pairs of colours used by $T$ and execute $T$, using first, respectively second colouring. (fill-in (resolve labelled input))
     % For every $k \in \set{1,2\ldots}$, the set of graphs of treewidth $k$ is \mso definable.  (A quick justification is that the graphs of treewidth $> k$ are characterised by forbidden minors~\cite{}, and having a fixed graph as a minor is an \mso definable property.) Therefore, thanks to the filtering step in \mso transductions, we can assume that the the two \mso transductions in the instance of the above decision problem have only outputs of treewidth at most $\ell$, and have only outputs of treewidth at most $k$. 
 \end{proof}
 
