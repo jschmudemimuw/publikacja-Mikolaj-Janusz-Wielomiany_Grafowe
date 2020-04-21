@@ -10,7 +10,10 @@
 \usepackage{xspace}
 \usepackage{enumerate}
 \usepackage{mathtools}
-\usepackage{tikz}%rysowanie macierzy
+\usepackage{tikz, tikz-cd}
+\usepackage{adjustbox}
+\usepackage{thmtools, thm-restate}
+\usepackage{relsize, exscale}
 \usetikzlibrary{matrix,positioning}
 
 \newtheorem{Par}[theorem]{\S}
@@ -18,6 +21,7 @@
 \newtheorem{todo}[theorem]{To do}
 
 \newtheorem{fact}[theorem]{Fact}
+\newtheorem{lemmarestat}[theorem]{Lemma}%stworzone dla restatable
 
 
 
@@ -44,9 +48,9 @@ Warsaw, Poland}{jschmude@mimuw.edu.pl}{}{}
 \end{abstract}
 \input{introduction}
 \input{treewidth}
-% \input{mso-transductions}
+\input{mso-transductions}
 \input{register-transducers}
-% \input{tree-equivalence}
+\input{tree-equivalence}
 \input{grohe-equivalence}
 \input{perspectives}
 \bibliographystyle{plain}
@@ -54,4 +58,5 @@ Warsaw, Poland}{jschmude@mimuw.edu.pl}{}{}
 
 \appendix
 \input{mso-to-register}
+\input{perspectives-proofs}
 \end{document}
