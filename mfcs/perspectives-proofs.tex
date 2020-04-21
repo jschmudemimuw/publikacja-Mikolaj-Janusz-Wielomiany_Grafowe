@@ -1,0 +1,170 @@
+\section{Two polynomials: Tutte and characteristic -- revisited}
+This section is devoted to proving Lemma \ref{lem:Tutte-copositional}, Fact \ref{fact:Tutte-distinguishing-power}, Lemma \ref{lem:characteristic-compositional} and Fact \ref{fact:characteristic-distinguishing-power}. Prior to that we define Tutte and characteristic polynomial and provide necessary facts about them.
+\subsection{Notation}
+Let $G,H$ be sourced graphs. If they have no common sources then their $\join$ is their disjoint union, and is denoted by $G\cup H$. If they have exactly one common source, their $\join$ is denoted by $G\sqcup_a H$, where $a$ is the number of the common source. 
+
+An edge is called a \emph{bridge} if removing it results in disconnecting its connected component. We call an edge \emph{ordinary} if it is not a bridge nor a loop (note that graphs in our setting have no loops by assumption). \emph{Contraction} of an edge is defined as deleting it and then identifying its endpoints. For an edge $e$, by $G \setminus e$ we denote a graph resulting from deleting $e$, and by $G/e$ the graph resulting from contracting $e$. For a vertex $v$, by $G-v$ we denote a graph resulting from deleting $v$. By $A_G$ we denote adjacency matrix of $G$, whose rows and columns are indexed by vertices of $G$. By $I$ we denote identity matrix of appriopriate size, which always will be clear from the context. For a matrix $M$, we denote its $(i,j)$-th entry by $M_{i,j}$, its $i$-th row (or simply $i$-row) by $M_{i,\cdot}$ and its $j$-th column (or simply $j$-column) by $M_{\cdot, j}$. By $\widehat{v}$ we represent the \emph{absence} of $v$, for example $M_{i, \widehat{v}}$ represents $i$-th row without its $v$-entry.
+We often identify a source number with a vertex it denotes. In particular, we denote graph $G$ with $a$-th source deleted by $G-a$, and if matrix entries are indexed by vertices of a sourced graph, we simply write ''$a$-row'' instead of ''$a$-th source row''.
+\subsection{Definitions and proofs}
+\emph{Tutte polynomial} is a graph polynomial that encodes numbers of certain patterns in a graph. For example one can read from it number of spanning trees of a given graph and number of $k$-colourings for each $k$. It can be defined by a recursive formula, called deletion-contraction formula (see e.g. \cite{Ellis-Monaghan2011}):
+\begin{subequations}
+\renewcommand{\theequation}{\theparentequation.\arabic{equation}}
+\begin{align}
+\indent\indent &T(G) = T(G\setminus e) + T(G/e), \text{ where } e \text{ is an ordinary edge}
+\\
+\text{otherwise, $G$ consists of } & \text{$i$ bridges and $j$ loops and} \nonumber
+\\
+&\indent\indent T(G) = x^iy^j. \label{eq:Tutte-definition2}
+\end{align}
+\end{subequations}
+Tutte polynomial admits another characterisation, as a generating function: if $G = (V,E)$, then $$T(G) = \sum_{A\subseteq E} (x-1)^{r(E) - r(A)} (y-1)^{n(A)},$$ where $r(A)$ is the rank function and $n(A)$ is the nullity function -- we omit their definitions, as they will not be used.
+Let us now recall and prove Lemma \ref{lem:Tutte-copositional} and Fact \ref{fact:Tutte-distinguishing-power}.
+\lemmaTuttecompo*
+\begin{proof}
+Tutte polynomial satisfies the following equalities (\cite[Proposition 1]{Ellis-Monaghan2011}):
+$$
+T(G\cup H) = T(G) \cdot T(H), \qquad T(G\sqcup_a H) = T(G) \cdot T(H).
+$$
+In consequence, one can simply put $\varphi(G) = T(G)$ for any sourced graph $G$. %We don't study the general case where fusions can be performed along arbitrary sets of source-vertices, because Tutte polynomial is not a good candidate anyway -- 
+\end{proof}
+\factTuttedistinguishing*
+\begin{proof}
+It follows from deletion-contraction definition of Tutte polynomial -- graph of treewidth 1 with $n$ edges consists of $n$ bridges and 0 loops.
+\end{proof}
+Let us now study another graph polynomial -- characteristic polynomial of a graph, denoted by $\charact(G)$. \emph{Characteristic polynomial} of a graph $G$ is defined as characteristic polynomial of its adjacency matrix $A_G$, i.e. a polynomial in one variable $t$, equal to $\det(A_G - t \cdot I)$. Interestingly, two graphs have the same characteristic polynomial if and only if they have the same number of length-$n$ \emph{closed walks}, i.e. walks that start and end in the same vertex, for all $n \geq 0$ (cf. ''Counting homomorphisms'' before Theorem \ref{thm:grohe}). 
+
+We will now show that characteristic polynomial is compositional, again with a restriction that fusions are performed along at most one source-vertex. 
+\lemmacharcompo*
+\begin{proof}
+Before defining mapping $\varphi$, let us take a closer look at characteristic polynomial of $G \sqcup_a H$.
+Put $G':= G-a, H':=H-a$. By assumption $G'$ and $H'$ are disjoint. 
+
+When picturing matrices, we make certain simplifactions of notation, which technically speaking are a mistake. To remove some symbols, we replace $A_G - t\cdot I$ with $A_G$, and then, to avoid double subscripts, we replace $A_G$ with $G$. For example we write  $G_{a,\cdot}$ instead of $(A_G - t\cdot I)_{a,\cdot}$, $G'$ instead of $A_{G'}$ etc. (This will not cause many confusions --- computing determinant and cofactors of $A_G - t\cdot I$ is very similar to $A_G$, because the former is also an adjacency matrix, but of a graph $G$ with additional self-loops added to each vertex, with a weight $-t$.)
+
+If we order vertices of $G$ and $H$ so that $a$ is the last vertex of $G$ and the first vertex of $H$, adjacency matrix of $G\sqcup_aH$ looks like this: \\
+\scalebox{\skalamatadjacency}{
+	\input{pic-matadjacency}
+}
+\\
+where distinguished row and column are the ones corresponding to vertex $a$.
+Laplace expansion at $a$-row is of the following form (cofactors are replaced by ellipsis for simplicity of notation):
+\begin{equation*}
+\det(A_{G\sqcup_a H}) = \sum_{v \in (G-a)} G_{a, v} \cdot \ldots + (-t) \cdot \ldots + \sum_{w \in (H-a)} H_{a,w} \cdot \ldots,
+\end{equation*}
+where $v$-cofactor, $a$-cofactor and $w$-cofactor, for $v\in (G-a), w \in (H-a)$ are determinants of matrices depicted in Figure \ref{fig:v-kofaktor}, Figure \ref{fig:a-kofaktor} and Figure \ref{fig:w-kofaktor} (recall that for any vertex $v$, symbol $\widehat{v}$ represents the \emph{absence} of $v$).
+
+\begin{figure}
+	\scalebox{\skalamacierzy}{
+		\input{pic-Laplace-exp-at-vinG}
+	}
+	\caption{$v$-cofactor}
+	\label{fig:v-kofaktor}
+	%\end{figure*}
+	%\begin{figure*}
+	\scalebox{\skalamacierzy}{
+		\input{pic-Laplace-exp-at-a}
+	}
+	\caption{$a$-cofactor}
+	\label{fig:a-kofaktor}
+	%\end{figure*}
+	%\begin{figure*}
+	\scalebox{\skalamacierzy}{
+		\input{pic-Laplace-exp-at-winH}
+	}
+	\caption{$w$-cofactor}
+	\label{fig:w-kofaktor}
+\end{figure}
+
+
+\noindent By the fact that $\det\left(\left|\begin{array}{c|c}
+A & \ast\\
+\hline
+0 & B
+\end{array}\right|\right)
+=
+\det\left(\left|\begin{array}{c|c}
+A & 0 \\
+\hline
+\ast & B
+\end{array}\right|\right)
+=
+\det(A) \cdot \det(B),
+$
+where $A,B$ are any square matrices, of possibly different sizes,
+we get that:
+\begin{itemize}
+	\item for $v \in G-a$, $v$-cofactor of $G\sqcup_a H$ is equal to $v$-cofactor of $G$ multiplied by $\det(H' - t\cdot I)$, 
+	\item $a$-cofactor of $G\sqcup_a H$ is equal to $\det(G' - t\cdot I) \cdot \det(H' - t\cdot I)$,
+	\item for $w \in H-a$, $w$-cofactor of $G\sqcup_a H$ is equal to $w$-cofactor of $H$ multiplied by $\det(G' - t\cdot I)$.
+\end{itemize}
+Now let us define $\varphi(G)$. If $G$ has at least one source-vertex, define $\varphi(G)$ to be a tuple $$\varphi(G):= (\rest{G}{a}, \primecofact{G}{a})_{a \in \sources(G)},$$ where for each source $a$, pair $(\rest{G}{a}, \primecofact{G}{a})$ is a ''split'' of characteristic polynomial of $G$, induced by Laplace expansion of $A_G-t\cdot I$ at $a$-row, defined as follows: (cofactors are replaced again by ellipsis, except of $a$-cofactor, which is denoted by $\primecofact{G}{a}$)
+$$
+\det(A_G-t\cdot I) = (-t)\cdot \underbrace{\det(A_{G'} - t\cdot I)}_{\primecofact{G}{a}} + \underbrace{\sum_{v \in (G-a)}G_{a,v} \cdot \ldots}_{\rest{G}{a}}.
+$$
+If $G$ has no sources, define $\varphi(G)$ to be the characteristic polynomial of $G$.
+
+$a$-entries of $\phi(G\sqcup_a H)$ are polynomial functions of $\varphi(G), \varphi(H)$ --
+the mentioned ''split'' of characteristic polynomial, now of $G\sqcup_a H$, at $a$-row, is the following:
+\begin{align*}
+&(-t) \cdot \underbrace{
+	\det(A_{G'} - t\cdot I) \cdot \det(A_{H'}-t\cdot I)}_{
+	\primecofact{G\sqcup_a H}{a}} +\\
++&\underbrace{\left(\sum_{v\in G-a} G_{a,v} \cdot \ldots \cdot \det(A_{H'} - t\cdot I) \right)
+	+
+	\left(\sum_{w\in H-a} H_{a,w} \cdot \ldots \cdot \det(A_{H'} - t\cdot I)\right)}_{
+	\rest{G\sqcup_a H}{a}},
+\end{align*}
+in other words
+\begin{align*}%nadaję (a właściwie: planuję nadać) numer żeby podkreślić znaczenie tej równości
+&\primecofact{G\sqcup_a H}{a} = \primecofact{G}{a} \cdot \primecofact{H}{a},\\
+&\rest{G\sqcup_a H}{a} = \rest{G}{a} \cdot \primecofact{H}{a} + \rest{H}{a} \cdot \primecofact{G}{a}.
+\end{align*}
+
+Before we continue the proof of compositionality of $\varphi$ w.r.t $\join$ operation, observe that $\varphi$ is immediately compositional with respect to forget operation. If source $i$ is the last remaining source of $G$, $\varphi(\forget_i(G)) = \charact(G) = (-t)\cdot\primecofact{G}{i} + \rest{G}{i}$; if there is more than one source, $\varphi(\forget_i(G))$ is a subtuple of $\varphi(G)$.
+
+$b$-entries of $\varphi(G \sqcup_aH)$, for a source $b$ different than $a$, if there is such, can be computed by similar analysis, this time by multiple-row Laplace expansion taken along a pair of rows: $b$-row and $a$-row and using the fact that $v$-cofactor is the sum of all $(v, v')$-cofactors. %(say, $a$ first, as we have it pictured already)
+We get: (first entry is taken from row $b$, second one from row $a$)
+\begin{itemize}
+	\item for $v \in G' \mathsmaller{\cup} \ \! a, v' \in G' \mathsmaller{\cup} \ \! a, v' \neq v$ each $(v, v')$-cofactor of $G\sqcup_a H$ equals $(v, v')$-cofactor of $G$ multiplied by $\det(H' - t\cdot I)$,
+	%\item $a$-cofactor of $A_{G\sqcup_a H}$ equals $\det(G' - t\cdot I) \cdot \det(H' - t\cdot I)$
+	\item for $v \in G' \mathsmaller{\cup} \ \! a, w \in H'$ each $(v,w)$-cofactor of $G\sqcup_a H$ equals:
+	\begin{itemize}
+		\item for $v \in G', w \in H'$, $v$-cofactor of $G'$ multiplied by $w$-cofactor of $H$,
+		\item for $v = a, w \in H'$, it equals 0,
+	\end{itemize}
+	\item for $v \notin (G' \mathsmaller{\cup} \ \! a)$, $v$-entries of $b$-row are equal to 0, hence we do not compute cofactors for them
+\end{itemize}
+and in consequence,
+in row $b$, for each $v\in G-a$, each $v$-cofactor of $G\sqcup_a H$ equals:
+\begin{center}
+	$v$-cofactor of $G$ multiplied by $\det(H' - t\cdot I)$\\
+	+\\
+	$v$-cofactor of $G'$ multiplied by sum of (not $a$)-cofactors in $H$, i.e. $\rest{H}{a}$.
+\end{center}
+From this we get
+\begin{align*}
+&\primecofact{G\sqcup_a H}{b} = \primecofact{G}{b} \cdot \primecofact{H}{a} + \rest{H}{a} \cdot \primecofact{G'}{b},\\
+&\rest{G\sqcup_a H}{b} = \rest{G}{b} \cdot \primecofact{H}{a} + \rest{H}{a} \cdot \rest{G'}{b}.
+\end{align*}
+Analogous equations hold for sources $c$ of graph $H$. 
+This shows that
+$
+\varphi(G \sqcup_a H)$ can be computed from a tuple: $(\varphi(G), (\varphi(G-b))_{b\in\sources(G)}, \varphi(H), (\varphi(H-c))_{c\in \sources(H)})
+$
+by a polynomial function.
+This does not imply that $\varphi(G)$ is compositional --- however, iterating this observation recursively on sources of $G\sqcup_a H$, implies that $\psi(G)$ defined as
+$$\psi(G) := (\varphi(G-b))_{B\subset\sources(G)}$$ is compositional with respect to fusion along one vertex.
+
+Observe that for any sourced graph operation, compositionality of $\varphi$ implies compositionality of $\psi$, hence for the remaining operations it suffices to prove compositionality of $\varphi$.
+
+When graphs being fused have no common sources, that is, when their fuse is disjoint union, in row $b$, $v$-cofactor of $G \cup H$ is equal to $v$-cofactor of $G$ multiplied by characteristic polynomial of $H$, for all $v \in G$, for a $b$-source of graph $G$. In consequence we get
+\begin{align*}
+\primecofact{G\cup H}{b} = \primecofact{G}{b} \cdot \det(H - t\cdot I), \\
+\rest{G\cup H}{b} = \rest{G}{b} \cdot \det(H - t\cdot I).
+\end{align*}
+In other words, for $b$-source of $G$, $b$-entries of $\varphi(G \sqcup_a H)$ are $b$-entries of $\varphi(G)$ multiplied by characteristic polynomial of $H$, which, as we have seen, is a polynomial function of $\varphi(H)$. The symmetric statement holds for sources of $H$, which finishes the proof of compositionality of $\psi$.
+\end{proof}
+%\section{Poprawki}
+%Dopisać gdzieś, że tu są graph polynomials, więc term operation to jest polynomial function.
+%
+%Zamiast (v,x)-cofactor w 2-ch miejscach mamy na myśli (v,x)-cofactor przemnozony przez $G_x$
