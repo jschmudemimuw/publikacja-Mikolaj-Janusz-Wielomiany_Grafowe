@@ -12,7 +12,7 @@
 \newcommand{\unit}{\mathsf{unit}}
 \newcommand{\flatt}{\mathsf{flat}}
 \newcommand{\aalg}{\ensuremath{\mathbf{A}}\xspace}
-\newcommand{\balg}{\mathbf{B}}
+\newcommand{\balg}{\ensuremath{\mathbf{B}}\xspace}
 \newcommand{\Nat}{\mathbb N}
 \newcommand{\hsp}{{\sc hsp \xspace}}
 \newcommand{\mso}{{\sc mso}\xspace}
@@ -32,7 +32,11 @@
 \newcommand{\facto}{\mathsf F}
 \newcommand{\poly}[2]{\mathsf{pol}_{#1}#2}
 
+%
 %%Janusz%%
+\newcommand{\ens}[1]{{\ensuremath{#1}}\xspace}
+%Strzałki
+\newcommand{\ra}{\rightarrow}
 \newcommand{\xra}[1]{\xrightarrow{#1}}
 \newcommand{\Z}{\ensuremath{\mathbb{Z}}\xspace}
 \DeclareMathOperator{\join}{fuse}
@@ -44,7 +48,8 @@
 \newcommand{\Registers}{\ensuremath{\mathcal{R}}\xspace}
 \newcommand{\enum}[3]{#1_{#2}, \ldots, #1_{#3}}
 \newcommand{\iffdef}{\stackrel{def}{\Leftrightarrow}}
-\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\ens{\mathbb{N}}}
+\newcommand{\Q}{\ens{\mathbb{Q}}}
 \newcommand{\Cc}{\ensuremath{\mathcal{C}}\xspace}
 \def\sizemacierzy{0.4cm}
 \def\GaSize{\large}
@@ -68,10 +73,29 @@
 	}
 } 
 \newcommand{\op}{\ensuremath{\tau}\xspace}
+%register transducers
+\def\valu{\mathbf{v}}
+\DeclareMathOperator{\out}{output}
+\newcommand{\qinit}{\ensuremath{q_{init}}\xspace}
+\newcommand{\initval}{\ensuremath{{\mathbf{t}_0}}\xspace}
 
-\declaretheorem{nazwainnanizpozostale}
+%Hilbert Method
+%
+\newcommand{\simby}{\preceq_{pol}}
+%\newcommand{\Registers}{\ens{\mathcal{R}}}
+\newcommand{\Transitions}{\ens{\Delta}}
+\newcommand{\bt}{\ens{\mathbf{t}}}
+\newcommand{\InputAlphabet}{\ens{\Sigma}}
+\newcommand{\Input}{\ens{\Sigma^*}}
+\newcommand{\cl}[1]{\ens{\overline{#1}}}
+\newcommand{\COSq}[1]{\ens{(#1_q)_{q \in Q}}}
+\newcommand{\Fq}{\COSq{F}}
+\newcommand{\Iq}{\COSq{I}}
+\newcommand{\Xq}{\COSq{X}}
+\DeclareMathOperator{\II}{\mathcal{I}}
+\DeclareMathOperator{\VV}{\mathcal{V}}
 %%Janusz-koniec
-
+%
 \newcounter{ourexamplecounter}
 \newenvironment{example}{
 \medskip
@@ -126,7 +150,7 @@ $\Box$ \smallskip
 \newcommand{\myunderbrace}[2]{\underbrace{#1}_{\mathclap{\text{#2}}}}
 \newcommand{\myoverbrace}[2]{\overbrace{#1}^{\mathclap{\text{#2}}}}
 
-\newcommand{\Aa}{{\mathcal A}}
+\newcommand{\Aa}{{\ens{\mathcal A}}}
 \newcommand{\Bb}{{\mathcal B}}
 
 \newcommand{\decisionproblem}[3]
@@ -137,3 +161,8 @@ $\Box$ \smallskip
 		\item[Question:] #3 
 	\end{description}
 }
+\DeclareMathOperator{\eqzeroinalgb}{\ensuremath{
+		%p_{((-) =_B)}
+		p_{0_B}
+	}}
+\newcommand{\Zrat}{\ens{\Z^{rat}[\![x]\!]}}

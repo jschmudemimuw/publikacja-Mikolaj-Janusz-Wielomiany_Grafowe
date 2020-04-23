@@ -132,25 +132,29 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
                 \item Suppose that $f$ is a constant, which represents a  $k$-sourced graph where all vertices are sources. Then we have 
                 \begin{align*}
                 \varphi_{ij}(f) = \begin{cases}
-                    1 & \text{if there is an edge from $i$ to $j$ in $f$}\\
+                    x & \text{if there is an edge from $i$ to $j$ in $f$}\\
                     0 & \text{otherwise.}
                 \end{cases}
                 \end{align*}
                 \item Suppose that $f$ is the  basic operation which inputs two $k$-sourced graphs and outputs their fusion.  
-                An $(i,j)$-walk in the fusion $f(G_1,G_2)$ is the same thing as an $(i,j)$-walk in $G_1$ or an $(i,j)$-walk in $G_2$. Furthermore, these cases are disjoint, since we are working with graphs that have parallel edges.  This leads to the following equation for fusions:
+                An $(i,j)$-walk in the fusion $f(G_1,G_2)$ is either an $(i,j)$-walk in $G_1$ or an $(i,j)$-walk in $G_2$, because vertices between endpoints cannot be sources; these cases are disjoint, except hypothetical walk of length 1 from $i$ to $j$. %Furthermore, these cases are disjoint, since we are working with graphs that have parallel edges.
+  		This leads to the following equation for fusions:
                 \begin{align*}
-                \varphi_{ij}(f(G_1,G_2)) = \varphi_{ij}(G_1) + \varphi_{ij}(G_2).
+                \varphi_{ij}(f(G_1,G_2)) = \begin{cases}
+                	\varphi_{ij}(G_1) + \varphi_{ij}(G_2) - x, \text{ if both $G_1$ and $G_2$ have an edge $(i, j)$}\\
+                	\varphi_{ij}(G_1) + \varphi_{ij}(G_2), \text{ otherwise}.
+                \end{cases}
                 \end{align*}
                 The right hand side uses component-wise addition, which is a basic operation in $\aalg$.
-                \item The last case is when $f$ is a unary operation which forgets  source $c \in \set{1,\ldots,k}$.  Let then $G$ a $k$-sourced graph. A nonempty $(i,j)$-walk in $f(G)$ is either a nonempty $(i,j)$-walk in $G$, or it has the form
+                \item The last case is when $f$ is a unary operation which forgets  source $c \in \set{1,\ldots,k}$.  Let then $G$ be a $k$-sourced graph. A nonempty $(i,j)$-walk in $f(G)$ is either a nonempty $(i,j)$-walk in $G$, or it has the form
                 \begin{enumerate}
                     \item a nonempty $(i,c)$-walk in $G$; followed by 
-                    \item finitely many (possibly zero) nonempty  $(c,c)$-walks in $G$; followd by
+                    \item finitely many (possibly zero) nonempty  $(c,c)$-walks in $G$; followed by
                     \item a nonempty $(c,i)$-walk in $G$.
                 \end{enumerate}
                 This leads to the following equation:
                 \begin{align*}
-                \varphi_{ij}(f(G))) = \varphi_{ij}(G)) +  \varphi_{ic}(G) \times (1+ \varphi_{cc}(G))^+  \times \varphi_{cj}(G).
+                \varphi_{ij}(f(G)) = \varphi_{ij}(G)) +  \varphi_{ic}(G) \times (1+ \varphi_{cc}(G)^+)  \times \varphi_{cj}(G).
                 \end{align*}                
             \end{itemize}
         \end{proof}
@@ -159,47 +163,50 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
 
 \subsection{Equivalence for transducers that output rational power series}
 \label{sec:decide-power-series}
-By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}, the  equivalence problem from Theorem~\ref{thm:path-equivalence} reduces to functionality for nondeterministic tree-to-$\aalg$ register transducers, where $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}. In this section, we complete the proof the theorem by showing that the latter problem is decidable.
-\begin{lemma}\label{lem:functionality-decidable-power-series} If $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}, then functionality is decidable for nondeterministic tree-to-$\aalg$ register transducers. 
+By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}, the  equivalence problem from Theorem~\ref{thm:path-equivalence} reduces to equivalence for nondeterministic tree-to-$\aalg$ register transducers, where $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}. In this section, we complete the proof the theorem by showing that the latter problem is decidable.
+\begin{lemma}\label{lem:functionality-decidable-power-series} If $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}, then equivalence is decidable for nondeterministic tree-to-$\aalg$ register transducers. 
 \end{lemma}
 \begin{proof}
-    First, let us recall that equivalence is decidable for algebra \aalg without Kleene plus, i.e. for ring of one-variable rational power series  (see Theorem \ref{thm:equivalence-polynomial-automata-over-a-ring}) and this is the problem we are going to reduce to.
-    
-  	Observe that $ff^+ + f = f^+$, hence
+    We will reduce to equivalence of tree-to-\Zrat polynomial transducers -- it is decidable due to \ref{cor:equivalence-pol-transducers-Zrat}, as ring \Zrat has no zero divisors. 
+  	The following equation allows to replace Kleene plus by division operation; observe that $ff^+ + f = f^+$, and in consequence
   	$$
   		f^+ = \frac{f}{1-f}.
   	$$
-  	This makes tree-to-\aalg register transducer a polynomial tree automaton \emph{with division}, an extension of a notion of polynomial automaton \cite{worrellBenediktDuffSharad2017}(also called polynomial program (without disequality guards) in \cite{seidlMuller-polynomial-programs04}), to tree inputs, more general output rings, and using division during computation, which we introduce below.
-  	\begin{definition}
-  		A \emph{polynomial automaton with division} is a register transducer over an algebra $(R, +, \times, \div)$, where $(R, +, \times)$ is a field, $\div$ is division operation, which has a semantic property of never dividing by 0, in any update, in any run.
-  	\end{definition}
-  		The rest of the proof is devoted to showing that equivalence is decidable for polynomial automata with division. We will now proceed as in the classical construction of projective line.
-  		
-  		Let $R$ be any field, e.g. of one-variable rational functions. Shortly speaking, the reduction is given by the fact, that when elements of $R$ are represented (non-uniquely) as pairs $(x,y)\in R^2$, where $(x,y)$ represents $\frac{x}{y}$ (assume $y$ is invertible, e.g. 1) then division in $R$ becomes a polynomial function in $R^2$. The same holds for operations $+, \cdot$.
-  
-  		Formally, since
-  		\begin{align*}
-  			&\frac{x}{y} + \frac{z}{t} = \frac{xt+yz}{yt},\\ 
-  			&\frac{x}{y} \cdot \frac{z}{t} = \frac{xz}{yt},\\
-  			&\left(\frac{x}{y}\right)^+ = \frac{\frac{x}{y}}{1-\frac{x}{y}} = \frac{x}{y-x},
-  		\end{align*}
-  		we define an algebra $B$ the following way:
-  		\begin{itemize}
-  			\item universe is $R \times R$,
-  			\item operations: operations $+_B, \cdot_B$ of arity 2, operation $^+$ of arity 1:
-  			\begin{align*}
-  				&(x,y) +_B (z,t) = (xt+yz, yt),\\
-  				&(x,y)\cdot_B(z,t) = (xz, yt),\\
-  				&(x,y)^{+_B} = (x, y-x).
-  			\end{align*}
-  		Now, for $\Aa$ being polynomial tree automaton with division over ring $R$, one can make a polynomial tree automaton (without division) $\Bb$, using equations above in a similar way as in Lemma \ref{lem:compute-power-series}. Then for each input tree $t$, $\Bb(t)$ represent $\Aa(t)$, i.e.
-  		$$
-  			\Bb(t) = (x,y), \text{ where } \frac{x}{y} = \Aa(t).
-  		$$
-  		
-  		Thus the reduction is as follows: for polynomial tree automata with division $\Aa_1, \Aa_2$ take corresponding polynomial tree automata $\Bb_1, \Bb_2$. Then we get $\Aa_1 \equiv \Aa_2 \Leftrightarrow (xt-yz)\circ(\Bb_1, \Bb_2) \equiv 0$ ($(xt-yz)\circ(\Bb_1, \Bb_2)$ is a polynomial automaton).
-  		\end{itemize}
-
-
-  		
+  	This makes tree-to-\aalg register transducer a tree-to-\Zrat polynomial transducer \emph{with division}, i.e. a polynomial transducers with additional feature that register updates can use division operation.
+	The rest of the proof is devoted to showing decidability of equivalence of polynomial transducers with division.
+	\begin{lemma}
+		Equivalence of tree-to-$R$ polynomial transducers with division is decidable, for a computable ring $R$ with no zero divisors.
+	\end{lemma}
+\begin{proof}
+	We will adapt the construction of projective line.
+	Consider the following (non-unique) representation of elements of $R$: pair $(x,y)\in R^2$ represents $\frac{x}{y}$. Then addition, multiplication and, importantly, division of elements of $R$ can be realised as polynomial operations on their representations in $R^2$. This is employed in definition of the following algebra \balg:
+	%\begin{align*}
+	%	&\frac{x}{y} + \frac{z}{t} = \frac{xt+yz}{yt},\\ 
+	%	&\frac{x}{y} \cdot \frac{z}{t} = \frac{xz}{yt},\\
+	%	&\left(\frac{x}{y}\right)^+ = \frac{\frac{x}{y}}{1-\frac{x}{y}} = \frac{x}{y-x},
+	%\end{align*}
+	%and define algebra $\balg$ the following way:
+	%\begin{itemize}
+	%	\item universe is $R \times R$,
+	%	\item operations: operations $+_B, \cdot_B$ of arity 2, operation $^+$ of arity 1:
+		\begin{align*}
+			&(x,y) +_B (z,t) = (xt+yz, yt),\\
+			&(x,y)\cdot_B(z,t) = (xz, yt),\\
+			&(x,y)^{+_B} = (x, y-x).
+		\end{align*}
+	%\end{itemize}
+	Also observe that $(x,y)$ represents 0 if and only if $x = 0$, and hence define ''zero-testing'' polynomial function $\eqzeroinalgb(x,y) = x$.
+	$$
+	\eqzeroinalgb(x,y) = 0 \iff (x,y) \text { represents } 0
+	$$
+	
+	Now, for $\Aa$ being tree-to-$R$ polynomial transducer with division, one can make a tree-to-$\balg$ polynomial transducer $\Bb$, using equations above. Then for each input tree $t$, $\Bb(t)$ represent $\Aa(t)$.
+	
+	Thus the reduction is as follows: for polynomial transducers with division $\Aa_1, \Aa_2$ take polynomial transducer $\Bb_{1,2}$ corresponding to $\Aa_1-\Aa_2$. Then $\Aa_1 \equiv \Aa_2$
+	%\Leftrightarrow
+	if and only if 
+	$\eqzeroinalgb(\Bb_{1,2}) \equiv 0$,
+	that is,
+	polynomial transducer $\eqzeroinalgb(\Bb_{1,2})$, obtained by composing output function of $\Bb_{1,2}$ with $\eqzeroinalgb$, is equivalent to $0$.
+  	\end{proof}	
 \end{proof}

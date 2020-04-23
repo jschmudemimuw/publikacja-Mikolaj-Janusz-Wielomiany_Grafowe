@@ -1,0 +1,44 @@
+\section{Equivalence of tree-to-$R$ polynomial transducers for other rings}
+In \cite{seidlManethKemper2018} equivalence of tree-to-$R$ polynomial transducers is proved to be decidable, where $R$ is the ring of integers.
+In this section we observe that the same proof works for $R$ being an arbitrary computable field, and what follows, for any $R$ that is (effectively) a subring of a computable field. We use it to obtain decidability of equivalence of transducers that output polynomials (Appendix) and power series (Section \ref{sec:decide-power-series}).
+\subsection{Computable rings and fields}
+Let $R$ be a ring. We call $R$ \emph{computable} if its elements can be enumerated in a way that addition, multiplication and equality test are computable functions. A \emph{nonzero} element $r$ of $R$ is called a \emph{zero divisor} if $r \cdot s = 0$ for some $s \neq 0$.
+
+There are rings that are subrings of some field, for example 
+\Z is a subring of \Q. In general, the following fact holds
+\begin{lemma}
+	Let $R$ be a ring. Then
+\begin{enumerate}
+		\item $R$ is a subring of \emph{some} field iff it has no zero divisors,
+		\item if $R$ is computable then the embedding can be done effectively.
+\end{enumerate}
+\end{lemma}
+\begin{proof}[Proof sketch]
+(Computable) $R$ with no zero divisors is (effectively) a subring of its field of fractions.
+\end{proof}
+
+Rings of polynomials and of rational series are examples of such rings. 
+\subsection{Proof sketch}
+Let us now present a sketch of proof from \cite{seidlManethKemper2018} of decidability of equivalence of tree-to-\Z polynomial transducers.
+
+\Z is a subring of field \Q and the proof is done for tree-to-\Q transducers.
+The proof goes by overapproximation, for each control state $q$, the set of configurations reachable in $q$ by a set of solutions of some system of polynomial equations (i.e. Zariski closed set) $Q$-tuple of (polynomial) ideals that represent those systems forms an \emph{inductive invariant}.
+The main algorithm runs two semiprocedures in parallel -- one searching for a counterexample to equivalence, one searching for an overapproximation that certifies equivalence. The algorithm can be formulated for any ring
+\footnote{And even for any algebra in fact. However, we do not discuss this further due to lack of place.}
+, but it works for field \Q for the following reasons.
+
+The certificate of equivalence (inductive invariant) is a tuple of ideals that satisfy certain inclusions. Testing if those inclusions hold is done by Buchberger's algorithm. Every ideal can be finitely represented due to Hilbert's Basis Theorem and in consequence, tuples of them can be enumerated.
+The proof of existence of inductive invariants (for a pair of equivalent polynomial transducers) uses Lemma \cite[6.3]{seidlManethKemper2018} (call it \emph{Product Lemma}) about ideals of polynomials that zero on cartesian products of sets.
+
+Hilbert's Basis Theorem and Product Lemma hold for any field, with the same proof as for \Q (in fact, this is stated explicitly in \cite{seidlManethKemper2018} before Product Lemma). Buchberger's algorithm works for any computable field as well.
+Therefore we obtain the following result.
+\begin{theorem}\label{thm:equivalence-polynomial-automata-over-a-ring}
+	Equivalence of tree-to-$R$ polynomial transducers is decidable where $R$ is a ring with no zero divisors.
+\end{theorem}
+We will use the following Corallary.
+\begin{corollary}\label{cor:equivalence-pol-transducers-Zrat}
+	Equivalence is decidable for tree-to-$\Z[\enum x1n]$ and tree-to-\Zrat polynomial transducers.
+\end{corollary}
+\begin{remark}
+Product Lemma is used only for transducers over input alphabets of rank larger than 1. Therefore for \emph{string}-to-$R$ transducers, Theorem generalises to rings that have finite representations of ideals and have decidable ideal inclusion; they do not necessarily have to be subrings of some field -- $R = K[X]/I$, where $I$ is any ideal, is not a subring of some field in general, yet satisfies two former conditions.
+\end{remark}
