@@ -63,15 +63,24 @@
 \newcommand{\primecofact}[2]{\overline{#1}^{#2}}%definicja phi dla wielomianu charakterystycznego -- pierwszy komponent, argumenty #1 = graf, #2 = nazwa source'a względem którego sklejamy
 \newcommand{\rest}[2]{\widetilde{#1}^{#2}}%definicja phi dla wielomianu charakterystycznego -- drugi komponent, argumenty #1 = graf, #2 = nazwa source'a względem którego sklejamy
 \newcommand{\algcyclic}{\ensuremath{\mathbf{C}}\xspace}
-\newcommand{\algebradefinition}[2]%argumenty to: Uniwersum i Operacje
+\newcommand{\algebradefinitionwithhfill}[2]%argumenty to: Uniwersum i Operacje
 {
 	{
 		\begin{description}
 			\item[Domain:] \hfill \\ #1
-			\item[Operations:] \hfill \\ #2
+			\item[Basic operations:] \hfill \\ #2
 		\end{description}
 	}
-} 
+}
+\newcommand{\algebradefinition}[2]%argumenty to: Uniwersum i Operacje
+{
+	{
+		\begin{description}
+			\item[Domain:]  #1
+			\item[Basic operations:]  #2
+		\end{description}
+	}
+}
 \newcommand{\op}{\ensuremath{\tau}\xspace}
 %register transducers
 \def\valu{\mathbf{v}}
@@ -134,7 +143,8 @@ $\Box$ \smallskip
 \newcommand{\natx}{\Nat_{0}[\![x]\!]}
 % \newcommand{\powerseries}[1]{\mathbb Q [\![#1]\!]}
 
-\newcommand{\Ring}{\mathbb K}
+\newcommand{\Ring}{\ens{\mathbb K}}
+\newcommand{\Field}{\mathbb F}
 \newcommand{\Rat}{\mathbb Q}
 \newcommand{\Int}{\mathbb Z}
 \newcommand{\Real}{\mathbb R}
@@ -165,4 +175,4 @@ $\Box$ \smallskip
 		%p_{((-) =_B)}
 		p_{0_B}
 	}}
-\newcommand{\Zrat}{\ens{\Z^{rat}[\![x]\!]}}
+\newcommand{\Zrat}{\ens{\Z^{\mathrm{rat}}[\![x]\!]}}
