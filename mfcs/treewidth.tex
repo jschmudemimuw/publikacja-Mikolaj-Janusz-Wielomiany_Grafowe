@@ -138,12 +138,13 @@ Kind 1 is a partial function, kinds 2, 3, 4 are functions, and kind 5 is a relat
 \begin{align*}
 (\text{\msotwo model of $G$}, \text{\msotwo model of $H$})\in \Tt.
 \end{align*}
-It $\Tt$ is functional, which means that for every input graph there is exactly one output graph up to isomorphism, then we write $\Tt(G)$ for the (isomorphism type of the) resulting graph. 
+If $\Tt$ is functional, which means that for every input graph there is at most one output graph up to isomorphism, then we write $\Tt(G)$ for the (isomorphism type of the) resulting graph (which may be undefined).
 The topic of this paper is   the following  decision problem for functional \mso graph-to-graph transductions, which  we do not know how to solve.
 
 
 \decisionproblem{equivalence for functional graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and two functional graph-to-graph \mso transductions $\Tt_1,\Tt_2$.}{is it the case that for every input $G$ of treewidth at most $\ell$, the two outputs  $\Tt_1(G),\Tt_2(G)$ are isomorphic and have treewidth at most $k$?}
 
+As we explain below, we do not even know how to solve the problem for $k=\ell=1$, i.e.~for \mso transductions which input and output forests.
 If the  transductions in the instance are not functional, then there are no requirements on the answer to the algorithm. This motivates the following problem:
 
 \decisionproblem{functionality for graph-to-graph \mso transdcutions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and a graph-to-graph \mso transduction,  not necessarily functional.}{is it there some input of  treewidth at most $\ell$,  which can produce  at least two non-isomorphic outputs of treewidth at most $k$?}
@@ -164,9 +165,53 @@ If the  transductions in the instance are not functional, then there are no requ
     \end{itemize}
     In particular, since items~\ref{mso-trans:filtering}-\ref{mso-trans:copying} of Definition~\ref{def:mso-transduction} describe partial functions, it follows that $\mathcal F$ is a partial function. There is some finite set of colours $C$ (more precisely, if $\Ff$ is a composition of $n$ copying transductions, then $C=2^n$) such that the  transduction $\mathcal C$ inputs a graph, and nondeterministically outputs a $C$-coloured graph (i.e.~a graph with vertices labelled by colours from $C$). For $i  \in \set{1,2}$, define $\Ff_i$ to be the \mso transduction which inputs a $C^2$-coloured  graph, projects the colours to the $i$-th coordinate, and then applies $\Ff$. The transduction $\Tt$ is functional if and only if the transductions $\Ff_1$ and $\Ff_2$ are equivalent (and the same statement is true if we restrict inputs and outputs to have given treewidth). Therefore, the functionality problem reduces to the equivalence problem for coloured graphs. Finally, colours can be simulated by the graph structure without affecting treewidth,  as explained in the following picture:
     \mypic{5}
-    The transformation from a coloured graph to its un-coloured representation, as explained above, is an injective \mso transduction, and the same is true for its (one-sided) inverse. Therefore, the functionality and equivalence problems for coloured graphs reduce to the same problems for un-coloured graphs.
+    Let $\Tt$ be the \mso transduction from coloured graphs to uncoloured graphs, and let $\Tt^{-1}$ be its one-sided inverse, which is a partial function from uncoloured graphs to coloured graphs:
+    \begin{align*}
+        \xymatrix@C=3cm{
+            \text{$C$-coloured graphs}
+            \ar@/^1pc/[r]^-{\Tt} &
+            \text{graphs}.
+            \ar@/^1pc/[l]^-{\text{partial function }\Tt^{-1}}
+        }
+        \end{align*}
+    Both partial functions in the above diagram do not change treewidth. 
+    Two functional \mso transductions $\Ff_1$ and $\Ff_2$  from coloured graphs to coloured graphs are equivalent if and only if the functional graph-to-graph \mso transductions  $\Tt \circ \Ff_1 \circ \Tt^{-1}$ and $\Tt \circ \Ff_2 \circ \Tt^{-1}$ are equivalent. 
+     Therefore, the functionality and equivalence problems for coloured graphs reduce to the same problems for un-coloured graphs.
     % (constructing $T_1 \vee T_2$ can be done e.g. by adding a coordinate to colouring that tells which one of $T_1$, $T_2$ is used). For the opposite direction, functionality can be reduced to equivalence of transductions where input is labelled: for a given transduction $T$, test equivalence of two (deterministic) transductions that input graphs labelled with pairs of colours used by $T$ and execute $T$, using first, respectively second colouring. (fill-in (resolve labelled input))
     % For every $k \in \set{1,2\ldots}$, the set of graphs of treewidth $k$ is \mso definable.  (A quick justification is that the graphs of treewidth $> k$ are characterised by forbidden minors~\cite{}, and having a fixed graph as a minor is an \mso definable property.) Therefore, thanks to the filtering step in \mso transductions, we can assume that the the two \mso transductions in the instance of the above decision problem have only outputs of treewidth at most $\ell$, and have only outputs of treewidth at most $k$. 
 \end{proof}
 
-The rest of this paper is devoted to a discussion of the above two problems, including solutions for special cases and variants.
+The rest of this paper is devoted to a discussion of the above two problems, including solutions for special cases and variants. We begin with two examples which illustrate how little we know about equivalence problems for graph-to-graph transductions.
+
+
+\begin{example}
+    Consider the special case of the equivalence problem for functional graph-to-graph \mso transductions of bounded treewidth, where both input and output graphs have treewidth 1. (As we will see in Lemma~\ref{lem:transduction-to-registers}, it is the output treewidth that is important, since the input treewidth can always be reduced to 1 without making the problem any easier.)   We do not know how to solve even this very special case of the equivalence problem! 
+    
+    Let us compare this special case with a very similar problem that is already known to be decidable. 
+    Graphs of treewidth 1 are forests, and therefore in this special case, we are talking about the equivalence problem for functional \mso transductions that input and output forests.  In~\cite[Section 3]{boiretReducingTransducerEquivalence2018}, a similar problem was considered and shown decidable,  except that the forests where rooted (every tree in the forest has a distinguished root).  Rooted forests can be encoded in (un-rooted) forests, in the following sense: there exist functional \mso transductions
+    \begin{align*}
+        \xymatrix@C=3cm{
+            \text{rooted forests}
+            \ar@/^1pc/[r]^-{\Tt} &
+            \text{un-rooted forests},
+            \ar@/^1pc/[l]^-{\text{partial function }\Tt^{-1}}
+        }
+        \end{align*}
+        such that $\Tt^{-1} \circ \Tt$ is the identity on rooted forests. (For example, $\Tt$  can subdivide each edge with an extra node, and then add two extra children for the root, so that it becomes the unique tree node with two children that are leaves.) Therefore, for the same reasons as in Fact~\ref{fact:equi-decidable}, the equivalence problem for rooted forests reduces to the equivalence problem for un-rooted forests. Unfortunately, we do not know of a reduction in the other direction. One idea would be to transform an un-rooted tree into the rooted forest of all possible ways of choosing a root; this transformation has quadratic size outputs, and therefore it cannot be an \mso transduction.
+
+        This example also illustrates a phenomenon in the equivalence problem for \mso transductions: the problem is typically harder for structures with more automorphisms, e.g.~non-rooted forests are harder than rooted forests. Another instance of this phenomenon is that equivalence for forests (which do not have a sibling order) is a more general problem than equivalence for forests with a sibling order.
+    \end{example}   
+
+    \begin{example}
+        Define \emph{cyclic equivalence} to be the equivalence relation $\sim$ on strings which identifies two words modulo cyclic shifts:
+        \begin{align*}
+            \text{abbac} \sim
+            \text{cabba} \sim
+            \text{acabb} \sim
+            \text{bacab} \sim
+            \text{bbaca}   .
+         \end{align*}
+         Consider the following  problem: given two functional string-to-string \mso transductions~\cite[Definition 1]{engelfrietMSODefinableString2001},
+        decide if for every input string, the two output strings are equal  modulo cyclic equivalence. This seems to be an entertaining problem, which we do not know how to solve. It is a special case of the graph-to-graph equivalence problem, since  strings modulo cyclic equivalence  can be represented as graphs of treewidth at most 2, as explained in the following picture:
+        \mypic{9}
+        \end{example}

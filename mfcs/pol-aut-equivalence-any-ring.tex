@@ -1,11 +1,21 @@
 \subsection{Equivalence for polynomial transducers that output power series}\label{sec:pol-transducers-any-ring}
-(fill-in wstęp)
+
 %(szkic wstępu) Equivalence of tree-to-($\Sigma^*, \cdot$) register transducers has been proved in \cite{seidlManethKemper2018}. The proof goes by simulating them with tree-to-\Z \emph{polynomial transducers}, which are a kind of register transducers that we define in next paragraph, and showing decidability of equivalence for them. To prove the main theorem we will use decidability of equivalence of tree-to-\Ring polynomial transducers, where \Ring is a ring of rational power series.
 
-\smallparagraph{Polynomial transducers over computable rings and fields}
-By a ring we always mean a \emph{commutative} ring.  Following \cite{seidlManethKemper2018}, by a \emph{polynomial transducer} we mean any tree-to-\Ring register transducer, where \Ring is some ring.
+In this section, we show that equivalence is decidable for transducers over an algebra which is a computable commutative ring without zero divisors. 
+By a ring we always mean a \emph{commutative} ring.  
+We say that a ring $\Ring$ \emph{computable} if its elements can be enumerated in a way that addition, multiplication (and equality test, if the enumeration is not unique) are computable functions. A \emph{nonzero} element $r$ of $\Ring$ is called a \emph{zero divisor} if $r \cdot s = 0$ for some $s \neq 0$. We view a ring as an algebra, with addition and multiplication, and constants for every element.
 
-Let $\Ring$ be a ring. We call $\Ring$ \emph{computable} if its elements can be enumerated in a way that addition, multiplication (and equality test, if the enumeration is not unique) are computable functions. A \emph{nonzero} element $r$ of $\Ring$ is called a \emph{zero divisor} if $r \cdot s = 0$ for some $s \neq 0$.
+\begin{theorem}\label{thm:equivalence-polynomial-automata-over-a-ring}
+Let $\Ring$ be a commutative ring which is computable and has no zero divisors. Then equivalence is decidable for  functional register transducers over the algebra $\Ring$.
+\end{theorem}
+\begin{proof}
+	Like every commutative ring without zero divisors, $\Ring$ embeds to a field (the embedding is an injective ring homomorphism). Since $\Ring$ is computable, then the field is also computable. 
+\end{proof}
+
+Following \cite{seidlManethKemper2018}, by a \emph{polynomial transducer} we mean any tree-to-\Ring register transducer, where \Ring is some ring.
+
+
 
 We are mainly interested in rings that are subrings of some field;
 for example \Z is a subring of \Q. In general, the following fact holds
@@ -38,9 +48,9 @@ The proof of existence of inductive invariants (for a pair of equivalent polynom
 
 Hilbert's Basis Theorem and Product Lemma hold for any field, with the same proof as for \Q (in fact, this is stated explicitly in \cite{seidlManethKemper2018} before Product Lemma). Buchberger's algorithm works for any computable field as well.
 Therefore we obtain the following result.
-\begin{theorem}\label{thm:equivalence-polynomial-automata-over-a-ring}
-	Equivalence of tree-to-$\Ring$ polynomial transducers is decidable where $\Ring$ is a ring with no zero divisors.
-\end{theorem}
+
+
+
 We will use the following Corollary.
 \begin{corollary}\label{cor:equivalence-pol-transducers-Zrat}
 	Equivalence is decidable for tree-to-$\Z[\enum x1n]$ and tree-to-\Zrat polynomial transducers.

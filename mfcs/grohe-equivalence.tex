@@ -43,36 +43,35 @@ In the following theorem, we show that equivalence for graph-to-graph \mso trans
  
 For the same reasons as in Fact~\ref{fact:equi-decidable}, the above problem is equi-decidable with the $\sim$-equivalence problem, where one asks if two functional transductions produce $\sim$-equivalent outputs, under assumption of bounded treewidth. 
 
-The rest of this section is devoted to showing decidability for the  $\sim$-functionality problem. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series (Section~\ref{sec:power-series}), and then we show that equivalence is decidable for register transducers which manipulate such power series (Section ~\ref{sec:pol-transducers-any-ring} and Section~\ref{sec:decide-power-series}). Combining this with the reduction to register transducers from Lemma~\ref{lem:transduction-to-registers}, we get the theorem.
+The rest of this section is devoted to showing decidability for the  $\sim$-functionality problem. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series (Section~\ref{sec:power-series}), and then we show that equivalence is decidable for register transducers which manipulate such power series (Sections~\ref{sec:pol-transducers-any-ring} and Section~\ref{sec:decide-power-series}). Combining this with the reduction to register transducers from Lemma~\ref{lem:transduction-to-registers}, we get the theorem.
 
 \subsection{Computing the power series for walks in a graph}
 \label{sec:power-series}
-Define a \emph{univariate formal power series over a semiring $\Ring$} to be  sequence of semiring elements $a_0,a_1,\ldots$ which is represented as an infinite univariate polynomial
+A sequence of natural numbers $a_0,a_1,\ldots$ can be visualises as  an infinite univariate polynomial
 \begin{align*}
  A = a_0 + a_1x^1 + a_2x^2 + \cdots.
 \end{align*}
-We simply say power series, instead of univariate formal power series.
-We use the name $i$-th term for $a_i$; and we call $a_0$ the constant term.
-We write $\powerseries{\Ring}$ for the  power series over a semiring $\Ring$; this is a semiring. Among all power series, we are particularly interested in the rational ones: a power series is called \emph{rational} if it can be generated from finite power series (a finite power series is one where all but finitely many terms are zero) using the semiring operations $+$ and $\times$ of power series, as well as the following unary  operation called \emph{Kleene plus}:
+We use the name \emph{power series} for such polynomials, and write $\powerseries{ \Nat}$ for the set of power series. 
+We use the name $i$-th term for $a_i$; and we call $a_0$ the constant term. The power series form a semiring, with addition defined coordinatewise, and product being Cauchy product. Among all power series, we are particularly interested in the rational ones: a power series is called \emph{rational} if it can be generated from finite power series (a finite power series is one where all but finitely many terms are zero) using the semiring operations $+$ and $\times$ of power series, as well as the following unary  operation called \emph{Kleene plus}:
 \begin{align*}
- A^+ \eqdef A + A^2 + A^3 + \cdots,
+ A^+ \eqdef A + A^2 + A^3 + \cdots.
 \end{align*}   
-which  is defined only when the constant term   in $A$ is zero. The assumption on a zero constant term ensures that the infinite sum in $A^+$ is well defined: under this assumption, the $i$-th term in $A^j$ with $j>i$ is zero. 
-
+Kleene plus   is defined only when the constant term   in $A$ is zero, which ensures that the infinite sum in $A^+$ is well defined. Otherwise, if $A$ would have a nonzero constant term $a_0$, then its Kleene plus would need to have$a_0 + a_0^2 + a_0^3 + \cdots$ as its constant term.
 
 For a graph $G$, define its \emph{walk series} to be the power series 
 \begin{align*}
-  a_1 x^1 + a_2x^2 + \cdots \qquad \text{where $a_i$ is the number of walks in $G$ of length $i$.}
+  a_1 x^1 + a_2x^2 + \cdots \qquad \text{where $a_i$ is the number of walks in $G$ of length $i \ge 1$.}
 \end{align*}
+Not how we count the lengths of nonempty walks; this is to ensure that the constant term will be zero.
 By definition, two graphs with the same number of vertices are $\sim$-equivalent if and only if they have the same walk series. 
-The first step in the proof of Theorem~\ref{thm:path-equivalence} is the following lemma, which says that the walk series is always rational, and can be computed by a register transducer.
+The first step in the proof of Theorem~\ref{thm:path-equivalence} is the following lemma, which says that the walk series is always a  rational power series, and can be computed by a register transducer.
 \begin{lemma}\label{lem:compute-power-series}    
     Define  $\aalg$ to be the  algebra where
     \begin{description}
         \item[Domain:]power series in $\powerseries \Nat$ which are rational and have a  zero constant term;
         \item[Operations:] $+$, $\times$, Kleene plus and constants $1$ and $x$.
     \end{description}
-    For every $k \in \set{1,2,\ldots}$ and every register transducer $\Aa$ over the algebra of $k$-sourced graphs, there is a  register transducer $\Bb$ over $\aalg$ which makes the following diagram commute (arrows are binary relations):
+    For every $k \in \set{1,2,\ldots}$ and every nondeterministic register transducer $\Aa$ over the algebra of $k$-sourced graphs, there is a  nondeterministic register transducer $\Bb$ over the algebra  $\aalg$ defined above which makes the following diagram commute (arrows are binary relations):
     \begin{align*}
     \xymatrix@C=1cm{
        &  \trees \Sigma   
@@ -93,11 +92,11 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
         % Define an \emph{internal walk} to be a walk that does not visit any sources,  with the possible exception of the first and last vertices in the walk, which are allowed to be sources. 
         Define the \emph{source number} of a vertex in a $k$-sourced graph to be  $i \in \set{1,\ldots,k}$ if the vertex is the $i$-th source, and $0$ otherwise. For
         $i,j \in \set{0,\ldots,k}$,
-        define an  $(i,j)$-walk to be a walk where the first vertex has source number $i$, the last vertex has source number $j$, and the remaining vertices in the walk are not sources (i.e.~their source number is $0$). For a $k$-sourced graph $G$, define 
+        define an  $(i,j)$-walk to be a walk where the first vertex has source number $i$, the last vertex has source number $j$, and the remaining vertices in the walk are not sources. For a $k$-sourced graph $G$, define 
         \begin{align*}
         \varphi_{ij}(G) \in \aalg
         \end{align*}
-         to be the power series where the $n$-th term is the number of nonempty $(i,j)$-walks of length $n$. In particular, the constant term  of this power series is zero, since we only consider nonempty walks. Define 
+         to be the power series where the $n$-th term is the number of nonempty $(i,j)$-walks of length $n$. The constant term  of this power series is zero, since we only consider nonempty walks. Define 
         \begin{align*}
         \varphi(G) \in \aalg^{\set{0,\ldots,k}^2}
         \end{align*}
@@ -105,7 +104,7 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
         The main observation is that $\varphi$ is an algebra homomorphism, in the following sense.
         \begin{claim}
             For every term operation $f$ 
-            in the algebra of $k$-sourced graphs, there is a term operation $f^\varphi$ in the algebra $\aalg$ which makes the following diagram commute
+            in the algebra of $k$-sourced graphs (see the diagram below for its type), there is a term operation $f^\varphi$ in the algebra $\aalg$ (see the diagram for its type) which makes the following diagram commute
             \begin{align*}
             \xymatrix{
                 (\text{$k$-sourced graphs})^X 
@@ -217,3 +216,4 @@ By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}
 		polynomial transducer $\eqzeroinalgb(\Bb_{1,2})$ obtained by composing output function of $\Bb_{1,2}$ with $\eqzeroinalgb$, is equivalent to $0$.
 	\end{proof}	
 \end{proof}
+
