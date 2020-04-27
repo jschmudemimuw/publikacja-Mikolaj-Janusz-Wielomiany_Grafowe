@@ -10,8 +10,9 @@ We now describe the transducer model that will be used in the paper. The idea is
 For a short definition, we omit states from the model.  States would make some constructions easier, but they do not add expressive power, because they  can be simulated using extra registers.
 
 % Define a \emph{polynomial operation of input arity $k$ and output arity $n$} to be any function of type  $A^k \to A^n$, which is given by a $n$ polynomial operations of type $A^k \to A$.
-\begin{definition}[Register transducer] \label{def:register-transducer} Let $\aalg$ be an algebra (in the sense of universal algebra, i.e.~a set with some operations on it). The syntax of a  \emph{nondeterministic tree-to-$\aalg$ register transducer} consists of:
+\begin{definition}[Register transducer] \label{def:register-transducer}  The syntax of a  \emph{(implicitly, nondeterministic) register transducer} consists of:
     \begin{enumerate}
+        \item an output algebra $\aalg$, which is an algebra in the sense described in Section~\ref{sec:treewidth-definition};
         \item an input alphabet $\Sigma$, which is a finite ranked set;
         \item a finite set $R$ of register names, with a distinguished output register $r \in R$;
         \item for every letter $a \in \Sigma$ of the input alphabet, of arity $n \in \set{0,1,\ldots}$, a finite set of  associated \emph{register updates}, which are  term operations of type  $\aalg^{\set{1,\ldots,n} \times R} \to \aalg^R$. 
@@ -20,43 +21,45 @@ For a short definition, we omit states from the model.  States would make some c
 \end{definition}
 % There is a natural extension of the above model with states, which we call \emph{stateful register transducers}. Stateless and stateful register transducers compute the same functions, but the stateful model is  useful when considering the single-use restriction that will be discussed later in this section. 
 
-
-A nondeterministic register transducer computes a binary relation, which consists of pairs 
+A register transducer with output algebra  $\aalg$ is also called  a register transducer over $\aalg$.
+A  register transducer computes a binary relation, which consists of pairs 
 \begin{center}
-    (tree over the input alphabet, element of the algebra $\aalg$).
+    (tree over the input alphabet, element of the output algebra).
 \end{center}
 Pairs in this relation are obtained by  executing the register updates on the input tree in a bottom-up way, and then returning the value of the first register. Here is a more detailed explanation.  For an input  tree $t$ over the input alphabet $\Sigma$, define the \emph{reachable register valuation} on $t$ to be the subset  of $\aalg^R$ that is  defined as follows by  induction on the size of $t$. Consider a tree which has root label $a$ and child subtrees $t_1,\ldots,t_n$. (The induction base of the construction is when $a$ has arity $n=0$ and there are no child subtrees.) Let $v_1,\ldots,v_n \in \aalg^R$ be  register valuations that are reachable, respectively,  for the child subtrees, as defined by induction assumption. Combine these register valuations into a register valuation from $\aalg^{\set{1,\ldots,n} \times R}$, and apply to this tuple any register update corresponding to $a$. The resulting register valuation is reachable from for the tree $t$. The binary relation computed by a register transducer consists of pairs $(t,\text{value of output register in  some register valuation reachable in $t$})$. If the register transducer is deterministic, then the binary relation is a function. 
 
 \begin{example}
-    Consider the  Boolean algebra
+    Consider nondeterministic register transducers over the Boolean algebra
     \begin{align*}
     \aalg = (\set{0,1},\lor, \land, \neg, 0, 1).
     \end{align*}
-    In this case, a valuation of the registers can be seen as a state from a finite set. Also, every operation on states can be described  by a term in the Boolean algebra. Therefore, tree-to-Boolean-algebra register transducers are the same thing as the classical model of nondeterministic bottom-up tree automata, which define exactly the regular languages~\cite[Section 2]{thatcherGeneralizedFiniteAutomata1968}. 
+    In this case, a valuation of the registers can be seen as a state from a finite set (the finite set consists of bit vectors). Also, every operation on states can be described  by a term in the Boolean algebra. Therefore,  register transducers with this output algebra are the same thing as the classical model of nondeterministic bottom-up tree automata, which define exactly the regular languages~\cite[Section 2]{thatcherGeneralizedFiniteAutomata1968}. 
 \end{example}
 
-For register transducers, we will study the functionality and equivalence problems. If an algebra $\aalg$ is fixed, then the functionality problem is defined as follows.
-\decisionproblem{functionality for nondeterministic tree-to-$\aalg$ register transducers.}{a nondeterministic tree-to-$\aalg$ register transducer.}{is the transducer functional, i.e.~for every input there is exactly one output?}
+For register transducers over  a fixed  output algebra, we will study the functionality and equivalence problems. 
+\decisionproblem{functionality for nondeterministic register transducers over algebra $\aalg$.}{a nondeterministic  register transducer over algebra $\aalg$.}{is the transducer functional, i.e.~for every input there is exactly one output?}
 The equivalence problem is defined similarly, except that the input is two deterministic register transducers, and the question is whether or not they produce equal outputs for all inputs. 
 \begin{fact}
-    For every algebra $\aalg$, the functionality and equivalence problems are equi-decidable.
+    For every output algebra, the functionality and equivalence problems are equi-decidable.
 \end{fact}
 \begin{proof}
-    Same reasoning as in Fact~\ref{fact:equi-decidable}, with the following differences: (1) the domain of a tree-to-$\aalg$ transducer is always a regular tree language, which can be computed effectively; and  (2) there is no need to encode colours in the input graph, since the model of tree-to-$\aalg$ transducers allows for coloured inputs.
+    Same reasoning as in Fact~\ref{fact:equi-decidable}, with the following differences: (1) the domain of a register transducer is always a regular tree language, which can be computed effectively; and  (2) there is no need to encode colours in the input graph, since the model of register transducers allows for coloured inputs.
 \end{proof}
 
-\begin{example} In~\cite{seidlManethKemper2018}, Maneth, Seidl and Kemper study  the equivalence problem for  deterministic tree-to-$\aalg$ transducers,  where  the algebra $\aalg$ consists of strings over a finite alphabet, equipped with string concatenation.  Using Hilbert's Basis Theorem, checking equivalence of tree-to-string transducers is shown decidable~\cite[Corollary 8.2]{seidlManethKemper2018}. We will use the same method in this paper.
+\begin{example} In~\cite{seidlManethKemper2018}, Maneth, Seidl and Kemper study  the equivalence problem for  deterministic register transducers where the output algebra is $\Sigma^*$, equipped with concatenation and constants for all letters and the empty string.  Using Hilbert's Basis Theorem, checking equivalence of tree-to-string transducers is shown decidable~\cite[Corollary 8.2]{seidlManethKemper2018}. We will use the same method in this paper.
 \end{example}
 
 
 \smallparagraph{Connection with graph-to-graph transductions} We now show how register transducers can be used to compute functional graph-to-graph \mso transductions of bounded treewidth.
 
 
-\begin{definition}
-    For $k \in \set{1,2,\ldots}$, define a \treetotreewidth k register transducer to be a register transducer where the output algebra is the algebra of $k$-sourced graphs, and every output is graph without sources.
-\end{definition}
+% \begin{definition}
+%     For $k \in \set{1,2,\ldots}$, define a \treetotreewidth k register transducer to be a register transducer where the output algebra is the algebra of $k$-sourced graphs, and every output is a graph without sources.
+% \end{definition}
 
-The semantics of such a transducer is a set of pairs (tree over the input alphabet, graph). We are mainly interested in the case when the input trees are tree decompositions. Here, a tree decomposition of width $<k$ is defined to be a tree, where the input alphabet is the set of operations in the algebra of $k$-sourced graphs. 
+% The semantics of such a transducer is a set of pairs (tree over the input alphabet, graph).
+
+We are mainly interested in the case when the input trees are tree decompositions. In the context of this paper, a tree decomposition of width $<k$ is defined to be a tree, where the input alphabet is the set of operations in the algebra of $k$-sourced graphs. 
 
 % We take different approaches to handling the input and output graphs, as described below.
 % \begin{itemize}
@@ -65,10 +68,10 @@ The semantics of such a transducer is a set of pairs (tree over the input alphab
 % \end{itemize}
 % There is an important difference for the inputs and outputs. There might be several different tree decompositions that represent the same graph. On the input side, these tree decompositions will correspond to different input trees. On the output side, we store the underlying graph itself, and not the tree decomposition.
 
-A device as described above is a special case of what we call a \emph{\treetotreewidth k register transducer}, i.e.~this is a register transducer where  the algebra is the algebra of $k$-sourced graphs.  
+% A device as described above is a special case of what we call a \emph{\treetotreewidth k register transducer}, i.e.~this is a register transducer where  the algebra is the algebra of $k$-sourced graphs.  
 
 \begin{lemma}\label{lem:transduction-to-registers}
-    Let $\ell, k \in \set{1,2,\ldots}$, and  let $\Tt$ be an \mso transduction where all output graphs have treewidth at most $k$. There is a nondeterministic \treetotreewidth{ k} transducer $\Aa$ which makes the following diagram commute (arrows in the diagram are binary relations):
+    Let $\ell, k \in \set{1,2,\ldots}$, and  let $\Tt$ be an \mso transduction where all output graphs have treewidth at most $k$. There is a nondeterministic register transducer over the algebra of $2k$-sourced graphs, which makes the following diagram commute (arrows in the diagram are binary relations):
     \begin{align*}
     \xymatrix@C=0.5cm{
          & \txt{tree decompositions of width $< \ell$}
@@ -82,7 +85,7 @@ A device as described above is a special case of what we call a \emph{\treetotre
 The proof of the above lemma uses ideas from~\cite{courcelleMonadicSecondorderLogic1990,bloem_comparison_2000,alurStreamingTreeTransducers2017}, and  is relegated to the appendix.  
 
 \begin{corollary}
-The equivalence and functionality  problems for graph-to-graph \mso transductions of bounded treewidth  reduce to the functionality problem for nondeterministic \treetotreewidth{k} register transducers. 
+The equivalence and functionality  problems for graph-to-graph \mso transductions of bounded treewidth  reduce to the functionality problem for nondeterministic register transducers over $k$-sourced graphs (for some $k$). 
 \end{corollary}
 
 

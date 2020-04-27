@@ -1,7 +1,7 @@
 \section{From transductions to register transducers}
 \label{sec:transductions-to-transducers}
-This part of the appendix proves Lemma~\ref{lem:transduction-to-registers}. The statement of the lemma is as follows. 
-    Let $\ell, k \in \set{1,2,\ldots}$, and  let $\Tt$ be an \mso transduction where all output graphs have treewidth at most $k$. There is a nondeterministic \treetotreewidth{ k} transducer $\Aa$ which makes the following diagram commute (arrows in the diagram are binary relations):
+This part of the appendix gives a proof sketch for Lemma~\ref{lem:transduction-to-registers}. The statement of the lemma is as follows. 
+    Let $\ell, k \in \set{1,2,\ldots}$, and  let $\Tt$ be an \mso transduction where all output graphs have treewidth at most $k$. There is a nondeterministic \treetotreewidth{ 2k} transducer $\Aa$ which makes the following diagram commute (arrows in the diagram are binary relations):
     \begin{align*}
     \xymatrix@C=0.3cm{
          & \txt{tree decompositions of width $< \ell$}
@@ -114,6 +114,5 @@ Here the idea is very simple. Let $\aalg$ be free forest algebra, over the alpha
 \end{align*}
 as follows. If $a \in \aalg$ is not well-formed, then $\varphi(a)$ is $\bot$. If $a$ is a well-formed forest, i.e.~it is an unranked tree decomposition with possibly several roots, then $\varphi(a)$ is the fusion of the  underlying $k$-sourced graph of the trees in the forest (this $k$-sourced graph is viewed as a $2k$-sourced graph, which only uses the first $k$ sources). If $a$ is a well-formed context, we define $\varphi(a)$ in the same was as for trees (treating $a$ as a forest, by ignoring the dangling edge), except that we also have  extra sources for vertices that of the underlying graph which are sources in $\varphi(t)$, where $t$ is the subtree of the parent of the dangling edge in $a$. The extra sources are the reason why we use $2k$-sourced graphs instead of $k$-sourced graphs. For some contexts, we do not need all of the $k$ extra sources, since some sources might appear both in $t$ and in the roots of the tree decomposition.
 
-By putting together sourced graphs instead of their tree decompositions, the reader can easily come up with a register transducer $\Bb$, over the algebra of $2k$-sourced graphs, which has the same registers, which has the same registers as $\Aa$, and such that if $\Aa$ stores $a$ in its register, then $\Bb$ stores $\varphi(a)$ in its register. (In the construction, it is useful to have states, so that $\Bb$ can remember which srtates )
+By putting together sourced graphs instead of their tree decompositions, the reader can easily come up with a register transducer $\Bb$, over the algebra of $2k$-sourced graphs, which has the same registers, which has the same registers as $\Aa$, and such that if $\Aa$ stores $a$ in its register, then $\Bb$ stores $\varphi(a)$ in its register. (In the construction, it is to have states, so that $\Bb$ can remember which registers store forests, which registers store contexts, and which registers store the $\bot$ value. States can be eliminated at the cost of extra registers.)
 
-If $a$ is a forest, then its underlying $k$-sourced graph is defined to be the fusion of the underlying $k$-sourced graphs of the trees in the forest. If $a$ is a context, then 
