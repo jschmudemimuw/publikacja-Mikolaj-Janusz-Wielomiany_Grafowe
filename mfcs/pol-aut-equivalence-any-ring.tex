@@ -6,7 +6,7 @@ In this section, we show that equivalence is decidable for transducers over an a
 \begin{restatable}{corollaryrestat}{corEquivPolTransducersZrat}\label{cor:equivalence-pol-transducers-Zrat}
 		Equivalence is decidable for functional register transducers over both rings: $\Z[\enum x1n]$ and \Zrat.
 \end{restatable}
-First paragraph contains definitions concerning computable rings. In next paragraph we sketch a proof from \cite[Lemma ??]{seidlManethKemper2018} of decidability of equivalence for register transducers over ring \Z. Later we show that the same proof works for any ring ''similar'' to \Z (Theorem \ref{thm:equivalence-polynomial-automata-over-a-ring}), from which the Corollary \ref{cor:equivalence-pol-transducers-Zrat} follows.
+First paragraph contains definitions concerning computable rings. In next paragraph we sketch a proof from \cite[Theorem 6.6]{seidlManethKemper2018} of decidability of equivalence for register transducers over ring \Z. Later we show that the same proof works for any ring ''similar'' to \Z (Theorem \ref{thm:equivalence-polynomial-automata-over-a-ring}), from which the Corollary \ref{cor:equivalence-pol-transducers-Zrat} follows.
 
 \smallparagraph{Computable rings and fields}
 By a ring we always mean a \emph{commutative} ring.
@@ -20,7 +20,8 @@ We sketch the proof of decidability of equivalence of \polTsover{\Z}, following 
 Ring \Z can be embedded into field \Q and the proof is done for \polTsover{\Q}.
 The proof goes by overapproximation, for each control state $q \in Q$, the set of configurations reachable in $q$ by a set of solutions of a system of polynomial equations (i.e. Zariski closed set).
 $Q$-tuple of (polynomial) ideals that represent those systems forms an \emph{inductive invariant}.
-The main algorithm runs two semiprocedures in parallel -- one searching for a counterexample to equivalence, one searching for an inductive invariant that certifies equivalence. The algorithm can be formulated for any ring\footnote{And for any algebra in fact. However, we do not discuss this further due to lack of place.}, but it works for field \Q for the following reasons.
+The main algorithm runs two semiprocedures in parallel -- one searching for a counterexample to equivalence, one searching for an inductive invariant that certifies equivalence. The algorithm can be formulated for any ring, %\footnote{And for any algebra in fact. However, we do not discuss this further due to lack of place.}
+but it works for field \Q for the following reasons.
 
 The certificate of equivalence (inductive invariant) is a tuple of ideals that satisfy certain inclusions. Testing if those inclusions hold is done by Buchberger's algorithm. Every ideal can be finitely represented due to Hilbert's Basis Theorem and in consequence, tuples of them can be enumerated.
 The proof of existence of inductive invariants (for a pair of equivalent polynomial transducers) uses \cite[Lemma 6.3]{seidlManethKemper2018}, let us denote it \emph{Product Lemma}, about ideals of polynomials that zero on cartesian products of sets.

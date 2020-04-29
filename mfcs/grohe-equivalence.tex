@@ -43,7 +43,7 @@ In the following theorem, we show that equivalence for graph-to-graph \mso trans
  
 For the same reasons as in Fact~\ref{fact:equi-decidable}, the above problem is equi-decidable with the $\sim$-functionality problem, where one asks if a nondeterministic transduction can produce two $\sim$-inequivalent outputs on some input, under assumption of bounded treewidth. 
 
-The rest of this section is devoted to showing decidability for the  $\sim$-equivalence problem. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series (Section~\ref{sec:power-series}), and then we show that equivalence is decidable for register transducers which manipulate such power series (Sections~\ref{sec:pol-transducers-any-ring} and Section~\ref{sec:decide-power-series}). Combining this with the reduction to register transducers from Lemma~\ref{lem:transduction-to-registers}, we get the theorem.
+The rest of this section is devoted to showing decidability for the  $\sim$-equivalence problem. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series (Section~\ref{sec:power-series}); actually, they should output a pair: walk series and number of zero-length walks, i.e. vertices; the latter can be computed in a straightforward way and we omit it later on. Then we show that equivalence is decidable for register transducers which manipulate such power series (Sections~\ref{sec:pol-transducers-any-ring} and Section~\ref{sec:decide-power-series}). Combining this with the reduction to register transducers from Lemma~\ref{lem:transduction-to-registers}, we get the theorem.
 
 \subsection{Computing the power series for walks in a graph}
 \label{sec:power-series}
@@ -63,7 +63,7 @@ For a graph $G$, define its \emph{walk series} to be the power series
   a_1 x^1 + a_2x^2 + \cdots \qquad \text{where $a_i$ is the number of walks in $G$ of length $i \ge 1$.}
 \end{align*}
 Not how we count the lengths of nonempty walks; this is to ensure that the constant term will be zero.
-By definition, two graphs with the same number of vertices are $\sim$-equivalent if and only if they have the same walk series. 
+By definition, two graphs with the same number of vertices are $\sim$-equivalent if and only if they have the same number of vertices and the same walk series; as mentioned in the introduction of this Section, computing number of vertices is straightforward and will be omitted later on. 
 The first step in the proof of Theorem~\ref{thm:path-equivalence} is the following lemma, which says that the walk series is always a  rational power series, and can be computed by a register transducer.
 \begin{lemma}\label{lem:compute-power-series}    
     Define  $\aalg$ to be the  algebra where
