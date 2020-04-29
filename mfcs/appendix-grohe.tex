@@ -1,0 +1,138 @@
+\section{Proofs for Section~\ref{sec:sec:equivalence-modulo}}
+
+\begin{proof}[Proof of Lemma~\ref{lem:compute-power-series}]
+
+    %J
+    
+        % The proof is an adaptation of a weighted version of the usual ''DFA to regular expression conversion'' (i.e. weighted automaton to rational power series), with state elimination corresponding to source forgetting.
+    
+        
+        % Define an \emph{internal walk} to be a walk that does not visit any sources,  with the possible exception of the first and last vertices in the walk, which are allowed to be sources. 
+        Define the \emph{source number} of a vertex in a $k$-sourced graph to be  $i \in \set{1,\ldots,k}$ if the vertex is the $i$-th source, and $0$ otherwise. For
+        $i,j \in \set{0,\ldots,k}$,
+        define an  $(i,j)$-walk to be a walk where the first vertex has source number $i$, the last vertex has source number $j$, and the remaining vertices in the walk are not sources. For a $k$-sourced graph $G$, define 
+        \begin{align*}
+        \varphi_{ij}(G) \in \aalg
+        \end{align*}
+         to be the power series where the $n$-th term is the number of nonempty $(i,j)$-walks of length $n$. The constant term  of this power series is zero, since we only consider nonempty walks. Define 
+        \begin{align*}
+        \varphi(G) \in \aalg^{\set{0,\ldots,k}^2}
+        \end{align*}
+        to be the tuple of all of the values returned by the functions $\varphi_{ij}$. 
+        The main observation is that $\varphi$ is an algebra homomorphism, in the following sense.
+        \begin{claim}
+            For every term operation $f$ 
+            in the algebra of $k$-sourced graphs (see the diagram below for its type), there is a term operation $f^\varphi$ in the algebra $\aalg$ (see the diagram for its type) which makes the following diagram commute
+            \begin{align*}
+            \xymatrix{
+                (\text{$k$-sourced graphs})^X 
+                \ar[r]^f
+                \ar[d]_{\varphi^X}
+                &
+                 (\text{$k$-sourced graphs})^Y
+                \ar[d]^\varphi
+                \\
+                \aalg^{\set{0,\ldots,k}^2 \times X}
+                \ar[r]_{f^\varphi}
+                &
+                \aalg^{\set{0,\ldots,k}^2 \times Y}
+            }
+            \end{align*}
+        \end{claim}
+        Before proving the claim, we use it to finish the proof of the lemma. Suppose that $\Aa$ is a register transducer over the algebra of $k$-sourced graphs. The register transducer  $\Bb$, which is over the algebra $\aalg$, has the same input alphabet, and its registers are triples 
+        \begin{align*}
+        (i,j,r) \qquad \text{where $i,j \in \set{0,\ldots,k}$ and $r$ is a register of $\Aa$.}
+        \end{align*}
+         The register updates of $\Bb$ are defined by applying the homomorphism from the claim  to the register updates of $\Aa$. 
+        The output register of $\Bb$ is $(0,0,r)$, where  $r$ is the output register of $\Aa$.  From the claim it follows 
+        \begin{align*}
+        \text{$\Aa$ can output $G$ on input $t$} \qquad \iff \qquad 
+        \text{$\Bb$ can output $\varphi_{00}(G)$ on input $t$}.
+        \end{align*}
+        Since $\varphi_{00}(G)$ is the walk series of $G$ when $G$ has no sources, the lemma follows. It remains to prove the claim.
+
+        \begin{proof} 
+            It is enough to prove the claim for the case when $f$ is one of the basic operations in the algebra of $k$-sourced graphs. In particular, $Y$ has one element. Here the proof is similar to conversion of a nondeterministic automaton into a regular expression, as in the Kleene Theorem.
+            
+            \begin{itemize}
+                \item Suppose that $f$ is a constant, which represents a  $k$-sourced graph where all vertices are sources. Then we have 
+                \begin{align*}
+                \varphi_{ij}(f) = \begin{cases}
+                    x & \text{if there is an edge from $i$ to $j$ in $f$}\\
+                    0 & \text{otherwise.}
+                \end{cases}
+                \end{align*}
+                \item Suppose that $f$ is the  basic operation which inputs two $k$-sourced graphs and outputs their fusion.  
+                An $(i,j)$-walk in the fusion $f(G_1,G_2)$ is either an $(i,j)$-walk in $G_1$ or an $(i,j)$-walk in $G_2$, this is because vertices between endpoints cannot be sources. Furthermore, these cases are disjoint, since we are working with graphs that have parallel edges.
+  		This leads to the following equation for fusions:
+                \begin{align*}
+					\varphi_{ij}(f(G_1, G_2)) = \varphi_{ij}(G_1) + \varphi_{ij}(G_2).
+                \end{align*}
+                The right hand side uses component-wise addition, which is a basic operation in $\aalg$.
+                \item The last case is when $f$ is a unary operation which forgets  source $c \in \set{1,\ldots,k}$.  Let then $G$ be a $k$-sourced graph. A nonempty $(i,j)$-walk in $f(G)$ is either a nonempty $(i,j)$-walk in $G$, or it has the form
+                \begin{enumerate}
+                    \item a nonempty $(i,c)$-walk in $G$; followed by 
+                    \item finitely many (possibly zero) nonempty  $(c,c)$-walks in $G$; followed by
+                    \item a nonempty $(c,i)$-walk in $G$.
+                \end{enumerate}
+                This leads to the following equation:
+                \begin{align*}
+                \varphi_{ij}(f(G)) = \varphi_{ij}(G)) +  \varphi_{ic}(G) \times (1+ \varphi_{cc}(G)^+)  \times \varphi_{cj}(G).
+                \end{align*}                
+            \end{itemize}
+        \end{proof}
+        
+\end{proof}
+
+
+
+For a rational power series, the embedding is 
+\input{pol-aut-equivalence-any-ring}
+\subsection{Equivalence for register transducers that compute walk series}\label{sec:decide-power-series}
+By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}, the  equivalence problem from Theorem~\ref{thm:path-equivalence} reduces to equivalence for functional \regTsover{\aalg}, where $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}. In this section, we complete the proof the theorem by showing that the latter problem is decidable.
+\begin{lemma}\label{lem:functionality-decidable-power-series} If $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}, then equivalence is decidable for functional \regTsover{\aalg}. 
+\end{lemma}
+\begin{proof}
+	We will reduce to equivalence of \polTsover{\Zrat}, which is shown decidable in Corollary \ref{cor:equivalence-pol-transducers-Zrat}.
+	The following equation allows to simulate Kleene plus by division operation; observe that for any $f$ we have $ff^+ + f = f^+$, and in consequence
+	$$
+	f^+ = \frac{f}{1-f}.
+	$$
+	This makes \regTover{\aalg} a \polTover{\Zrat} \emph{with division}, i.e. a polynomial transducer with additional feature that register updates can use division operation.
+	The rest of the proof is devoted to showing decidability of equivalence of polynomial transducers with division.
+	\begin{lemma}
+		Equivalence of \polTsover{\Ring} with division is decidable, for a ring with no zero divisors $\Ring$.
+	\end{lemma}
+	\begin{proof}
+		We will adapt the construction of projective line.
+		Consider the following representation of elements of $\Ring$: a pair $(x,y)\in \Ring^2$ represents $\frac{x}{y} \in \Ring$. This representation is not unique, and is undefined on some pairs. Then addition, multiplication and, importantly, division of elements of $\Ring$ can be realised as polynomial operations on their representations in $\Ring^2$. This is employed in definition of the following algebra \balg:
+		%\begin{align*}
+		%	&\frac{x}{y} + \frac{z}{t} = \frac{xt+yz}{yt},\\ 
+		%	&\frac{x}{y} \cdot \frac{z}{t} = \frac{xz}{yt},\\
+		%	&\left(\frac{x}{y}\right)^+ = \frac{\frac{x}{y}}{1-\frac{x}{y}} = \frac{x}{y-x},
+		%\end{align*}
+		%and define algebra $\balg$ the following way:
+		\algebradefinition{$\Ring \times \Ring$}{$+_B, \cdot_B$ of arity 2, $^+$ of arity 1:
+			\begin{align*}
+			&(x,y) +_B (z,t) = (xt+yz, yt),\\
+			&(x,y)\cdot_B(z,t) = (xz, yt),\\
+			&(x,y)^{+_B} = (x, y-x).
+			\end{align*}}
+		
+		Also observe that there is a ''zero-testing'' polynomial function $\eqzeroinalgb$ that satisfies
+		$$
+		\eqzeroinalgb(x,y) = 0 \iff (x,y) \text { represents } 0,
+		$$
+		that is, $\eqzeroinalgb(x,y) = x$.
+		
+		Now, for $\Aa$ being \polTover{\Ring} with division, one can make a \polTover{\balg} $\Bb$, using equations above. Then for each input tree $t$, $\Bb(t)$ represent $\Aa(t)$.
+		
+		Thus the reduction is as follows: for polynomial transducers with division $\Aa_1, \Aa_2$ take polynomial transducer $\Bb_{1,2}$ corresponding to $\Aa_1-\Aa_2$. Then $\Aa_1 \equiv \Aa_2$
+		%\Leftrightarrow
+		if and only if 
+		$\eqzeroinalgb(\Bb_{1,2}) \equiv 0$,
+		that is,
+		polynomial transducer $\eqzeroinalgb(\Bb_{1,2})$ obtained by composing output function of $\Bb_{1,2}$ with $\eqzeroinalgb$, is equivalent to $0$.
+	\end{proof}	
+\end{proof}
+

@@ -1,5 +1,9 @@
 \section{Introduction}
+Monadic second-order transductions (\mso transductions) are transformations which input structures (such as words, trees or graphs) and output other structures. The idea is that the output structure is defined in terms of the input structure by using \mso logic. \mso transductions were originally introduced to describe graph transformations, see~\cite[p.~43]{arnborgLagergrenSeese1988}, \cite[Definition 6]{engelfriet1991}, \cite[Defintion 2.2]{courcelle1991}, and it is graph transformations that are the principal topic of the current paper. Nevertheless, \mso transductions have also recently seen a lot interest for simpler structures such as strings or trees. A seminal result in this context is that functional \mso transductions  define exactly the same string-to-string functions as two-way deterministic transducers~\cite{engelfrietMSODefinableString2001}. 
 
+In this paper, we are interested in the following decision equivalence problem: given two functional transductions, decide if they are equivalent, i.e.~equal inputs give equal outputs (in the context of graph transductions, equal means isomorphic). A related -- and in our context equi-decidable -- problem is functionality: given a not-necessarily functional transduction, decide if it is functional. 
+
+(...todo finish...)
 
 % (ideally, graph isomorphism) for every input graph, the output graphs produced by the two transductions are isomorphic.  we state a problem and propose a solution strategy. The problem is deciding  equivalence for graph-to-graph transductions, for graphs of bounded treewidth. The solution strategy is to model graphs as algebraic objects (polynomials, or rational power series) and to use algorithms from algebra (Hilbert's Basis Theorem, or Gr\"obner bases) to decide equivalence. 
 
