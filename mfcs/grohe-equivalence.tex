@@ -12,7 +12,7 @@ In~\cite{groheDellRattan2018},
 Grohe, Dell and Rattan show that if one restricts the  class of graphs from which $F$ is taken, then one gets various well-studied relaxations of isomorphism. For example, if we only count homomorphisms from graphs $F$ of treewidth at most $k$, then the arising equivalence relation on graphs is Weisfeiler-Leman equivalence of dimension $k$.  The result of~\cite{groheDellRattan2018},  that we use in this paper counts homomorphisms from paths.
 
 \begin{theorem}\label{thm:grohe}(\cite[Theorem 2]{groheDellRattan2018})
-    For every  graphs $G_1,G_2$, the following  are equivalent:
+    For all graphs $G_1,G_2$, the following  are equivalent:
     \begin{enumerate}
         \item for every $i \in \set{0,1,\ldots}$, if $P_i$ is the path of length $n$ then
         \begin{align*}
@@ -26,7 +26,7 @@ Grohe, Dell and Rattan show that if one restricts the  class of graphs from whic
         \end{enumerate}
     \end{enumerate}
 \end{theorem}
-Note that a homomorphism from a path of length $n$ is the same thing is a walk of length $n$, i.e.~a sequence of $n+1$ vertices connected by edges, possibly with repetitions.  In other words, condition 1 above says that for every $n$, the two graphs have the same number of walks of length $n$. The number of walks of length 0 is the number of vertices, and hence condition 1 implies that the graphs have the same number of vertices.     
+Note that a homomorphism from a path of length $n$ is the same thing is a walk of length $n$, i.e.~a sequence of $n+1$ vertices (possibly with repetitions) interleaved with $n$ edges that connect them. We call a walk \emph{empty} if it contains no edges. In other words, condition 1 above says that for every $n$, the two graphs have the same number of walks of length $n$. In particular, if we take $n=0$, it implies that the graphs have the same number of vertices.     
 
 Condition 2 in the above theorem can be seen as a relaxation of isomorphism in the following sense. 
 If in condition 2 we add the requirement that all coefficients in $X$ are non-negative (real or rational, does not make a difference), then we get  \emph{fractional isomorphism}, which is characterised by homomorphisms from trees~\cite[Theorem 1]{groheDellRattan2018}. If we add the requirement that all coefficients in $X$ are non-negative integers, then we get isomorphism.  
@@ -37,17 +37,17 @@ In the following theorem, we show that equivalence for graph-to-graph \mso trans
 \begin{theorem}\label{thm:path-equivalence}
     Let $\sim$ be the equivalence relation on graphs described in Theorem~\ref{thm:grohe}. 
     The following problem is decidable:
-    \decisionproblem{$\sim$-functionality for graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and a graph-to-graph \mso transductions $\Tt$.}{is there some input of treewidth at most $\ell$, which can produce two outputs of treewidth at most $k$ that are not equivalent under $\sim$?}
+    \decisionproblem{$\sim$-equivalence for graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and two functional graph-to-graph \mso transductions $\Tt$.}{is it the case that for every input $G$ of treewidth at most $\ell$, the two outputs  $\Tt_1(G),\Tt_2(G)$ are equivalent under $\sim$ and have treewidth at most $k$?}
 \end{theorem}
-% By Lemma~\ref{lem:transduction-to-registers}, the above problem reduces to deciding $\sim$-functionality for nondeterministic tree-to-$\aalg$ register transducers, where $\aalg$ is the algebra of $k$-sourced graphs. Here, $\sim$-functionality means that output graphs are identified modulo $\sim$. 
+% By Lemma~\ref{lem:transduction-to-registers}, the above problem reduces to deciding $\sim$-functionality for nondeterministic \regTsover{\aalg}, where $\aalg$ is the algebra of $k$-sourced graphs. Here, $\sim$-functionality means that output graphs are identified modulo $\sim$. 
  
-For the same reasons as in Fact~\ref{fact:equi-decidable}, the above problem is equi-decidable with the $\sim$-equivalence problem, where one asks if two functional transductions produce $\sim$-equivalent outputs, under assumption of bounded treewidth. 
+For the same reasons as in Fact~\ref{fact:equi-decidable}, the above problem is equi-decidable with the $\sim$-functionality problem, where one asks if a nondeterministic transduction can produce two $\sim$-inequivalent outputs on some input, under assumption of bounded treewidth. 
 
-The rest of this section is devoted to showing decidability for the  $\sim$-functionality problem. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series (Section~\ref{sec:power-series}), and then we show that equivalence is decidable for register transducers which manipulate such power series (Sections~\ref{sec:pol-transducers-any-ring} and Section~\ref{sec:decide-power-series}). Combining this with the reduction to register transducers from Lemma~\ref{lem:transduction-to-registers}, we get the theorem.
+The rest of this section is devoted to showing decidability for the  $\sim$-equivalence problem. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series (Section~\ref{sec:power-series}), and then we show that equivalence is decidable for register transducers which manipulate such power series (Sections~\ref{sec:pol-transducers-any-ring} and Section~\ref{sec:decide-power-series}). Combining this with the reduction to register transducers from Lemma~\ref{lem:transduction-to-registers}, we get the theorem.
 
 \subsection{Computing the power series for walks in a graph}
 \label{sec:power-series}
-A sequence of natural numbers $a_0,a_1,\ldots$ can be visualises as  an infinite univariate polynomial
+A sequence of natural numbers $a_0,a_1,\ldots$ can be visualised as an infinite univariate polynomial
 \begin{align*}
  A = a_0 + a_1x^1 + a_2x^2 + \cdots.
 \end{align*}
@@ -56,7 +56,7 @@ We use the name $i$-th term for $a_i$; and we call $a_0$ the constant term. The 
 \begin{align*}
  A^+ \eqdef A + A^2 + A^3 + \cdots.
 \end{align*}   
-Kleene plus   is defined only when the constant term   in $A$ is zero, which ensures that the infinite sum in $A^+$ is well defined. Otherwise, if $A$ would have a nonzero constant term $a_0$, then its Kleene plus would need to have$a_0 + a_0^2 + a_0^3 + \cdots$ as its constant term.
+Kleene plus   is defined only when the constant term   in $A$ is zero, which ensures that the infinite sum in $A^+$ is well defined. Otherwise, if $A$ would have a nonzero constant term $a_0$, then its Kleene plus would need to have $a_0 + a_0^2 + a_0^3 + \cdots$ as its constant term.
 
 For a graph $G$, define its \emph{walk series} to be the power series 
 \begin{align*}
@@ -145,13 +145,10 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
                 \end{cases}
                 \end{align*}
                 \item Suppose that $f$ is the  basic operation which inputs two $k$-sourced graphs and outputs their fusion.  
-                An $(i,j)$-walk in the fusion $f(G_1,G_2)$ is either an $(i,j)$-walk in $G_1$ or an $(i,j)$-walk in $G_2$ -- this is because vertices between endpoints cannot be sources. These cases are disjoint, except the hypothetical walk of length 1 from $i$ to $j$. %Furthermore, these cases are disjoint, since we are working with graphs that have parallel edges.
+                An $(i,j)$-walk in the fusion $f(G_1,G_2)$ is either an $(i,j)$-walk in $G_1$ or an $(i,j)$-walk in $G_2$, this is because vertices between endpoints cannot be sources. Furthermore, these cases are disjoint, since we are working with graphs that have parallel edges.
   		This leads to the following equation for fusions:
                 \begin{align*}
-                \varphi_{ij}(f(G_1,G_2)) = \begin{cases}
-                	\varphi_{ij}(G_1) + \varphi_{ij}(G_2) - x, \text{ if both $G_1$ and $G_2$ have an edge $(i, j)$}\\
-                	\varphi_{ij}(G_1) + \varphi_{ij}(G_2), \text{ otherwise}.
-                \end{cases}
+					\varphi_{ij}(f(G_1, G_2)) = \varphi_{ij}(G_1) + \varphi_{ij}(G_2).
                 \end{align*}
                 The right hand side uses component-wise addition, which is a basic operation in $\aalg$.
                 \item The last case is when $f$ is a unary operation which forgets  source $c \in \set{1,\ldots,k}$.  Let then $G$ be a $k$-sourced graph. A nonempty $(i,j)$-walk in $f(G)$ is either a nonempty $(i,j)$-walk in $G$, or it has the form
@@ -170,19 +167,19 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
 \end{proof}
 \input{pol-aut-equivalence-any-ring}
 \subsection{Equivalence for register transducers that compute walk series}\label{sec:decide-power-series}
-By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}, the  equivalence problem from Theorem~\ref{thm:path-equivalence} reduces to equivalence for nondeterministic tree-to-$\aalg$ register transducers, where $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}. In this section, we complete the proof the theorem by showing that the latter problem is decidable.
-\begin{lemma}\label{lem:functionality-decidable-power-series} If $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}, then equivalence is decidable for nondeterministic tree-to-$\aalg$ register transducers. 
+By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}, the  equivalence problem from Theorem~\ref{thm:path-equivalence} reduces to equivalence for functional \regTsover{\aalg}, where $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}. In this section, we complete the proof the theorem by showing that the latter problem is decidable.
+\begin{lemma}\label{lem:functionality-decidable-power-series} If $\aalg$ is the algebra from Lemma~\ref{lem:compute-power-series}, then equivalence is decidable for functional \regTsover{\aalg}. 
 \end{lemma}
 \begin{proof}
-	We will reduce to equivalence of tree-to-\Zrat polynomial transducers, which is shown decidable in Corollary \ref{cor:equivalence-pol-transducers-Zrat}.
+	We will reduce to equivalence of \polTsover{\Zrat}, which is shown decidable in Corollary \ref{cor:equivalence-pol-transducers-Zrat}.
 	The following equation allows to simulate Kleene plus by division operation; observe that for any $f$ we have $ff^+ + f = f^+$, and in consequence
 	$$
 	f^+ = \frac{f}{1-f}.
 	$$
-	This makes tree-to-\aalg register transducer a tree-to-\Zrat polynomial transducer \emph{with division}, i.e. a polynomial transducers with additional feature that register updates can use division operation.
+	This makes \regTover{\aalg} a \polTover{\Zrat} \emph{with division}, i.e. a polynomial transducer with additional feature that register updates can use division operation.
 	The rest of the proof is devoted to showing decidability of equivalence of polynomial transducers with division.
 	\begin{lemma}
-		Equivalence of tree-to-$\Ring$ polynomial transducers with division is decidable, for a ring with no zero divisors $\Ring$.
+		Equivalence of \polTsover{\Ring} with division is decidable, for a ring with no zero divisors $\Ring$.
 	\end{lemma}
 	\begin{proof}
 		We will adapt the construction of projective line.
@@ -206,7 +203,7 @@ By Lemmas~\ref{lem:transduction-to-registers} and~\ref{lem:compute-power-series}
 		$$
 		that is, $\eqzeroinalgb(x,y) = x$.
 		
-		Now, for $\Aa$ being tree-to-$\Ring$ polynomial transducer with division, one can make a tree-to-$\balg$ polynomial transducer $\Bb$, using equations above. Then for each input tree $t$, $\Bb(t)$ represent $\Aa(t)$.
+		Now, for $\Aa$ being \polTover{\Ring} with division, one can make a \polTover{\balg} $\Bb$, using equations above. Then for each input tree $t$, $\Bb(t)$ represent $\Aa(t)$.
 		
 		Thus the reduction is as follows: for polynomial transducers with division $\Aa_1, \Aa_2$ take polynomial transducer $\Bb_{1,2}$ corresponding to $\Aa_1-\Aa_2$. Then $\Aa_1 \equiv \Aa_2$
 		%\Leftrightarrow
