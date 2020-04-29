@@ -1,5 +1,5 @@
 \section{Register transducers}\label{sec:register-transducers}
-To approach the equivalence problem for graph-to-graph transductions, we will use tree-to-graph transformations which are defined by extensions of bottom-up tree automata.The idea is that the input trees represent tree decompositions.
+To approach the equivalence problem for graph-to-graph transductions, we will use tree-to-graph transformations which are defined by extensions of bottom-up tree automata. The idea is that the input trees represent tree decompositions.
 %  while elements of the output algebra are algebraic objects that represent the output graphs (e.g.~certain graph polynomials, or certain generating functions). 
 
 In this paper, when transducers input trees, then these trees are  ranked trees over a ranked alphabet, as described below. A \emph{ranked alphabet} is defined to be  a finite set, where every element has an associated arity in $\set{0,1,\ldots}$. Using a ranked alphabet, one can build trees, as explained in the following picture:
@@ -15,9 +15,10 @@ For a short definition, we omit states and output function from the model. They 
         \item an output algebra $\aalg$, which is an algebra in the sense described in Section~\ref{sec:treewidth-definition};
         \item an input alphabet $\Sigma$, which is a finite ranked set;
         \item a finite set $R$ of register names, with a distinguished output register $r \in R$;
+        \item an initial register valuation, of type $\aalg^R$;
         \item for every letter $a \in \Sigma$ of the input alphabet, of arity $n \in \set{0,1,\ldots}$, a finite set of  associated \emph{register updates}, which are  term operations of type  $\aalg^{\set{1,\ldots,n} \times R} \to \aalg^R$. 
     \end{enumerate}
-    If there is exactly one initial register valuation and for each input letter there is exactly one associated register update, then the register transducer is called deterministic. 
+    If for each input letter there is exactly one associated register update, then the register transducer is called deterministic. 
 \end{definition}
 % There is a natural extension of the above model with states, which we call \emph{stateful register transducers}. Stateless and stateful register transducers compute the same functions, but the stateful model is  useful when considering the single-use restriction that will be discussed later in this section. 
 
@@ -26,7 +27,7 @@ A  register transducer computes a binary relation, which consists of pairs
 \begin{center}
     (tree over the input alphabet, element of the output algebra).
 \end{center}
-Pairs in this relation are obtained by  executing the register updates on the input tree in a bottom-up way, and then returning the value of the first register. Here is a more detailed explanation.  For an input  tree $t$ over the input alphabet $\Sigma$, define the \emph{reachable register valuation} on $t$ to be the subset  of $\aalg^R$ that is  defined as follows by  induction on the size of $t$. Consider a tree which has root label $a$ and child subtrees $t_1,\ldots,t_n$. (The induction base of the construction is when $a$ has arity $n=0$ and there are no child subtrees.) Let $v_1,\ldots,v_n \in \aalg^R$ be  register valuations that are reachable, respectively,  for the child subtrees, as defined by induction assumption. Combine these register valuations into a register valuation from $\aalg^{\set{1,\ldots,n} \times R}$, and apply to this tuple any register update corresponding to $a$. The resulting register valuation is reachable from for the tree $t$. The binary relation computed by a register transducer consists of pairs $(t,\text{value of output register in  some register valuation reachable in $t$})$. If the register transducer is deterministic, then the binary relation is a function. 
+Pairs in this relation are obtained by  executing the register updates on the input tree in a bottom-up way, and then returning the value of the first register. Here is a more detailed explanation.  For an input  tree $t$ over the input alphabet $\Sigma$, define the \emph{reachable register valuation} on $t$ to be the subset  of $\aalg^R$ that is  defined as follows by  induction on the size of $t$. Consider a tree which has root label $a$ and child subtrees $t_1,\ldots,t_n$. (The induction base of the construction is when $a$ has arity $n=0$ and there are no child subtrees, in such case only initial valuation is reachable.) Let $v_1,\ldots,v_n \in \aalg^R$ be  register valuations that are reachable, respectively,  for the child subtrees, as defined by induction assumption. Combine these register valuations into a register valuation from $\aalg^{\set{1,\ldots,n} \times R}$, and apply to this tuple any register update corresponding to $a$. The resulting register valuation is reachable from for the tree $t$. The binary relation computed by a register transducer consists of pairs $(t,\text{value of output register in  some register valuation reachable in $t$})$. If the register transducer is deterministic, then the binary relation is a function. 
 
 \begin{example}
     Consider nondeterministic register transducers over the Boolean algebra
@@ -46,7 +47,7 @@ The equivalence problem is defined similarly, except that the input is two deter
     Same reasoning as in Fact~\ref{fact:equi-decidable}, with the following differences: (1) the domain of a register transducer is always a regular tree language, which can be computed effectively; and  (2) there is no need to encode colours in the input graph, since the model of register transducers allows for coloured inputs.
 \end{proof}
 
-\begin{example} In~\cite{seidlManethKemper2018}, Maneth, Seidl and Kemper study  the equivalence problem for  deterministic register transducers where the output algebra is $\Sigma^*$, equipped with concatenation and constants for all letters and the empty string.  Using Hilbert's Basis Theorem, checking equivalence of tree-to-string transducers is shown decidable~\cite[Corollary 8.2]{seidlManethKemper2018}. We will use the same method in this paper.
+\begin{example} In~\cite{seidlManethKemper2018}, Maneth, Seidl and Kemper study  the equivalence problem for  deterministic register transducers where the output algebra is $\Sigma^*$, equipped with concatenation and constants for all letters and the empty string.  Using Hilbert's Basis Theorem, checking equivalence of tree-to-string transducers is shown decidable~\cite[Corollary 8.2]{seidlManethKemper2018}. We will use the same method in Section \ref{sec:pol-transducers-any-ring}.
 \end{example}
 
 
@@ -84,8 +85,10 @@ We are mainly interested in the case when the input trees are tree decomposition
 \end{lemma}
 The proof of the above lemma uses ideas from~\cite{courcelleMonadicSecondorderLogic1990,bloem_comparison_2000,alurStreamingTreeTransducers2017}, and  is relegated to the appendix.  
 
+%\begin{corollary}
+%The equivalence and functionality  problems for graph-to-graph \mso transductions of bounded treewidth  reduce to the functionality problem for nondeterministic register transducers over $k$-sourced graphs (for some $k$). 
+%\end{corollary}
 \begin{corollary}
-The equivalence and functionality  problems for graph-to-graph \mso transductions of bounded treewidth  reduce to the functionality problem for nondeterministic register transducers over $k$-sourced graphs (for some $k$). 
+The functionality of nondeterministic and equivalence of functional graph-to-graph \mso transductions of bounded treewidth reduce to the equivalence problem for deterministic register transducers over $k$-sourced graphs (for some $k$). 
 \end{corollary}
-
 
