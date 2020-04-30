@@ -58,7 +58,11 @@ We use the name \emph{basic operations} for the operations that are given in the
             \begin{itemize}
                 \item {\bf Constants.} There is a constant for every $k$-sourced graph where all vertices are sources and there is at most one edge.
                 \item {\bf Forget.} For every $i \in \set{1,\ldots,k}$ there is a unary operation, which inputs a $k$-sourced graph and outputs the same $k$-sourced graph, except that the $i$-th source is undefined. 
-                \item {\bf Fuse.} There is one binary operation, called \emph{fusion}, which inputs two $k$-sourced graphs, and output their disjoint union, with same-numbered sources being identified, as explained in the following picture (note that fusion of graphs without parallel edges might contain parallel edges):
+                \item {\bf Fuse.} There is one binary operation, called \emph{fusion}, which inputs two $k$-sourced graphs, and 
+                connects %ale join też bardzo pasuje
+                them along same-numbered sources, 
+                %outputs their disjoint union, with same-numbered sources being identified, 
+                as explained in the following picture (note that fusion of graphs with no parallel edges might contain parallel edges):
                 \mypic{1}
             \end{itemize}
         \end{definition}
@@ -78,12 +82,12 @@ We use the name \emph{basic operations} for the operations that are given in the
     We  use logic, especially monadic second-order logic, to define properties and transformations of graphs. 
 
     \smallparagraph{Logical terminology}
-    A  \emph{vocabulary} is defined to be  a set of relation names, each one with an associated arity. A \emph{model over vocabulary $\tau$} consists of a set, called the \emph{universe} of the model, together with an \emph{interpretation}, maps the relations names from the vocabulary $\tau$ to  relations over the universe of same arity. To define properties of such models, we use mainly monadic second-order logic \mso, which  is the extension of first-order logic that allows quantification over sets of elements (but not sets of pairs, or triples, etc.). We assume that the reader is familiar with \mso, for an introduction see~\cite[Section 2]{Thomas97}.
+    A  \emph{vocabulary} is defined to be  a set of relation names, each one with an associated arity. A \emph{model over vocabulary $\tau$} consists of a set, called the \emph{universe} of the model, together with an \emph{interpretation}, that maps the relations names from the vocabulary $\tau$ to  relations over the universe of same arity. To define properties of such models, we use mainly monadic second-order logic \mso, which  is the extension of first-order logic that allows quantification over sets of elements (but not sets of pairs, or triples, etc.). We assume that the reader is familiar with \mso, for an introduction see~\cite[Section 2]{Thomas97}.
      
      
-      To define properties of graphs in \mso, we represent a graph as models. There are at least two ways to do this, called  \msoone and \msotwo following 
+      To define properties of graphs in \mso, we represent graphs as models. There are at least two ways to do this, called  \msoone and \msotwo following 
  Courcelle~\cite[Definition 1.7]{courcelleVI}. In the \msoone model, which is defined only for graphs with no parallel edges, the  universe is the vertices and there is a binary relation for the edges (the binary relation is symmetric, because graphs are undirected). In the \msotwo model, the universe is the disjoint union of vertices and edges, and there is a binary  \emph{incidence relation} that consists of pairs $(v,e)$ such that vertex $v$ participates in edge $e$. 
-In this paper, we use the \msotwo model. For general graphs with no parallel edges, more properties of graphs can be expressed in \mso using the \msotwo representation, e.g.~existence of a Hamiltonian cycle can be expressed using the \msotwo representation but not with the \msoone representation~\cite[p.~118]{courcelleVI}. However, for graphs of bounded treewidth with no parallel edges, \msoone and \msotwo have the same expressive power~\cite[Theorem 9.37]{courcelleGraphStructureMonadic2012}. 
+In this paper, we use the \msotwo model, in order to maintain decidability, on classess of graphs of bounded treewidth. For general graphs with no parallel edges, more properties of graphs can be expressed in \mso using the \msotwo representation, e.g.~existence of a Hamiltonian cycle can be expressed using the \msotwo representation but not with the \msoone representation~\cite[p.~118]{courcelleVI}. However, for graphs of bounded treewidth that have no parallel edges, \msoone and \msotwo have the same expressive power~\cite[Theorem 9.37]{courcelleGraphStructureMonadic2012}.
 
 \smallparagraph{Transductions}  The central topic of this paper is \mso transductions, which are graph transformations definable in \mso. In principle, the transductions are nondeterministic -- i.e.~they represent binary relations and not functions -- but we will show that the case of functions is general for the equivalence problems that we consider.
 
@@ -184,7 +188,7 @@ If the  transductions in the instance are not functional, then there are no requ
 
 The rest of this paper is devoted to a discussion of the above two problems, including a solution for a variant where output graphs are identified up to a relaxation of isomorphism.
 %As we explain below, we do not even know how to solve the problem for $k=\ell=1$, i.e.~for \mso transductions which input and output forests.
-We begin with two examples which illustrate the fact that equivalence problem for graph-to-graph transductions remains unsolved even for very restricted instances.
+We begin with two examples which illustrate the fact that equivalence problem for graph-to-graph transductions is unsolved even for very restricted instances.
 
 \begin{example}
     Consider the special case of the equivalence problem for functional graph-to-graph \mso transductions of bounded treewidth, where both input and output graphs have treewidth 1. (As we will see in Lemma~\ref{lem:transduction-to-registers}, it is the output treewidth that is important, since the input treewidth can always be reduced to 1 without making the problem any easier.) This very special case of the equivalence problem, to our best knowledge, has not been solved yet.
@@ -204,7 +208,7 @@ We begin with two examples which illustrate the fact that equivalence problem fo
         This example also illustrates a phenomenon in the equivalence problem for \mso transductions: the problem is typically harder for structures with more automorphisms, e.g.~non-rooted forests are harder than rooted forests. Another instance of this phenomenon is that equivalence for forests (which do not have a sibling order) is a more general problem than equivalence for forests with a sibling order -- the latter can be encoded in former, in the above sense, as described by the following picture (J:fill-in może obrazek?).
     \end{example}   
 
-		Let us move another to example, which also remains unsolved.
+		Let us move to another example, which is an entertaining problem, but which we do not know how to solve.
     \begin{example}
         Define \emph{cyclic equivalence} to be the equivalence relation $\sim$ on strings which identifies two words modulo cyclic shifts:
         \begin{align*}
