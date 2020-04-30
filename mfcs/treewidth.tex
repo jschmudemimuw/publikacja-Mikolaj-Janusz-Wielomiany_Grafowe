@@ -1,32 +1,21 @@
 \section{Graphs, treewidth, and logic on graphs}
-The graphs in this paper are finite and undirected, with parallel edges, with no loops. Formally, we define a \emph{graph} to be a tuple consisting of a set of vertices, set of edges and a function that associates to each edge the two-element set of its endpoints. We call distinct edges \emph{parallel} if their sets of endpoints are equal. All Theorems we cite (for example \cite[Proposition 4.1]{courcelleEtAlAlgebraicTheoryOfGraphReduction93}, \cite[Theorem 2]{groheDellRattan2018}) were originally formulated for graphs with no parallel edges; however, for the results we mostly rely on, i.e. one from~\cite{groheDellRattan2018}, hold for graphs that allow parallel edges as well (as stated in paper's Preliminary Section).
+The graphs in this paper are finite and undirected, with parallel edges, with no loops. Formally, a \emph{graph} consists of: a set of \emph{vertices}, a set of \emph{edges} and a function that associates to each edge the two-element set of its endpoints. We call distinct edges \emph{parallel} if their sets of endpoints are equal. All theorems we cite (for example \cite[Proposition 4.1]{courcelleEtAlAlgebraicTheoryOfGraphReduction93}, \cite[Theorem 2]{groheDellRattan2018}) were originally formulated for graphs with no parallel edges; however, for the results we mostly rely on, i.e. one from~\cite{groheDellRattan2018}, hold for graphs that allow parallel edges as well (as stated in paper's Preliminary Section).
 
 \subsection{Treewidth} 
 \label{sec:treewidth-definition}
-For every class of graphs with unbounded treewidth, its \mso theory (assuming the \msotwo encoding described later in this paper) is undecidable~\cite[Theorem 8]{seese1991structure}. This undecidability result immediately extends to the equivalence problems for \mso transductions that are studied in this paper. Therefore, we  only consider classes of graphs of bounded treewidth. 
-%a może: we only consider transductions where input classess have bounded treewidth (this implies output classess have bounded treewidth too (fill-in citation))
+As mentioned in the introduction, we work with graphs of bounded treewidth in order to have any hope of decidability for \mso transductions. 
 To define treewidth, we use Courcelle's  approach via universal algebra \cite{courcelleEtAlAlgebraicTheoryOfGraphReduction93}. (Later on in the paper, we also use algebra in the classical sense: rings, fields, polynomials, etc.)
 
 
 \smallparagraph{Algebras and terms operations} We begin by introducing some terminology from universal algebra. By an \emph{algebra}, we mean an underlying set equipped with some  operations, e.g.~the ring of integers $(\Int, + , \times, 0, 1)$ or the free monoid $(\Sigma^*, \cdot, \varepsilon)$. We write $\aalg, \balg, \ldots$ for algebras. By abuse of notation, we write $a \in \aalg$ if $a$ belongs to the underlying set in the algebra $\aalg$. 
-
 We use the name \emph{basic operations} for the operations that are given in the algebra. This is to distinguish them from the more general \emph{term operations}, which are defined below.
-        For two finite sets $X,Y$ and an algebra $\aalg$, a function
-        \begin{align*}
-            f : \aalg^X \to \aalg^Y,
-            \end{align*}
+        For two finite sets of variables $X,Y$ and an algebra $\aalg$, a function $f : \aalg^X \to \aalg^Y,$
             is called a \emph{term operation} if it is induced by a family of terms, one for each $y \in Y$, with each term  constructed using the basic operations of the algebra and variables from $X$.  If the set $Y$ has one element, then we talk about term operations of type $\aalg^X \to 
-        \aalg$, and if furthermore the set $X$ is $\set{0,\ldots,k-1}$ then we talk about term operations of type $\aalg^k \to \aalg$. 
-
-        For example, the polynomial
-        \begin{align*}
-        f : \Real \to \Real \qquad x \mapsto 3x^2 -2x+1,
-        \end{align*}
-     and more generally any polynomial with integer coefficients,  is a term operation in the algebra
-        \begin{align*}
-            (\Real, +,\times, -1,0,1).
-        \end{align*}
-        Polynomials with non-integer coefficients such as $0.5$  are not term operations; for this the coefficients would need to be added as constants to the algebra. 
+        \aalg$, and if furthermore the set $X$ is $\set{0,\ldots,k-1}$ then we talk about term operations of type $\aalg^k \to \aalg$.
+        For example, the polynomial $3x^2 -2x+1$ can be viewed as a term in the algebra
+            $(\Real, +,\times, -1,0,1)$,
+        and it induces a term operation of type $\Real \to \Real$. 
+        Polynomials with non-integer coefficients such as $0.5$  are not term operations in the algebra from the above example; for this the coefficients would need to be added as constants to the algebra. 
         % In the same algebra, an example of a  for this the 
         % while the operation $x \mapsto xa$ which appends an 
         %  the operation $x \mapsto xx$ is a unary term operation. 
@@ -45,7 +34,8 @@ We use the name \emph{basic operations} for the operations that are given in the
         
         
 \smallparagraph{The algebra of $k$-sourced graphs} To define treewidth, we consider graphs with distinguished vertices and equip them with an algebraic structure. 
-    Let $k \in \set{1,2,\ldots}$. Define a $k$-sourced graph to be a  graph together with a $k$-tuple of pairwise distinct vertices called \emph{sources}. We allow sources to be undefined; in particular when all sources are undefined then we get a graph. Here is a 
+    For $k \in \set{1,2,\ldots}$,  define a \emph{$k$-sourced graph}
+     to be a  graph together with a $k$-tuple of pairwise distinct vertices called \emph{sources}. We allow sources to be undefined; in particular when all sources are undefined then we get a graph. Here is a 
     picture of a 3-sourced graph, where sources 1 and 3 are defined, but source 2 is undefined:
     \mypic{2}
     We view  $k$-sourced graphs as an algebra, in the following sense.
@@ -71,7 +61,7 @@ We use the name \emph{basic operations} for the operations that are given in the
 
 
   \begin{definition}[Treewidth]
-        For $k \in \set{1,2,\ldots}$, we say that a  graph has treewidth  $\le  k$ if it can be produced using the operations of the algebra of $(k+1)$-sourced graphs.
+        For $k \in \set{1,2,\ldots}$, we say that a  graph has treewidth  $\le  k$ if it is the value of some term in the algebra of $(k+1)$-sourced graphs.
     \end{definition}
 
   
@@ -86,37 +76,12 @@ We use the name \emph{basic operations} for the operations that are given in the
      
      
       To define properties of graphs in \mso, we represent graphs as models. There are at least two ways to do this, called  \msoone and \msotwo following 
- Courcelle~\cite[Definition 1.7]{courcelleVI}. In the \msoone model, which is defined only for graphs with no parallel edges, the  universe is the vertices and there is a binary relation for the edges (the binary relation is symmetric, because graphs are undirected). In the \msotwo model, the universe is the disjoint union of vertices and edges, and there is a binary  \emph{incidence relation} that consists of pairs $(v,e)$ such that vertex $v$ participates in edge $e$. 
-In this paper, we use the \msotwo model, in order to maintain decidability, on classess of graphs of bounded treewidth. For general graphs with no parallel edges, more properties of graphs can be expressed in \mso using the \msotwo representation, e.g.~existence of a Hamiltonian cycle can be expressed using the \msotwo representation but not with the \msoone representation~\cite[p.~118]{courcelleVI}. However, for graphs of bounded treewidth that have no parallel edges, \msoone and \msotwo have the same expressive power~\cite[Theorem 9.37]{courcelleGraphStructureMonadic2012}.
+ Courcelle~\cite[Definition 1.7]{courcelleVI}. In this paper, we use the more expressive \msotwo  model: the universe is the disjoint union of vertices and edges, and there is a binary  \emph{incidence relation} that consists of pairs $(v,e)$ such that vertex $v$ participates in edge $e$.  We present our results for monadic second-order logic without modulo counting, but all of our results can be easily extended to include modulo counting. 
 
-\smallparagraph{Transductions}  The central topic of this paper is \mso transductions, which are graph transformations definable in \mso. In principle, the transductions are nondeterministic -- i.e.~they represent binary relations and not functions -- but we will show that the case of functions is general for the equivalence problems that we consider.
+% In this paper, we use the \msotwo model. For general graphs, with or without parallel edges, more properties of graphs can be expressed in \mso using the \msotwo representation, e.g.~existence of a Hamiltonian cycle can be expressed using the \msotwo representation but not with the \msoone representation~\cite[p.~118]{courcelleVI}. However, for graphs of bounded treewidth that have no parallel edges, \msoone and \msotwo have the same expressive power~\cite[Theorem 9.37]{courcelleGraphStructureMonadic2012}.
 
-% \begin{definition}\label{def:graph-to-graph-mso}
-%     The syntax of a graph-to-graph \mso transduction consists of:
-%         \begin{enumerate}
-%             \item a finite set of colours $C$;
-%             \item a copying constant $k \in \set{1,2,\ldots}$;
-%             \item \label{msotrans:formulas} two \mso formulas -- a universe formula with one free variable, and an incidence formula with two free variables --  over the following relational vocabulary
-%             \begin{align*}
-%             \underbrace{\mathrm{incident}(x_1,x_2)}_{\txt{arity 2}}  \qquad
-%             \underbrace{\mathrm{copy}(x_1,\ldots,x_k)}_{\txt{arity $k$}}  \qquad 
-%             \underbrace{\mathrm{colour}_c(x)\ \text{for $c \in C$}}_{\txt{arity 1}}.
-%             \end{align*}
-%         \end{enumerate}
-% \end{definition}
-% The semantics of an \mso transdution is a binary relation on graphs, which is defined as follows. The idea is that we take an input graph, colour its vertices with colours from $C$, copy each vertex $k$ times, and then use the formulas from item~\ref{msotrans:formulas} to define a new graph structure. Since there are many ways of choosing the colouring, the same input graph might lead to several different output graphs. A more formal definition is given below.
-
-%  Consider an input graph $G$ together with a colouring $\lambda$ of the vertices by colours from $C$.  Consider a relational structure   which is defined as follows. The universe is pairs $(x,i)$ such that $x$ is either a vertex or edge in $G$, and $i \in \set{1,\ldots,k}$. The   vocabulary is the same as in item~\ref{msotrans:formulas} of Definition~\ref{def:graph-to-graph-mso}, with the relations from the vocabulary interpreted as follows:
-% \begin{align*}
-% \mathrm{incident} = & \set{((v,i),(e,i)) : (v,e) \text{ is incident in $G$ and $i \in \set{1,\ldots,k}$}}\\
-% \mathrm{copy} = & \set{((v,1),\ldots,(v,k)) : \text{$v$ is a vertex of $G$ and $i \in \set{1,\ldots,k}$}} \\
-% \mathrm{color}_c = & \set{(v,i) : \text{$v$ is a vertex of $G$ with colour $c$ and $i \in \set{1,\ldots,k}$}}
-% \end{align*}
-% Define  $G_\lambda$ to be the relational structure,   with one binary incidence relation, which arises from the above relational structure by restricting the universe to those elements which satisfy the universe formula, and defining the incidence relation to be those pairs which satisfy the incidence formula.  The semantics of the \mso interpretation is defined to be 
-% \begin{align*}
-% \set{(G,H) : \text{the \msotwo encoding of $H$ is isomorphic to $G_\lambda$, for some $\lambda$}}
-% \end{align*}
- A \emph{transduction}, with input vocabulary $\tau$ and output vocabulary $\sigma$ is defined to be a set of pairs 
+\smallparagraph{Transductions}  The central topic of this paper is \mso transductions, which are graph transformations definable in \mso (from now on, when talking about \mso we mean graph properties that are definable in monadic second-order logic using the \msotwo representation of graphs as models). The transductions can be nondeterministic, in which case they represent binary relations and not functions.
+A \emph{transduction}, with input vocabulary $\tau$ and output vocabulary $\sigma$ is defined to be a set of pairs 
 \begin{align*}
     (\myunderbrace{\text{model over $\tau$}}{input model}, \ 
     \myunderbrace{\text{model over $\sigma$}}{output model}),
@@ -144,8 +109,8 @@ Kind 1 is a partial function, kinds 2, 3, 4 are functions, and kind 5 is a relat
 \begin{align*}
 (\text{\msotwo model of $G$}, \text{\msotwo model of $H$})\in \Tt.
 \end{align*}
-If $\Tt$ is functional, which means that for every input graph there is at most one output graph up to isomorphism, then we write $\Tt(G)$ for the (isomorphism type of the) resulting graph (which may be undefined).
-The topic of this paper is   the following  decision problem for functional \mso graph-to-graph transductions, which  we do not know how to solve.
+If $\Tt$ is functional, which means that for every input graph there is at most one output graph up to isomorphism, then we write $\Tt(G)$ for the (isomorphism type of the) resulting graph (which may be undefined, because $\Tt$ might be a partial function).
+The topic of this paper is   the following  decision problem for functional \mso graph-to-graph transductions. 
 
 
 \decisionproblem{equivalence for functional graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and two functional graph-to-graph \mso transductions $\Tt_1,\Tt_2$.}{is it the case that for every input $G$ of treewidth at most $\ell$, the two outputs  $\Tt_1(G),\Tt_2(G)$ are isomorphic and have treewidth at most $k$?}
@@ -154,21 +119,21 @@ If the  transductions in the instance are not functional, then there are no requ
 
 \decisionproblem{functionality for graph-to-graph \mso transdcutions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and a graph-to-graph \mso transduction,  not necessarily functional.}{is there some input of treewidth at most $\ell$,  which can produce  at least two non-isomorphic outputs of treewidth at most $k$?}
     
-
+We do not know how to solve any of the above problems, but at least we know that they are equi-decidable, i.e.~if one is decidable then the other is decidable. 
 
 \begin{fact}\label{fact:equi-decidable}
-    The equivalence and functionality problems described above are equi-decidable, i.e.~if one is decidable then the other is decidable. 
+    The equivalence and functionality problems described above are equi-decidable.
 \end{fact}
 \begin{proof}
     %(fill-in)
     Equivalence reduces to functionality, because two transductions are  equivalent if and only if they have the same domains when restricted to treewidth at most $\ell$, and their union is  functional, when restricted to inputs of treewidth at most $\ell$ and outputs of treewidth at most $k$.  The domain of an \mso transduction can be effectively constructed as an \mso sentence~\cite[Backwards Translation Theorem]{courcelleGraphStructureMonadic2012}, while equivalence for \mso sentences on graphs of bounded treewidth is decidable~\cite[Theorem 5.80]{courcelleGraphStructureMonadic2012}.
 
-    Consider now the converse reduction: from functionality to equivalence. Suppose that $\Tt$ is an \mso transduction, and we want to check if $\Tt$ is functional for inputs of treewidth at most $\ell$ and outputs of treewidth at most $k$. Because colourings can be pushed to the head of an \mso transduction, see~\cite[Section 1.7]{courcelleGraphStructureMonadic2012}, we can decomposed $\Tt$ as a  composition $\mathcal T =  \mathcal F \circ \mathcal S$, where:
+    Consider now the converse reduction: from functionality to equivalence. Suppose that $\Tt$ is an \mso transduction, and we want to check if $\Tt$ is functional for inputs of treewidth at most $\ell$ and outputs of treewidth at most $k$. Because colourings can be pushed to the head of an \mso transduction, see~\cite[Section 1.7]{courcelleGraphStructureMonadic2012}, we can decompose $\Tt$ as $\mathcal T =  \mathcal F \circ \mathcal S$, where:
     \begin{itemize}
-        \item $\mathcal C$ is a colouring, i.e.~a composition of transduction as in item~\ref{mso-trans:colouring} of Definition~\ref{def:mso-transduction}.
+        \item $\mathcal C$ is a colouring, i.e.~a composition of transductions as in item~\ref{mso-trans:colouring} of Definition~\ref{def:mso-transduction}.
         \item $\mathcal F$ is a composition of transductions from items~\ref{mso-trans:filtering}-\ref{mso-trans:copying} of Definition~\ref{def:mso-transduction}.
     \end{itemize}
-    In particular, since items~\ref{mso-trans:filtering}-\ref{mso-trans:copying} of Definition~\ref{def:mso-transduction} describe partial functions, it follows that $\mathcal F$ is a partial function. There is some finite set of colours $C$ (more precisely, if $\Ff$ is a composition of $n$ copying transductions, then $C=2^n$) such that the  transduction $\mathcal C$ inputs a graph, and nondeterministically outputs a $C$-coloured graph (i.e.~a graph with vertices labelled by colours from $C$). For $i  \in \set{1,2}$, define $\Ff_i$ to be the \mso transduction which inputs a $(C \times C)$-coloured  graph, projects the colours to the $i$-th coordinate, and then applies $\Ff$. The transduction $\Tt$ is functional if and only if the transductions $\Ff_1$ and $\Ff_2$ are equivalent (and the same statement is true if we restrict inputs and outputs to have given treewidth). Therefore, the functionality problem reduces to the equivalence problem for coloured graphs. Finally, colours can be simulated by the graph structure without affecting treewidth,  as explained in the following picture:
+    In particular, since items~\ref{mso-trans:filtering}-\ref{mso-trans:copying} of Definition~\ref{def:mso-transduction} describe partial functions,  $\mathcal F$ is a partial function. There is some finite set of colours $C$ (if $\Ff$ is a composition of $n$ copying transductions, then $C=2^n$) such that the  transduction $\mathcal C$ inputs a graph, and nondeterministically outputs a $C$-coloured graph (i.e.~a graph with vertices labelled by colours from $C$). For $i  \in \set{1,2}$, define $\Ff_i$ to be the \mso transduction which inputs a $(C \times C)$-coloured  graph, projects the colours to the $i$-th coordinate, and then applies $\Ff$. The transduction $\Tt$ is functional if and only if the transductions $\Ff_1$ and $\Ff_2$ are equivalent (and the same statement is true if we restrict inputs and outputs to have given treewidth). Therefore, the functionality problem reduces to the equivalence problem for coloured graphs. Finally, colours can be simulated by the graph structure without affecting treewidth,  as explained in the following picture:
     \mypic{5}
     Let $\Tt$ be the \mso transduction from coloured graphs to uncoloured graphs, and let $\Tt^{-1}$ be its one-sided inverse, which is a partial function from uncoloured graphs to coloured graphs:
     \begin{align*}
@@ -190,27 +155,15 @@ The rest of this paper is devoted to a discussion of the above two problems, inc
 %As we explain below, we do not even know how to solve the problem for $k=\ell=1$, i.e.~for \mso transductions which input and output forests.
 We begin with two examples which illustrate the fact that equivalence problem for graph-to-graph transductions is unsolved even for very restricted instances.
 
-\begin{example}
-    Consider the special case of the equivalence problem for functional graph-to-graph \mso transductions of bounded treewidth, where both input and output graphs have treewidth 1. (As we will see in Lemma~\ref{lem:transduction-to-registers}, it is the output treewidth that is important, since the input treewidth can always be reduced to 1 without making the problem any easier.) This very special case of the equivalence problem, to our best knowledge, has not been solved yet.
+\begin{example}\label{ex:trees}
+    Consider the special case of the equivalence problem for functional graph-to-graph \mso transductions of bounded treewidth, where both input and output graphs have treewidth 1. (As we will see in Lemma~\ref{lem:transduction-to-registers}, it is the output treewidth that is important, since the input treewidth can always be reduced to 1 without making the problem any easier.) This is a very special case of the equivalence problem, but even this special case we do not know how to solve.
     
-    Let us compare this special case with a very similar problem that is already known to be decidable. 
-    Graphs of treewidth 1 are forests, and therefore in this special case, we are talking about the equivalence problem for functional \mso transductions that input and output forests.  In~\cite[Section 3]{boiretReducingTransducerEquivalence2018}, a similar problem was considered and shown decidable,  except that the forests were rooted (every tree in the forest has a distinguished root).  Rooted forests can be encoded in (un-rooted) forests, in the following sense: there exist functional \mso transductions
-    \begin{align*}
-        \xymatrix@C=3cm{
-            \text{rooted forests}
-            \ar@/^1pc/[r]^-{\Tt} &
-            \text{un-rooted forests},
-            \ar@/^1pc/[l]^-{\text{partial function }\Tt^{-1}}
-        }
-        \end{align*}
-        such that $\Tt^{-1} \circ \Tt$ is the identity on rooted forests. (For example, $\Tt$  can subdivide each edge with an extra node, and then add two extra children for the root, so that it becomes the unique tree node with two neighbours that are leaves.) Therefore, for the same reasons as in Fact~\ref{fact:equi-decidable}, the equivalence problem for rooted forests reduces to the equivalence problem for un-rooted forests. Unfortunately, we do not know of a reduction in the other direction. One idea would be to transform an un-rooted tree into the rooted forest of all possible ways of choosing a root; this transformation has quadratic size outputs, and therefore it cannot be an \mso transduction.
-
-        This example also illustrates a phenomenon in the equivalence problem for \mso transductions: the problem is typically harder for structures with more automorphisms, e.g.~non-rooted forests are harder than rooted forests. Another instance of this phenomenon is that equivalence for forests (which do not have a sibling order) is a more general problem than equivalence for forests with a sibling order -- the latter can be encoded in former, in the above sense, as described by the following picture (J:fill-in może obrazek?).
+    Let us compare this special case with a very similar problem that is already known to be decidable. There are three kinds of trees that can be considered, listed in order of increasing rigidity: (a) without a distinguished root and without sibling order; (b)  with a distinguished root and without sibling order; (c) with a distinguished root and with sibling order. The (a) variant is the special case of equivalence for graphs of treewidth 1.  As discussed in the introduction, the equivalence problem for \mso transductions is harder in  variant (b) than in variant (c), and for similar reasons (a) is harder than (b). Variant (b) is known to be decidable, but variant (a) remains open.  One idea would be to reduce variant (a) to variant (b) by transforming an  un-rooted tree into the rooted forest of all possible ways of choosing a root; this transformation has quadratic size outputs, and therefore it cannot be an \mso transduction.
     \end{example}   
 
-		Let us move to another example, which is an entertaining problem, but which we do not know how to solve.
+    Here is another special case of our problem, which seems entertaining and is also open.
     \begin{example}
-        Define \emph{cyclic equivalence} to be the equivalence relation $\sim$ on strings which identifies two words modulo cyclic shifts:
+        Define \emph{cyclic equivalence} to be the equivalence relation $\sim$ on strings which identifies two strings modulo cyclic shifts:
         \begin{align*}
             \text{abbac} \sim
             \text{cabba} \sim
