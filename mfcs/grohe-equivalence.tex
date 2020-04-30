@@ -1,9 +1,8 @@
 
 \section{Equivalence  modulo a certain equivalence relation}\label{sec:equivalence-modulo}
-In this section, we present our main result, which says  that equivalence is decidable for graph-to-graph transductions of bounded treewidth, modulo a certain equivalence on the output graphs. This equivalence is a relaxation of isomorphism.  
+In this section, we present our main result, which says  that equivalence is decidable for graph-to-graph transductions of bounded treewidth, modulo a certain equivalence on the output graphs. 
 
-\smallparagraph{Counting homomorphisms} The equivalence on output graphs is based on a paper by Grohe, Dell and Rattan~\cite{groheDellRattan2018}, which gives examples of how various equivalence relations on graphs, notably Weisfeiler-Leman equivalence, can be characterised in terms of counting homomorphisms. 
-
+\smallparagraph{Counting homomorphisms} The equivalence on output graphs is based on a paper by Grohe, Dell and Rattan~\cite{groheDellRattan2018}, which gives examples of how various relaxations of isomorphism on graphs, notably Weisfeiler-Leman equivalence, can be characterised in terms of counting homomorphisms. 
 Define a \emph{homomorphism} from a graph $G$ to a graph $H$ to be any function $h$ from vertices of $G$ to vertices of $H$ which preserves edges in one direction: if there is an edge from $v$ to $w$ in $G$, then there is an edge from $h(v)$ to $h(w)$ in $H$. We write $\homset(G,H)$ for the set of homomorphism from $G$ to $H$. A seminal result of  Lov\'asz~\cite[p.~326]{lovasz1967operations} says that two graphs are isomorphic if and only if they admit the same number of homomorphisms from every graph:
 \begin{align*}
 \underbrace{G \simeq H}_{\text{isomorphism}} \qquad \text{iff} \qquad  |\homset(F,G)|=|\homset(F,H)| \ \text{for every graph $F$.}
@@ -46,29 +45,29 @@ For the same reasons as in Fact~\ref{fact:equi-decidable}, the above problem is 
 The rest of this section is devoted to showing decidability for the  $\sim$-equivalence problem. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series. Then we show that equivalence is decidable for register transducers which manipulate such power series. Combining this with the reduction to register transducers from Lemma~\ref{lem:transduction-to-registers}, we get the theorem.
 
 \smallparagraph{Walk series}
-A sequence of natural numbers $a_0,a_1,\ldots$ can be visualised as an infinite univariate polynomial
+An infinite sequence $a_0,a_1,\ldots \in \Nat$ can be visualised as san infinite  polynomial
 \begin{align*}
- A = a_0 + a_1x^1 + a_2x^2 + \cdots.
+ A = a_0 + a_1x^1 + a_2x^2 + \cdots
 \end{align*}
+with one variable $x$.
 We use the name \emph{power series} for such polynomials, and write $\powerseries{ \Nat}$ for the set of power series. 
-We use the name $i$-th term for $a_i$; and we call $a_0$ the constant term. The power series form a semiring, with addition defined coordinatewise, and product being Cauchy product. Among all power series, we are particularly interested in the rational ones: a power series is called \emph{rational} if it can be generated from finite power series (a finite power series is one where all but finitely many terms are zero) using the semiring operations $+$ and $\times$ of power series, as well as the following unary  operation called \emph{Kleene plus}:
+We use the name $i$-th term for $a_i$; and we call $a_0$ the constant term.   The power series form a semiring, with addition defined coordinatewise, and product being Cauchy product (see~\cite[part III]{sakarovitch2009elements} for more on rational power series). Among all power series, we are particularly interested in the rational ones: a power series is called \emph{rational} if it can be generated from proper finite power series (a finite power series is one where all but finitely many terms are zero) using the semiring operations $+$ and $\times$ of power series, as well as the following unary  operation called \emph{Kleene plus}:
 \begin{align*}
  A^+ \eqdef A + A^2 + A^3 + \cdots.
-\end{align*}   
-Kleene plus   is defined only when the constant term   in $A$ is zero, which ensures that the infinite sum in $A^+$ is well defined. Otherwise, if $A$ would have a nonzero constant term $a_0$, then its Kleene plus would need to have $a_0 + a_0^2 + a_0^3 + \cdots$ as its constant term.
+\end{align*}  
+The Kleene plus is defined only if the power series is  \emph{proper} (i.e.~its constant term is zero), which ensures that the infinite sum in $A^+$ is well defined. If $A$ were not proper, then its Kleene plus would need to have the divergent value $a_0 + a_0^2 + a_0^3 + \cdots$ as its constant term.
 
-For a graph $G$, define its \emph{walk series} to be the power series 
+For a graph $G$, define its \emph{walk series} to be the proper power series 
 \begin{align*}
-  a_1 x^1 + a_2x^2 + \cdots \qquad \text{where $a_i$ is the number of walks in $G$ of length $i \ge 1$.}
+  a_0 x^1 + a_1 x^2 + \cdots \qquad \text{where $a_i$ is the number of walks in $G$ of length $i$.}
 \end{align*}
-Not how we count the lengths of nonempty walks; this is to ensure that the constant term will be zero.
-By definition, two graphs are $\sim$-equivalent if and only if they have the same number of vertices and the same walk series; computing number of vertices of outputted graph is straightforward and will be omitted later on. 
+By definition, two graphs are $\sim$-equivalent if and only if they have the same walk series. 
 The first step in the proof of Theorem~\ref{thm:path-equivalence} is the following lemma, which says that the walk series is always a  rational power series, and can be computed by a register transducer.
 \begin{lemma}\label{lem:compute-power-series}    
     Define  $\aalg$ to be the  algebra where
     \begin{description}
-        \item[Domain:]power series in $\powerseries \Nat$ which are rational and have a  zero constant term;
-        \item[Operations:] $+$, $\times$, Kleene plus and constants $1$ and $x$.
+        \item[Domain:] proper rational power series in $\powerseries \Nat$;
+        \item[Operations:] $+$, $\times$, Kleene plus and constant $x$.
     \end{description}
     For every $k \in \set{1,2,\ldots}$ and every nondeterministic register transducer $\Aa$ over the algebra of $k$-sourced graphs, there is a  nondeterministic register transducer $\Bb$ over the algebra  $\aalg$ defined above which makes the following diagram commute (arrows are binary relations):
     \begin{align*}
@@ -82,8 +81,8 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
     \end{align*}
 \end{lemma}
 \begin{proof}[Proof sketch] The main idea in the proof is the compositionality of walk series which is explained below. 
-    An \emph{inner walk} in a $k$-sourced graph is defined to be a walk that does not visit sources, with the possible exception of the first and last vertex in the walk.  For $i,j \in \set{1,\ldots,k}$ define  $\varphi_{ij}(G)$ to be the power series where the $n$-th term is the number of nonempty inner walks of length $n$ that begin in the $i$-th source and end in the $j$-th source. We now show how the series described above can be maintained compositionally
-      while applying the operations from the algebra of $k$-sourced graphs. 
+    An \emph{inner walk} in a $k$-sourced graph is defined to be a walk that does not visit sources, with the possible exception of the first and last vertex in the walk.  For $i,j \in \set{1,\ldots,k}$ define  $\varphi_{ij}(G)$ to be the proper power series where the $n$-th term is the number of nonempty inner walks of length $n$ that begin in the $i$-th source and end in the $j$-th source. In this proof sketch, we show how the series described above can be maintained compositionally
+      while applying the operations from the algebra of $k$-sourced graphs. Using variations on this compositionality principle, which take into account some minor technical details, the lemma is proved in the appendix. 
     
       Consider first the fusion of two $k$-sourced graphs: an inner walk in the fusion is the same thing as an inner walk in either the first or second component of the fusion, and these cases are disjoint (because of parallel edges). Therefore, we have:
     \begin{align*}
@@ -97,20 +96,28 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
 Using these compositionality ideas, we prove the lemma in the appendix.\end{proof}
 
 \smallparagraph{Equivalence for transducers over rational power series}
-Thanks to the above lemma, in order to prove Theorem~\ref{thm:path-equivalence}, it remains to show that equivalence is decidable for register transducers over algebra $\aalg$ of rational power series that is used in the above lemma.  Here the main idea is going to be the embedding of rational power series into rational functions. 
+Thanks to the above lemma, in order to prove Theorem~\ref{thm:path-equivalence}, it remains to show that equivalence is decidable for register transducers over the algebra $\aalg$ of rational power series that is used in the above lemma.  For this decidability result, we use the embedding of rational power series into rational functions. 
 
-Define a \emph{rational function} to be a pair of polynomials in $\Int[x]$, written as $P/Q$, such that $Q \neq 0$, and modulo the equivalence relation which identifies $P_1/Q_1$ with $P_2/Q_2$ if $P_1Q_2 = P_2Q_1$. We write $\Int(x)$ for the rational functions; this is a field. One can embed the rational power series into rational functions as follows. A finite power series $A$ is mapped to itself (formally, it is mapped to a fraction where the enumerator is $A$ and the denumerator is $1$), and the map is extended to the entire semiring as follows:
+Recall that a \emph{rational function} with variable $x$ is a fraction like
 \begin{align*}
-\alpha(A \cdot B) = \alpha(A) \cdot \alpha(B) \quad \alpha(A + B) = \alpha(A) + \alpha(B) \quad \alpha(A^+) = \frac{\alpha(A)}{1-\alpha(A)}.
+\frac{3x^2 -2x +1}{4x^3 -2},
 \end{align*}
-One can show that $\alpha$ defined this way is a semiring homomorphism from  $\aalg$ to the field $\Int(x)$ of rational functions. Since all operations in the algebra $\aalg$ correspond to term operations in $\Int(x)$ augmented with division operation, it follows that equivalence of register transducers over the algebra $\aalg$ reduces to equivalence for register transducers over the field $\Int(x)$, whose register updates may use division.
+where  the enumerator and denominator are polynomials in $\Int[x]$, the denominator is nonzero, and fractions are considered equivalent modulo cancelling common factors. We write $\Int(x)$ for the rational functions; this is a field.  A finite power series, i.e.~a polynomial in $\Int[x]$ can be seen as a rational function with denominator 1. This mapping can be extended to a function $\alpha : \aalg \to \Int(x)$ on all proper rational series 
+which is defined by:
+\begin{align*}
+\alpha(A \times B) = \alpha(A) \times \alpha(B) \quad \alpha(A + B) = \alpha(A) + \alpha(B) \quad \alpha(A^+) = \frac{\alpha(A)}{1-\alpha(A)}.
+\end{align*}
+One can show that the above definition gives indeed a function, which is furthermore injective. By definition $\alpha$ is a semiring homomorphism. 
+% Since all operations in the algebra $\aalg$ correspond to term operations in $\Int(x)$ augmented with division operation, it follows that equivalencse of register transducers over the algebra $\aalg$ reduces to equivalence for register transducers over the field $\Int(x)$, whose register updates may use division.
 
-It remains to show that equivalence is decidable for register transducers over the field $\Int(x)$, whose register updates may use division. This is true because $\Int(x)$ is a special case of a computable field: its elements can be enumerated in a way so that the field operations are computable.
+Consider a register transducer over the ring $\Int[x]$. Such a register transducer can store a rational function using two registers: one for the enumerator and one for the denominator. The field operations on rational functions can be simulated using this representation, and therefore one can reduce the equivalence problem for register transducers over the algebra $\aalg$ to the equivalence problem for register transducers over $\Int[x]$. It remains to show that the latter problem is decidable. This follows from a more general result.
+
 \begin{theorem}\label{thm:equivalence-for-computable-field}
-    For every computable field $\mathbb K$, 
-    equivalence is decidable for register transducers over $\mathbb K$ whose register updates may use division. 
+    Let $\mathbb K$ be a commutative ring which is computable (its elements can be enumerated so that the ring operations are computable) and has no zero divisors (if $a,b$ are nonzero, then so is $a \times b$). Then equivalence is decidable for register transducers over $\mathbb K$.
 \end{theorem}
-This result is proved in the appendix. First for register transducers that do not use division, by adapting a proof for the special case of the field of rational numbers that was given in\cite[Theorem 6.6]{seidlManethKemper2018}. Then we lift these results to register transducers that use division. Applying the above result to the field $\Int(x)$, and then the encoding of $\aalg$ in $\Int(x)$, we see that equivalence is decidable for register transducers over $\aalg$. Combining this with Lemma~\ref{lem:compute-power-series}, we finish the proof of Theorem~\ref{thm:path-equivalence}.
+This result is proved in the appendix, by adapting a proof for the special case of the ring of integers that was given in\cite[Theorem 6.6]{seidlManethKemper2018}. 
+% Then we lift these results to register transducers that use division. 
+Applying the above result to the ring $\Int[x]$, and then the encoding of $\aalg$ in $\Int[x]$, we see that equivalence is decidable for register transducers over $\aalg$. Combining this with Lemma~\ref{lem:compute-power-series}, we finish the proof of Theorem~\ref{thm:path-equivalence}.
 
 
 
