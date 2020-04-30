@@ -103,9 +103,9 @@ Recall that a \emph{rational function} with variable $x$ is a fraction like
 \begin{align*}
 \frac{3x^2 -2x +1}{4x^3 -2},
 \end{align*}
-where  the numerator and denominator are polynomials in $\Int[x]$, the denominator is nonzero. Addition and multiplication are defined as usual, and a fraction is 0 if and only if its numerator is 0; two fractions are equal if and only if their difference is 0. We write $\Int(x)$ for the rational functions; this is a field. Let $A$ be a proper series. Then $A^+ \cdot (1-A) = A$, hence $A^+$ can be seen as a fraction of polynomials of $A$; by induction, all proper rational power series  are fractions of polynomials, which yields the embedding. 
+where  the numerator and denominator are polynomials in $\Int[x]$, the denominator is nonzero. Addition and multiplication are defined as usual, and a fraction is 0 if and only if its numerator is 0; two fractions are equal if and only if their difference is 0. We write $\Int(x)$ for the rational functions; this is a field. Let $A$ be a proper series. Then $A^+ \times (1-A) = A$, hence $A^+$ can be seen as a fraction of polynomials of $A$; by induction, all proper rational power series  are fractions of polynomials, which yields the embedding. 
 
-Consider a register transducer over the ring $\Int[x]$. Such a register transducer can store a rational function using two registers: one for the enumerator and one for the denominator. The field operations on rational functions can be simulated by term operations using this representation (including division; division is the reason of doing this numerator-enumerator construction instead of taking rational functions as a basic ring), and therefore one can reduce the equivalence problem for register transducers over the algebra $\aalg$ to the equivalence problem for register transducers over $\Int[x]$. It remains to show that the latter problem is decidable. This follows from a more general result.
+Consider a register transducer over the ring $\Int[x]$. Such a register transducer can store a rational function using two registers: one for the enumerator and one for the denominator. The field operations on rational functions can be simulated by term operations using this representation (including division operation; division is the reason of doing the numerator-enumerator construction instead of taking rational functions as a basic ring), and therefore one can reduce the equivalence problem for register transducers over the algebra $\aalg$ to the equivalence problem for register transducers over $\Int[x]$. It remains to show that the latter problem is decidable. This follows from a more general result.
 
 \begin{restatable}{theoremrestat}{thmequivalenceComputableRing}\label{thm:equivalence-for-computable-ring}
     Let $\Ring$ be a commutative ring which is computable (its elements can be enumerated so that the ring operations are computable) and has no zero divisors (if $a,b$ are nonzero, then so is $a \times b$). Then equivalence is decidable for register transducers over $\Ring$.
@@ -114,8 +114,10 @@ This result is proved in the appendix, by adapting a proof for the special case 
 % Then we lift these results to register transducers that use division. 
 Applying the above result to the ring $\Int[x]$, and then the encoding of $\aalg$ in $\Int[x]$, we see that equivalence is decidable for register transducers over $\aalg$. Combining this with Lemma~\ref{lem:compute-power-series}, we finish the proof of Theorem~\ref{thm:path-equivalence}.
 
-Also, as a consequence of numerator-denumerator construction and Theorem \ref{thm:equivalence-for-computable-ring}, we obtain the following result of independent interest.
+Also, as a consequence of Theorem \ref{thm:equivalence-for-computable-ring}, we obtain the following result of independent interest.
 \begin{restatable}{theorem}{thmequivalenceWithDivision}\label{thm:equivalence-with-division}
     Let $\Ring$ be a ring as in Theorem \ref{thm:equivalence-for-computable-ring} (in particular, it may be a field). Then equivalence is decidable for register transducers over $\Ring$ whose register updates may use division (we assume transducers never divide by 0).
 \end{restatable}
-The proof of above theorem is relegated to appendix.
+\begin{proof}
+	Let $\Aa_1, \Aa_2$ be register transducers over $\Ring$, whose updates may use division.  Let $\Bb$ be a register transducer over \Ring, described in above numerator-denominator construction, corresponding to $\Aa_1 - \Aa_2$, that outputs numerator of the output pair. Then $\Aa_1$ and $\Aa_2$ are equivalent if and only if $\Aa_1-\Aa_2$ is equivalent to 0 if and only if $\Bb$ is equivalent to 0.
+\end{proof}
