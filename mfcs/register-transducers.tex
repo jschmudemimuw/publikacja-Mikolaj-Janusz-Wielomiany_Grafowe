@@ -1,10 +1,10 @@
 \section{Register transducers}\label{sec:register-transducers}
-To approach the equivalence problem for graph-to-graph transductions, we will use tree-to-graph transformations which are defined by extensions of bottom-up tree automata. The idea is that the input trees represent tree decompositions of input graphs.
+To approach the equivalence problem for graph-to-graph transductions, we use register transducers that input trees. The idea is that graphs are given by tree decompositions. This leads to yet another notion of trees, as compared to the three notions described in Example~\ref{ex:trees}, namely trees over a ranked alphabet (which are roughly the same thing as terms without variables).
 %  while elements of the output algebra are algebraic objects that represent the output graphs (e.g.~certain graph polynomials, or certain generating functions). 
 
 In this paper, when transducers input trees, then these trees are  ranked trees over a ranked alphabet, as described below. A \emph{ranked alphabet} is defined to be  a finite set, where every element has an associated arity in $\set{0,1,\ldots}$. Using a ranked alphabet, one can build trees, as explained in the following picture:
 \mypic{4}
-We use standard tree terminology, such as descendant, ancestor or parent. When talking about trees, we mean the ranked trees described above, and not connected acyclic graphs (which are the same as connected graphs of treewidth 1). 
+We use standard tree terminology, such as descendant, ancestor or parent. From now on, when talking about trees, we mean the ranked trees described above, and not any of the other trees discussed in Example~\ref{ex:trees}.
 
 We now describe the transducer model that will be used in the paper. The idea is that the transducer processes an input tree bottom-up, and uses registers to stores elements of some output algebra.  This idea has its roots in the synthesized attributes of attribute grammars of Knuth~\cite{Knuth:1968aa}, and can also be found in the cost register automata of Alur et al.~\cite[p.~15]{alurDantoniDeshmukhYuan2013}. Our definition is based on  terminology of universal algebra that was discussed in Section~\ref{sec:treewidth-definition}.
 For a short definition, we omit states and output function from the model. They would make some constructions easier, but they do not add expressive power, because they can be simulated using extra registers and encoding output function into register updates.
@@ -37,11 +37,11 @@ Pairs in this relation are obtained by  executing the register updates on the in
     In this case, a valuation of the registers can be seen as a state from a finite set (the finite set consists of bit vectors). Also, every operation on states can be described  by a term in the Boolean algebra. Therefore,  register transducers with this output algebra are the same thing as the classical model of nondeterministic bottom-up tree automata, which define exactly the regular languages~\cite[Section 2]{thatcherGeneralizedFiniteAutomata1968}. 
 \end{example}
 
-For register transducers over  a fixed  output algebra, we will study the functionality and equivalence problems. 
+For register transducers over  a fixed  output algebra, we will study the functionality and equivalence problems.  The functionality problem is defined as follows.
 \decisionproblem{functionality for nondeterministic register transducers over algebra $\aalg$.}{a nondeterministic  register transducer over algebra $\aalg$.}{is the transducer functional, i.e.~for every input there is exactly one output?}
-The equivalence problem is defined similarly, except that the input is two deterministic register transducers, and the question is whether or not they produce equal outputs for all inputs. 
+The equivalence problem is defined similarly, except that the input is two deterministic register transducers, and the question is if they produce equal outputs for all inputs. 
 \begin{fact}
-    For every output algebra, the functionality and equivalence problems are equi-decidable.
+    For every output algebra,  functionality and equivalence  are equi-decidable.
 \end{fact}
 \begin{proof}
     Same reasoning as in Fact~\ref{fact:equi-decidable}, with the following differences: (1) the domain of a register transducer is always a regular tree language, which can be computed effectively; and  (2) there is no need to encode colours in the input graph, since the model of register transducers allows for coloured inputs.
@@ -52,14 +52,6 @@ The equivalence problem is defined similarly, except that the input is two deter
 
 
 \smallparagraph{Connection with graph-to-graph transductions} We now show how register transducers can be used to compute functional graph-to-graph \mso transductions of bounded treewidth.
-
-
-% \begin{definition}
-%     For $k \in \set{1,2,\ldots}$, define a \treetotreewidth k register transducer to be a register transducer where the output algebra is the algebra of $k$-sourced graphs, and every output is a graph without sources.
-% \end{definition}
-
-% The semantics of such a transducer is a set of pairs (tree over the input alphabet, graph).
-
 We are mainly interested in the case when the input trees are tree decompositions. In the context of this paper, a tree decomposition of width $<k$ is defined to be a tree, where the input alphabet is the set of operations in the algebra of $k$-sourced graphs. 
 
 % We take different approaches to handling the input and output graphs, as described below.
