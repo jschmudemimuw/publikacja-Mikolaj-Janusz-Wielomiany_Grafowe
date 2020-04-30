@@ -1,6 +1,6 @@
 
 \section{Equivalence  modulo a certain equivalence relation}\label{sec:equivalence-modulo}
-In this section, we present our main result, which says  that equivalence is decidable for graph-to-graph transducers of bounded treewidth, modulo a certain equivalence on the output graphs. This equivalence is a relaxation of isomorphism.  
+In this section, we present our main result, which says  that equivalence is decidable for graph-to-graph transductions of bounded treewidth, modulo a certain equivalence on the output graphs. This equivalence is a relaxation of isomorphism.  
 
 \smallparagraph{Counting homomorphisms} The equivalence on output graphs is based on a paper by Grohe, Dell and Rattan~\cite{groheDellRattan2018}, which gives examples of how various equivalence relations on graphs, notably Weisfeiler-Leman equivalence, can be characterised in terms of counting homomorphisms. 
 
@@ -26,7 +26,7 @@ Grohe, Dell and Rattan show that if one restricts the  class of graphs from whic
         \end{enumerate}
     \end{enumerate}
 \end{theorem}
-Note that a homomorphism from a path of length $n$ is the same thing is a walk of length $n$, i.e.~a sequence of $n+1$ vertices (possibly with repetitions) interleaved with $n$ edges that connect them. We call a walk \emph{empty} if it contains no edges. In other words, condition 1 above says that for every $n$, the two graphs have the same number of walks of length $n$. In particular, if we take $n=0$, it implies that the graphs have the same number of vertices.     
+Note that a homomorphism from a path of length $n$ is the same thing is a walk of length $n$, i.e.~a sequence of $n+1$ vertices (possibly with repetitions) interleaved with $n$ connecting edges. We call a walk \emph{empty} if it contains no edges. In other words, condition 1 above says that for every $n$, the two graphs have the same number of walks of length $n$. In particular, if we take $n=0$, it implies that the graphs have the same number of vertices.     
 
 Condition 2 in the above theorem can be seen as a relaxation of isomorphism in the following sense. 
 If in condition 2 we add the requirement that all coefficients in $X$ are non-negative (real or rational, does not make a difference), then we get  \emph{fractional isomorphism}, which is characterised by homomorphisms from trees~\cite[Theorem 1]{groheDellRattan2018}. If we add the requirement that all coefficients in $X$ are non-negative integers, then we get isomorphism.  
@@ -62,7 +62,7 @@ For a graph $G$, define its \emph{walk series} to be the power series
   a_1 x^1 + a_2x^2 + \cdots \qquad \text{where $a_i$ is the number of walks in $G$ of length $i \ge 1$.}
 \end{align*}
 Not how we count the lengths of nonempty walks; this is to ensure that the constant term will be zero.
-By definition, two graphs with the same number of vertices are $\sim$-equivalent if and only if they have the same number of vertices and the same walk series; as mentioned in the introduction of this Section, computing number of vertices is straightforward and will be omitted later on. 
+By definition, two graphs are $\sim$-equivalent if and only if they have the same number of vertices and the same walk series; computing number of vertices of outputted graph is straightforward and will be omitted later on. 
 The first step in the proof of Theorem~\ref{thm:path-equivalence} is the following lemma, which says that the walk series is always a  rational power series, and can be computed by a register transducer.
 \begin{lemma}\label{lem:compute-power-series}    
     Define  $\aalg$ to be the  algebra where
@@ -82,7 +82,8 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
     \end{align*}
 \end{lemma}
 \begin{proof}[Proof sketch] The main idea in the proof is the compositionality of walk series which is explained below. 
-    An \emph{inner walk} in a $k$-sourced graph is defined to be a walk that does not visit sources, with the possible exception of the first and last vertex in the walk.  For $i,j \in \set{1,\ldots,k}$ define  $\varphi_{ij}(G)$ to be the power series where the $n$-th term is the number of nonempty inner walks that begin in the $i$-th source and end in the $j$-th source.     We now show how the series described above can be maintained compositionally  while applying the operations from the algebra of $k$-sourced graphs. 
+    An \emph{inner walk} in a $k$-sourced graph is defined to be a walk that does not visit sources, with the possible exception of the first and last vertex in the walk.  For $i,j \in \set{1,\ldots,k}$ define  $\varphi_{ij}(G)$ to be the power series where the $n$-th term is the number of nonempty inner walks of length $n$ that begin in the $i$-th source and end in the $j$-th source. We now show how the series described above can be maintained compositionally
+      while applying the operations from the algebra of $k$-sourced graphs. 
     
       Consider first the fusion of two $k$-sourced graphs: an inner walk in the fusion is the same thing as an inner walk in either the first or second component of the fusion, and these cases are disjoint (because of parallel edges). Therefore, we have:
     \begin{align*}
@@ -102,14 +103,14 @@ Define a \emph{rational function} to be a pair of polynomials in $\Int[x]$, writ
 \begin{align*}
 \alpha(A \cdot B) = \alpha(A) \cdot \alpha(B) \quad \alpha(A + B) = \alpha(A) + \alpha(B) \quad \alpha(A^+) = \frac{\alpha(A)}{1-\alpha(A)}.
 \end{align*}
-One can show that $\alpha$ defined this way is a semiring homomorphism from  $\aalg$ to the field $\Int(x)$ of rational functions. Since all operations in the algebra $\aalg$ correspond to term operations in $\Int(x)$, it follows that equivalence of register transducers over the algebra $\aalg$ reduces to equivalence for register transducers over the field $\Int(x)$.
+One can show that $\alpha$ defined this way is a semiring homomorphism from  $\aalg$ to the field $\Int(x)$ of rational functions. Since all operations in the algebra $\aalg$ correspond to term operations in $\Int(x)$ augmented with division operation, it follows that equivalence of register transducers over the algebra $\aalg$ reduces to equivalence for register transducers over the field $\Int(x)$, whose register updates may use division.
 
-It remains to show that equivalence is decidable for register transducers over the field $\Int(x)$. This is true because $\Int(x)$ is a special case of a computable field: its elements can be enumerated in a way so that the field operations are computable.
+It remains to show that equivalence is decidable for register transducers over the field $\Int(x)$, whose register updates may use division. This is true because $\Int(x)$ is a special case of a computable field: its elements can be enumerated in a way so that the field operations are computable.
 \begin{theorem}\label{thm:equivalence-for-computable-field}
     For every computable field $\mathbb K$, 
-    equivalence is decidable for register transducers over $\mathbb K$. 
+    equivalence is decidable for register transducers over $\mathbb K$ whose register updates may use division. 
 \end{theorem}
-This result is proved in the appendix, by adapting a proof for the special case of the field of rational numbers that was given in\cite[Theorem 6.6]{seidlManethKemper2018}. Applying the above result to the field $\Int(x)$, and then the encoding of $\aalg$ in $\Int(x)$, we see that equivalence is decidable for register transducers over $\aalg$. Combining this with Lemma~\ref{lem:compute-power-series}, we finish the proof of Theorem~\ref{thm:path-equivalence}.
+This result is proved in the appendix. First for register transducers that do not use division, by adapting a proof for the special case of the field of rational numbers that was given in\cite[Theorem 6.6]{seidlManethKemper2018}. Then we lift these results to register transducers that use division. Applying the above result to the field $\Int(x)$, and then the encoding of $\aalg$ in $\Int(x)$, we see that equivalence is decidable for register transducers over $\aalg$. Combining this with Lemma~\ref{lem:compute-power-series}, we finish the proof of Theorem~\ref{thm:path-equivalence}.
 
 
 

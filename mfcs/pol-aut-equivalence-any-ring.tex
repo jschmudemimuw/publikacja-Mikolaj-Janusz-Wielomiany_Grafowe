@@ -1,23 +1,27 @@
-\subsection{Equivalence for polynomial transducers that output power series}\label{sec:pol-transducers-any-ring}
+\subsection{Equivalence for register transducers over a computable field}\label{sec:pol-transducers-any-ring}
 
 %(szkic wstępu) Equivalence of tree-to-($\Sigma^*, \cdot$) register transducers has been proved in \cite{seidlManethKemper2018}. The proof goes by simulating them with tree-to-\Z \emph{polynomial transducers}, which are a kind of register transducers that we define in next paragraph, and showing decidability of equivalence for them. To prove the main theorem we will use decidability of equivalence of tree-to-\Ring polynomial transducers, where \Ring is a ring of rational power series.
 
 In this section, we show that equivalence is decidable for transducers over an algebra which is a ring of polynomials, and even more generally, ring of rational power series, defined in Section \ref{sec:power-series}.
+\begin{theorem}\label{thm:equivalence-polynomial-automata-over-a-ring}
+	Let $\Field$ be a computable field. Then equivalence is decidable for functional register transducers over the algebra $\Field$.
+\end{theorem}
 \begin{restatable}{corollaryrestat}{corEquivPolTransducersZrat}\label{cor:equivalence-pol-transducers-Zrat}
 		Equivalence is decidable for functional register transducers over both rings: $\Z[\enum x1n]$ and \Zrat.
 \end{restatable}
-First paragraph contains definitions concerning computable rings. In next paragraph we sketch a proof from \cite[Theorem 6.6]{seidlManethKemper2018} of decidability of equivalence for register transducers over ring \Z. Later we show that the same proof works for any ring ''similar'' to \Z (Theorem \ref{thm:equivalence-polynomial-automata-over-a-ring}), from which the Corollary \ref{cor:equivalence-pol-transducers-Zrat} follows.
+First we give definitions concerning computable rings. Later we sketch a proof from \cite[Theorem 6.6]{seidlManethKemper2018} of decidability of equivalence for register transducers over field \Q, from which follows the same results for \Z. Later we show that the same proof works for any computable field (Theorem \ref{thm:equivalence-polynomial-automata-over-a-ring}), from which the Corollary \ref{cor:equivalence-pol-transducers-Zrat} follows.
 
 \smallparagraph{Computable rings and fields}
-By a ring we always mean a \emph{commutative} ring.
-We say that a ring $\Ring$ is \emph{computable} if its elements can be enumerated in a way that addition, multiplication (and equality test, if the enumeration is not unique) are computable functions. A \emph{nonzero} element $r$ of $\Ring$ is called a \emph{zero divisor} if $r \cdot s = 0$ for some $s \neq 0$. We view a ring as an algebra, with addition and multiplication, and constants for every element.
+%By a ring we always mean a \emph{commutative} ring.
+We say that a field $\Field$ is \emph{computable} if its elements can be enumerated in a way that addition, multiplication (and equality test, if the enumeration is not unique) are computable functions. %A \emph{nonzero} element $r$ of $\Ring$ is called a \emph{zero divisor} if $r \cdot s = 0$ for some $s \neq 0$.
+We view a field as an algebra, with addition and multiplication, and constants for every element.
 
-Following \cite{seidlManethKemper2018}, by a \emph{polynomial transducer} we mean any register transducer over an algebra which is a ring.
+%Following \cite{seidlManethKemper2018}, by a \emph{polynomial transducer} we mean any register transducer over an algebra which is a ring.
 
 \smallparagraph{The proof}
-We sketch the proof of decidability of equivalence of \polTsover{\Z}, following \cite{seidlManethKemper2018}.
+We sketch the proof of decidability of equivalence of \polTsover{\Q}, following \cite{seidlManethKemper2018}.
 
-Ring \Z can be embedded into field \Q and the proof is done for \polTsover{\Q}.
+%Ring \Z can be embedded into field \Q and the proof is done for \polTsover{\Q}.
 The proof goes by overapproximation, for each control state $q \in Q$, the set of configurations reachable in $q$ by a set of solutions of a system of polynomial equations (i.e. Zariski closed set).
 $Q$-tuple of (polynomial) ideals that represent those systems forms an \emph{inductive invariant}.
 The main algorithm runs two semiprocedures in parallel -- one searching for a counterexample to equivalence, one searching for an inductive invariant that certifies equivalence. The algorithm can be formulated for any ring, %\footnote{And for any algebra in fact. However, we do not discuss this further due to lack of place.}
@@ -41,9 +45,6 @@ In consequence the construction can be done for any computable ring that can be 
 	(Computable) ring $\Ring$ with no zero divisors can be (effectively) embedded into its field of fractions.
 \end{proof}
 Therefore we obtain the following result.
-\begin{theorem}\label{thm:equivalence-polynomial-automata-over-a-ring}
-	Let $\Ring$ be a commutative ring which is computable and has no zero divisors. Then equivalence is decidable for functional register transducers over the algebra $\Ring$.
-\end{theorem}
 %\begin{proof}
 %	Like every commutative ring without zero divisors, $\Ring$ embeds to a field (the embedding is an injective ring homomorphism). Since $\Ring$ is computable, then the field is also computable. 
 %\end{proof}
