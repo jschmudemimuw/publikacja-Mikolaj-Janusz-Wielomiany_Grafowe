@@ -1,0 +1,83 @@
+\subsection{Computing walk series}
+In this section, we give a proof of Lemma~\ref{lem:compute-power-series}.
+\begin{proof}[Proof of Lemma~\ref{lem:compute-power-series}]
+	
+	% The proof is an adaptation of a weighted version of the usual ''DFA to regular expression conversion'' (i.e. weighted automaton to rational power series), with state elimination corresponding to source forgetting.
+	
+	% Define an \emph{internal walk} to be a walk that does not visit any sources,  with the possible exception of the first and last vertices in the walk, which are allowed to be sources. 
+	Define the \emph{source number} of a vertex in a $k$-sourced graph to be  $i \in \set{1,\ldots,k}$ if the vertex is the $i$-th source, and $0$ otherwise. For
+	$i,j \in \set{0,\ldots,k}$,
+	define an $(i,j)$-walk to be a nonempty walk where the first vertex has source number $i$, the last vertex has source number $j$, and the remaining vertices in the walk are not sources. For a $k$-sourced graph $G$, define 
+	\begin{align*}
+	\varphi_{ij}(G) \in \aalg
+	\end{align*}
+	to be the power series where the $n$-th term is the number of nonempty $(i,j)$-walks of length $n$. The constant term  of this power series is zero, since we only consider nonempty walks. Define 
+	\begin{align*}
+	\varphi(G) \in \aalg^{\set{0,\ldots,k}^2}
+	\end{align*}
+	to be the tuple of all of the values returned by the functions $\varphi_{ij}$. 
+	The main observation is that $\varphi$ is an algebra homomorphism, in the following sense.
+	\begin{claim}
+		For every term operation $f$ 
+		in the algebra of $k$-sourced graphs (see the diagram below for its type), there is a term operation $f^\varphi$ in the algebra $\aalg$ (see the diagram for its type) which makes the following diagram commute
+		\begin{align*}
+		\xymatrix{
+			(\text{$k$-sourced graphs})^X 
+			\ar[r]^f
+			\ar[d]_{\varphi^X}
+			&
+			(\text{$k$-sourced graphs})^Y
+			\ar[d]^\varphi
+			\\
+			\aalg^{\set{0,\ldots,k}^2 \times X}
+			\ar[r]_{f^\varphi}
+			&
+			\aalg^{\set{0,\ldots,k}^2 \times Y}
+		}
+		\end{align*}
+	\end{claim}
+	Before proving the claim, we use it to finish the proof of the lemma. Suppose that $\Aa$ is a register transducer over the algebra of $k$-sourced graphs. The register transducer  $\Bb$, which is over the algebra $\aalg$, has the same input alphabet, and its registers are triples 
+	\begin{align*}
+	(i,j,r) \qquad \text{where $i,j \in \set{0,\ldots,k}$ and $r$ is a register of $\Aa$.}
+	\end{align*}
+	The register updates of $\Bb$ are defined by applying the homomorphism from the claim  to the register updates of $\Aa$. 
+	The output register of $\Bb$ is $(0,0,r)$, where  $r$ is the output register of $\Aa$.  From the claim it follows 
+	\begin{align*}
+	\text{$\Aa$ can output $G$ on input $t$} \qquad \iff \qquad 
+	\text{$\Bb$ can output $\varphi_{00}(G)$ on input $t$}.
+	\end{align*}
+	Since $\varphi_{00}(G)$ is the walk series of $G$ when $G$ has no sources, the lemma follows. It remains to prove the claim.
+	
+	\begin{proof} 
+		It is enough to prove the claim for the case when $f$ is one of the basic operations in the algebra of $k$-sourced graphs. In particular, $Y$ has one element. Here the proof is similar to conversion of a nondeterministic automaton into a regular expression, as in the Kleene Theorem.
+		
+		\begin{itemize}
+			\item Suppose that $f$ is a constant, which represents a  $k$-sourced graph where all vertices are sources. Then we have 
+			\begin{align*}
+			\varphi_{ij}(f) = \begin{cases}
+			x & \text{if there is an edge from $i$ to $j$ in $f$}\\
+			0 & \text{otherwise.}
+			\end{cases}
+			\end{align*}
+			\item Suppose that $f$ is the  basic operation which inputs two $k$-sourced graphs and outputs their fusion.  
+			An $(i,j)$-walk in the fusion $f(G_1,G_2)$ is either an $(i,j)$-walk in $G_1$ or an $(i,j)$-walk in $G_2$, this is because vertices between endpoints cannot be sources. Furthermore, these cases are disjoint, since we are working with graphs that have parallel edges.
+			This leads to the following equation for fusions:
+			\begin{align*}
+			\varphi_{ij}(f(G_1, G_2)) = \varphi_{ij}(G_1) + \varphi_{ij}(G_2).
+			\end{align*}
+			The right hand side uses component-wise addition, which is a basic operation in $\aalg$.
+			\item The last case is when $f$ is a unary operation which forgets  source $c \in \set{1,\ldots,k}$.  Let then $G$ be a $k$-sourced graph. A nonempty $(i,j)$-walk in $f(G)$ is either a nonempty $(i,j)$-walk in $G$, or it has the form
+			\begin{enumerate}
+				\item a nonempty $(i,c)$-walk in $G$; followed by 
+				\item finitely many (possibly zero) nonempty  $(c,c)$-walks in $G$; followed by
+				\item a nonempty $(c,j)$-walk in $G$.
+			\end{enumerate}
+			This leads to the following equation:
+			\begin{align*}
+			\varphi_{ij}(f(G)) = \varphi_{ij}(G)) +  \varphi_{ic}(G) \times (1+ \varphi_{cc}(G)^+)  \times \varphi_{cj}(G).
+			\end{align*}                
+%			\qedhere
+		\end{itemize}
+	\end{proof}
+\end{proof}
+
