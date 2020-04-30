@@ -64,7 +64,7 @@ For a graph $G$, define its \emph{shifted walk series} to be the proper power se
 (This is a shift of \emph{walk series} $\sum_{n=0}a_nx^n$, with $a_n$ defined as above; we use the shifted one to avoid technicalities, like e.g. sorted algebras.)
 By definition, two graphs are $\sim$-equivalent if and only if they have the same shifted walk series. 
 The first step in the proof of Theorem~\ref{thm:path-equivalence} is the following lemma, which says that the shifted walk series is always a rational power series, and can be computed by a register transducer.
-\begin{lemma}\label{lem:compute-power-series}    
+\begin{restatable}{lemmarestat}{lemcomputePowerSeries}\label{lem:compute-power-series}    
     Define  $\aalg$ to be the  algebra where
     \begin{description}
         \item[Domain:] proper rational power series in $\powerseries \Nat$;
@@ -80,7 +80,7 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
         treewidth $< k$} \ar[rr]_-{G \mapsto \text{walk series of $G$}}& & \aalg
     }
     \end{align*}
-\end{lemma}
+\end{restatable}
 \begin{proof}[Proof sketch] The main idea in the proof is the compositionality of walk series which is explained below. 
     An \emph{inner walk} in a $k$-sourced graph is defined to be a walk that does not visit sources, with the possible exception of the first and last vertex in the walk.  For $i,j \in \set{1,\ldots,k}$ define  $\varphi_{ij}(G)$ to be the (non-shifted) proper power series where the $n$-th term is the number of nonempty inner walks of length $n$ that begin in the $i$-th source and end in the $j$-th source. In this proof sketch, we show how the series described above can be maintained compositionally
       while applying the operations from the algebra of $k$-sourced graphs. Using variations on this compositionality principle, which take into account some minor technical details, the lemma is proved in the appendix. 
@@ -115,9 +115,7 @@ This result is proved in the appendix, by adapting a proof for the special case 
 Applying the above result to the ring $\Int[x]$, and then the encoding of $\aalg$ in $\Int[x]$, we see that equivalence is decidable for register transducers over $\aalg$. Combining this with Lemma~\ref{lem:compute-power-series}, we finish the proof of Theorem~\ref{thm:path-equivalence}.
 
 Also, as a consequence of numerator-denumerator construction and Theorem \ref{thm:equivalence-for-computable-ring}, we obtain the following result of independent interest.
-\begin{theorem}\label{thm:equivalence-with-division}
+\begin{restatable}{theorem}{thmequivalenceWithDivision}\label{thm:equivalence-with-division}
     Let $\Ring$ be a ring as in Theorem \ref{thm:equivalence-for-computable-ring} (in particular, it may be a field). Then equivalence is decidable for register transducers over $\Ring$ whose register updates may use division (we assume transducers never divide by 0).
-\end{theorem}
-
-
-
+\end{restatable}
+The proof of above theorem is relegated to appendix.
