@@ -33,7 +33,7 @@ Defined an \emph{unranked tree decomposition of width $k$} in the same way as a 
 
 
 
-\smallparagraph{Forest algebra.} In the next step of the proof, we describe a transducer model for \mso transductions that output unranked trees. 
+\smallparagraph{Forest algebra} In the next step of the proof, we describe a transducer model for \mso transductions that output unranked trees. 
 
 To model unranked trees, we  use a variant of forest algebra~\cite{bojanczykForestAlgebras2008}.
  Let $\Sigma$ be an alphabet. A \emph{forest} over $\Sigma$ is a directed acyclic graph, with nodes labelled by $\Sigma$, where every vertex has indegree zero or one.  Here is a picture of a forest:
@@ -114,5 +114,5 @@ Here the idea is very simple. Let $\aalg$ be free forest algebra, over the alpha
 \end{align*}
 as follows. If $a \in \aalg$ is not well-formed, then $\varphi(a)$ is $\bot$. If $a$ is a well-formed forest, i.e.~it is an unranked tree decomposition with possibly several roots, then $\varphi(a)$ is the fusion of the  underlying $k$-sourced graph of the trees in the forest (this $k$-sourced graph is viewed as a $2k$-sourced graph, which only uses the first $k$ sources). If $a$ is a well-formed context, we define $\varphi(a)$ in the same was as for trees (treating $a$ as a forest, by ignoring the dangling edge), except that we also have  extra sources for vertices that of the underlying graph which are sources in $\varphi(t)$, where $t$ is the subtree of the parent of the dangling edge in $a$. The extra sources are the reason why we use $2k$-sourced graphs instead of $k$-sourced graphs. For some contexts, we do not need all of the $k$ extra sources, since some sources might appear both in $t$ and in the roots of the tree decomposition.
 
-By putting together sourced graphs instead of their tree decompositions, the reader can easily come up with a register transducer $\Bb$, over the algebra of $2k$-sourced graphs, which has the same registers, which has the same registers as $\Aa$, and such that if $\Aa$ stores $a$ in its register, then $\Bb$ stores $\varphi(a)$ in its register. (In the construction, it is to have states, so that $\Bb$ can remember which registers store forests, which registers store contexts, and which registers store the $\bot$ value. States can be eliminated at the cost of extra registers.)
+By putting together sourced graphs instead of their tree decompositions, the reader can easily come up with a register transducer $\Bb$, over the algebra of $2k$-sourced graphs, which has the same registers as $\Aa$, and such that if $\Aa$ stores $a$ in its register, then $\Bb$ stores $\varphi(a)$ in its register. (In the construction, it is necessary to have states, so that $\Bb$ can remember which registers store forests, which registers store contexts, and which registers store the $\bot$ value. States can be eliminated at the cost of extra registers.)
 
