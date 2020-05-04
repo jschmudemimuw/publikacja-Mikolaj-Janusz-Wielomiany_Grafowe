@@ -75,8 +75,7 @@ To define treewidth, we consider graphs with distinguished vertices and equip th
     A  \emph{vocabulary} is defined to be  a set of relation names, each one with an associated arity. A \emph{model over vocabulary $\tau$} consists of a set, called the \emph{universe} of the model, together with an \emph{interpretation}, that maps the relations names from the vocabulary $\tau$ to  relations over the universe of same arity. To define properties of such models, we use mainly monadic second-order logic \mso, which  is the extension of first-order logic that allows quantification over sets of elements (but not sets of pairs, or triples, etc.). We assume that the reader is familiar with \mso, for an introduction see~\cite[Section 2]{Thomas97}.
      
      
-
-\smallparagraph{Transductions}  The central topic of this paper is \mso transductions, which are graph transformations definable in \mso (from now on, when talking about \mso we mean graph properties that are definable in monadic second-order logic using the \msotwo representation of graphs as models). The transductions can be nondeterministic, in which case they represent binary relations and not functions.
+ The central topic of this paper is \mso transductions, which are graph transformations definable in \mso (from now on, when talking about \mso we mean graph properties that are definable in monadic second-order logic using the \msotwo representation of graphs as models). The transductions can be nondeterministic, in which case they represent binary relations and not functions.
 A \emph{transduction}, with input vocabulary $\tau$ and output vocabulary $\sigma$ is defined to be a set of pairs 
 \begin{align*}
     (\myunderbrace{\text{model over $\tau$}}{input model}, \ 

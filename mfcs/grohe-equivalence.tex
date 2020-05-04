@@ -54,10 +54,7 @@ An infinite sequence $a_0,a_1,\ldots \in \Nat$ can be visualised as san infinite
 \end{align*}
 with one variable $x$.
 We use the name \emph{power series} for such polynomials, and write $\powerseries{ \Nat}$ for the set of power series. 
-We use the name $i$-th term for $a_i$; and we call $a_0$ the constant term.   The power series form a semiring, with addition defined coordinatewise, and product being Cauchy product (see~\cite[part III]{sakarovitch2009elements} for more on rational power series). Among all power series, we are particularly interested in the rational ones: a power series is called \emph{rational} if it can be generated from proper finite power series (a finite power series is one where all but finitely many terms are zero) using the semiring operations $+$ and $\times$ of power series, as well as the following unary  operation called \emph{Kleene plus}:
-\begin{align*}
- A^+ \eqdef A + A^2 + A^3 + \cdots.
-\end{align*}  
+We use the name $i$-th term for $a_i$; and we call $a_0$ the constant term.   The power series form a semiring, with addition defined coordinatewise, and product being Cauchy product (see~\cite[part III]{sakarovitch2009elements} for more on rational power series). Among all power series, we are particularly interested in the rational ones: a power series is called \emph{rational} if it can be generated from proper finite power series (a finite power series is one where all but finitely many terms are zero) using the semiring operations $+$ and $\times$ of power series, as well as the  unary   \emph{Kleene plus} operation, which maps $A$ to $A^+ = A + A^2 + A^3 + \cdots$.
 The Kleene plus is defined only if the power series is  \emph{proper} (i.e.~its constant term is zero), which ensures that the infinite sum in $A^+$ is well defined. If $A$ were not proper, then its Kleene plus would need to have the divergent value $a_0 + a_0^2 + a_0^3 + \cdots$ as its constant term.
 
 For a graph $G$, define its \emph{shifted walk series} to be the proper power series 
@@ -75,12 +72,12 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
     \end{description}
     For every $k \in \set{1,2,\ldots}$ and every nondeterministic register transducer $\Aa$ over the algebra of $k$-sourced graphs, there is a  nondeterministic register transducer $\Bb$ over the algebra  $\aalg$ defined above which makes the following diagram commute (arrows are binary relations):
     \begin{align*}
-    \xymatrix@C=1cm{
+    \xymatrix@C=1cm@R=0.5cm{
        &  \trees \Sigma   
-        \ar[dr]^{\Bb}
+        \ar[drr]^{\Bb}
         \ar[dl]_{\Aa} \\
         \txt{graphs of
-        treewidth $< k$} \ar[rr]_-{G \mapsto \text{walk series of $G$}}& & \aalg
+        treewidth $< k$} \ar[rrr]_-{G \mapsto \text{walk series of $G$}}&& & \aalg
     }
     \end{align*}
 \end{restatable}
@@ -96,16 +93,19 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
     \begin{align*}
     \varphi_{ij}(\text{forget source $\ell$ in $G$}) = \varphi_{ij}(G) + \varphi_{i\ell}(G) \times (1 + (\varphi_{\ell \ell}(G))^+) \times \varphi_{\ell j}(G)
     \end{align*}
-    
-Using these compositionality ideas, we prove the lemma in the appendix.\end{proof}
+    \end{proof}
 
 \smallparagraph{Equivalence for transducers over rational power series}
 Thanks to the above lemma, in order to prove Theorem~\ref{thm:path-equivalence}, it remains to show that equivalence is decidable for register transducers over the algebra $\aalg$ of rational power series that is used in the above lemma.  For this decidability result, we use the embedding of rational power series into rational functions. 
-
 Recall that a \emph{rational function} with variable $x$ is a fraction $P(x)/Q(x)$ 
-where  the numerator $P(x)$ and denominator $Q(x)$ are polynomials in $\Int[x]$, the denominator is nonzero, and fractions are considered equal up to cancelling common factors. Addition and multiplication are defined as usual, and a fraction is 0 if and only if its numerator is 0; two fractions are equal if and only if their difference is 0. We write $\Int(x)$ for the rational functions; this is a field. Let $A$ be a proper series. Then $A^+ \times (1-A) = A$, hence $A^+$ can be seen as a fraction of polynomials of $A$; by induction, all proper rational power series  are fractions of polynomials, which yields the embedding. 
+where  the numerator $P(x)$ and denominator $Q(x)$ are polynomials in $\Int[x]$, modulo equality defined by 
+\begin{align*}
+P_1(x)/Q_1(x) = P_2(x)/Q_2(x) \qquad \text{iff} \qquad P_1(x) \times Q_2(x) = P_2(x) \times Q_1(x).
+\end{align*}
+The denominator must be nonzero. 
+We write $\Int(x)$ for the rational functions; this is a field. Let $A$ be a proper series. Then $A^+ \times (1-A) = A$, hence $A^+$ can be seen as a fraction of polynomials of $A$; by induction, all proper rational power series  are fractions of polynomials, which yields the embedding of the algebra $\aalg$ into the field $\Int(x)$.  
 
-Consider a register transducer over the ring $\Int[x]$. Such a register transducer can store a rational function using two registers: one for the enumerator and one for the denominator. The field operations on rational functions can be simulated by term operations using this representation (including division operation; division is the reason of doing the numerator-enumerator construction instead of taking rational functions as a basic ring), and therefore one can reduce the equivalence problem for register transducers over the algebra $\aalg$ to the equivalence problem for register transducers over $\Int[x]$. It remains to show that the latter problem is decidable. This follows from a more general result.
+Consider a register transducer over the ring $\Int[x]$. Such a register transducer can store a proper rational function using two registers: one for the enumerator and one for the denominator. The field operations on rational functions can be simulated by term operations using this representation, including  division\footnote{The idea to use  division, although simple, seems to be new and of independent interest.}. (The field  $\Int(x)$ with division is not  an algebra in the sense used in this paper, since we require all basic operations  to be total.) Therefore the equivalence problem for register transducers over the algebra $\aalg$ to the equivalence problem for register transducers over $\Int[x]$. It remains to show that the latter problem is decidable. This follows from a more general result.
 
 \begin{restatable}{theoremrestat}{thmequivalenceComputableRing}\label{thm:equivalence-for-computable-ring}
     Let $\Ring$ be a commutative ring which is computable (its elements can be enumerated so that the ring operations are computable) and has no zero divisors (if $a,b$ are nonzero, then so is $a \times b$). Then equivalence is decidable for register transducers over $\Ring$.
@@ -114,10 +114,11 @@ This result is proved in the appendix, by adapting a proof for the special case 
 % Then we lift these results to register transducers that use division. 
 Applying the above result to the ring $\Int[x]$, and then the encoding of $\aalg$ in $\Int[x]$, we see that equivalence is decidable for register transducers over $\aalg$. Combining this with Lemma~\ref{lem:compute-power-series}, we finish the proof of Theorem~\ref{thm:path-equivalence}.
 
-Also, as a consequence of Theorem \ref{thm:equivalence-for-computable-ring}, we obtain the following result of independent interest.
-\begin{restatable}{theorem}{thmequivalenceWithDivision}\label{thm:equivalence-with-division}
-    Let $\Ring$ be a ring as in Theorem \ref{thm:equivalence-for-computable-ring} (in particular, it may be a field). Then equivalence is decidable for register transducers over $\Ring$ whose register updates may use division (we assume transducers never divide by 0).
-\end{restatable}
-\begin{proof}
-	Let $\Aa_1, \Aa_2$ be register transducers over $\Ring$, whose updates may use division.  Let $\Bb$ be a register transducer over \Ring, described in above numerator-denominator construction, corresponding to $\Aa_1 - \Aa_2$, that outputs numerator of the output pair. Then $\Aa_1$ and $\Aa_2$ are equivalent if and only if $\Aa_1-\Aa_2$ is equivalent to 0 if and only if $\Bb$ is equivalent to 0.
-\end{proof}
+
+% Also, as a consequence of Theorem \ref{thm:equivalence-for-computable-ring}, we obtain the following result of independent interest.
+% \begin{restatable}{theorem}{thmequivalenceWithDivision}\label{thm:equivalence-with-division}
+%     Let $\Ring$ be a ring as in Theorem \ref{thm:equivalence-for-computable-ring} (in particular, it may be a field). Then equivalence is decidable for register transducers over $\Ring$ whose register updates may use division (we assume transducers never divide by 0).
+% \end{restatable}
+% \begin{proof}
+% 	Let $\Aa_1, \Aa_2$ be register transducers over $\Ring$, whose updates may use division.  Let $\Bb$ be a register transducer over \Ring, described in above numerator-denominator construction, corresponding to $\Aa_1 - \Aa_2$, that outputs numerator of the output pair. Then $\Aa_1$ and $\Aa_2$ are equivalent if and only if $\Aa_1-\Aa_2$ is equivalent to 0 if and only if $\Bb$ is equivalent to 0.
+% \end{proof}
