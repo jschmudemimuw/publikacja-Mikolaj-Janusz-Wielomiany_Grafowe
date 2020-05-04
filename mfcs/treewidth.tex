@@ -9,7 +9,7 @@ For treewidth, we use Courcelle's  approach via universal algebra \cite{courcell
 
 \smallparagraph{Algebras and terms operations} We begin by introducing some terminology from universal algebra. By an \emph{algebra}, we mean an underlying set equipped with some  operations, e.g.~the ring of integers $(\Int, + , \times, 0, 1)$ or the free monoid $(\Sigma^*, \cdot, \varepsilon)$. We write $\aalg, \balg, \ldots$ for algebras. By abuse of notation, we write $a \in \aalg$ if $a$ belongs to the underlying set in the algebra $\aalg$. 
 We use the name \emph{basic operations} for the operations that are given in the algebra. This is to distinguish them from the more general \emph{term operations}, which are defined below.
-        For a finite sets of variables $X$ and an algebra $\aalg$, a function $f : \aalg^X \to \aalg,$
+        For a finite set of variables $X$ and an algebra $\aalg$, a function $f : \aalg^X \to \aalg,$
             is called a \emph{term operation} if it is induced by a  term  constructed using the basic operations of the algebra and variables from $X$.  If the set $X$ is $\set{0,\ldots,k-1}$ then we talk about term operations of type $\aalg^k \to \aalg$.
         For example, the polynomial $3x^2 -2x+1$ can be viewed as a term in the algebra
             $(\Real, +,\times, -1,0,1)$,
@@ -164,12 +164,18 @@ We begin with two examples which illustrate the fact that equivalence problem fo
     %special
     case
     %of the equivalence problem for functional graph-to-graph \mso transductions of bounded treewidth, 
-    where both input and output graphs have treewidth 1. (As we will see in Lemma~\ref{lem:transduction-to-registers}, it is the output treewidth that is important, since the input treewidth can always be reduced to 1 without making the problem any easier.) This is a very special case of the equivalence problem, but even this special case we do not know how to solve.
+    where both input and output graphs have treewidth 1. (As we will see in Lemma~\ref{lem:transduction-to-registers}, it is the output treewidth that is important, since the input treewidth can always be reduced to 1 without making the problem any easier.)
+    This is a very special case of the equivalence problem, but even this special case we do not know how to solve.
+    %Even this very special case we do not know how to solve.
     
     Let us compare this 
     %special case 
-    with a very similar problem that is already known to be decidable. There are three kinds of trees that can be considered, listed in order of increasing rigidity: (a) without a distinguished root and without sibling order; (b)  with a distinguished root and without sibling order; (c) with a distinguished root and with sibling order. The (a) variant is the special case of equivalence for graphs of treewidth 1.  As discussed in the introduction, the equivalence problem for \mso transductions is harder in  variant (b) than in variant (c), and for similar reasons (a) is harder than (b). Variant (b) is known to be decidable, but variant (a) remains open.  One idea would be to reduce variant (a) to variant (b) by transforming an  un-rooted tree into the rooted forest of all possible ways of choosing a root; this transformation has quadratic size outputs, and therefore it cannot be an \mso transduction.
-    
+    with a very similar problem that is already known to be decidable. There are three kinds of trees that can be considered, listed in order of increasing rigidity: (a) without a distinguished root and without sibling order, (b)  with a distinguished root and without sibling order, (c) with a distinguished root and with sibling order. The (a) variant is the 
+    %special case of 
+    equivalence
+    problem
+    for graphs of treewidth 1.  As discussed in the introduction, the equivalence problem for \mso transductions is harder in  variant (b) than in variant (c), and for similar reasons (a) is harder than (b). Variant (b) is known to be decidable, but variant (a) remains open.  One idea would be to reduce variant (a) to variant (b) by transforming an  un-rooted tree into the rooted forest of all possible ways of choosing a root; 
+    this transformation has quadratic size outputs, and therefore it cannot be an \mso transduction.
 
     \noindent{\bf Example: strings modulo cyclic shift.} Here is another special case of our problem, which seems entertaining and also is open.
     % \begin{example}
