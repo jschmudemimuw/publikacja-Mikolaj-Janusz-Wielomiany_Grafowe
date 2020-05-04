@@ -3,12 +3,7 @@
 In this section, we present our main result, which says  that equivalence is decidable for graph-to-graph transductions of bounded treewidth, modulo a certain equivalence on the output graphs. 
 
 \smallparagraph{Counting homomorphisms} The equivalence on output graphs is based on a paper by Grohe, Dell and Rattan~\cite{groheDellRattan2018}, which gives examples of how various relaxations of isomorphism on graphs, notably Weisfeiler-Leman equivalence, can be characterised in terms of counting homomorphisms. 
-Define a \emph{homomorphism} from a graph $G$ to a graph $H$ to be function $h$ which maps vertices of $G$ to vertices of $H$
-% and edges of $G$ to edges of $H$
-, which is consistent with the 
-%incidence
-adjacency 
-relation in the natural way. We write $\homset(G,H)$ for the set of homomorphism from $G$ to $H$. A seminal result of  Lov\'asz~\cite[p.~326]{lovasz1967operations} says that two graphs are isomorphic if and only if they admit the same number of homomorphisms from every graph:
+Define a \emph{homomorphism} from a graph $G$ to a graph $H$ to be  function $h$ which maps vertices  of $G$ to vertices of $H$ and edges of $G$ to edges of $H$, which is consistent with the incidence relation in the natural way. We write $\homset(G,H)$ for the set of homomorphism from $G$ to $H$. A seminal result of  Lov\'asz~\cite[p.~326]{lovasz1967operations} says that two graphs are isomorphic if and only if they admit the same number of homomorphisms from every graph:
 \begin{align*}
 \underbrace{G \simeq H}_{\text{isomorphism}} \qquad \text{iff} \qquad  |\homset(F,G)|=|\homset(F,H)| \ \text{for every graph $F$.}
 \end{align*}
