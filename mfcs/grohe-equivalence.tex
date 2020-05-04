@@ -3,12 +3,15 @@
 In this section, we present our main result, which says  that equivalence is decidable for graph-to-graph transductions of bounded treewidth, modulo a certain equivalence on the output graphs. 
 
 \smallparagraph{Counting homomorphisms} The equivalence on output graphs is based on a paper by Grohe, Dell and Rattan~\cite{groheDellRattan2018}, which gives examples of how various relaxations of isomorphism on graphs, notably Weisfeiler-Leman equivalence, can be characterised in terms of counting homomorphisms. 
-Define a \emph{homomorphism} from a graph $G$ to a graph $H$ to be any function $h$ from vertices of $G$ to vertices of $H$ which preserves edges in one direction: if there is an edge from $v$ to $w$ in $G$, then there is an edge from $h(v)$ to $h(w)$ in $H$. We write $\homset(G,H)$ for the set of homomorphism from $G$ to $H$. A seminal result of  Lov\'asz~\cite[p.~326]{lovasz1967operations} says that two graphs are isomorphic if and only if they admit the same number of homomorphisms from every graph:
+Define a \emph{homomorphism} from a graph $G$ to a graph $H$ to be  function $h$ which maps vertices  of $G$ to vertices of $H$ and edges of $G$ to edges of $H$, which is consistent with the incidence relation in the natural way. We write $\homset(G,H)$ for the set of homomorphism from $G$ to $H$. A seminal result of  Lov\'asz~\cite[p.~326]{lovasz1967operations} says that two graphs are isomorphic if and only if they admit the same number of homomorphisms from every graph:
 \begin{align*}
 \underbrace{G \simeq H}_{\text{isomorphism}} \qquad \text{iff} \qquad  |\homset(F,G)|=|\homset(F,H)| \ \text{for every graph $F$.}
 \end{align*}
 In~\cite{groheDellRattan2018},
-Grohe, Dell and Rattan show that if one restricts the  class of graphs from which $F$ is taken, then one gets various well-studied relaxations of isomorphism. For example, if we only count homomorphisms from graphs $F$ of treewidth at most $k$, then the arising equivalence relation on graphs is Weisfeiler-Leman equivalence of dimension $k$.  The result of~\cite{groheDellRattan2018},  that we use in this paper counts homomorphisms from paths.
+Grohe, Dell and Rattan show that if one restricts the  class of graphs from which $F$ is taken, then one gets various well-studied relaxations of isomorphism. For example, if we only count homomorphisms from graphs $F$ of treewidth at most $k$, then the arising equivalence relation on graphs is Weisfeiler-Leman equivalence of dimension $k$.  The result of~\cite{groheDellRattan2018}  that we use in this paper, stated below\footnote{
+    The paper~\cite{groheDellRattan2018} uses graphs without parallel edges, but the authors remark  in the Preliminary Section that the results work with parallel edges as well.
+}, counts homomorphisms from paths. 
+
 
 \begin{theorem}\label{thm:grohe}(\cite[Theorem 2]{groheDellRattan2018})
     For all graphs $G_1,G_2$, the following  are equivalent:
@@ -25,7 +28,7 @@ Grohe, Dell and Rattan show that if one restricts the  class of graphs from whic
         \end{enumerate}
     \end{enumerate}
 \end{theorem}
-Note that a homomorphism from a path of length $n$ is the same thing is a walk of length $n$, i.e.~a sequence of $n+1$ vertices (possibly with repetitions) interleaved with $n$ connecting edges. We call a walk \emph{empty} if it contains no edges. In other words, condition 1 above says that for every $n$, the two graphs have the same number of walks of length $n$. In particular, if we take $n=0$, it implies that the graphs have the same number of vertices.     
+Note that a homomorphism from a path of length $n$ is the same thing is a walk of length $n$, i.e.~a sequence of $n+1$ vertices (possibly with repetitions) interleaved with $n$ connecting edges.  When counting walks, we distinguish walks that use different parallel edges. We call a walk \emph{empty} if it contains no edges. In other words, condition 1 above says that for every $n$, the two graphs have the same number of walks of length $n$. In particular, if we take $n=0$, it implies that the graphs have the same number of vertices.     
 
 Condition 2 in the above theorem can be seen as a relaxation of isomorphism in the following sense. 
 If in condition 2 we add the requirement that all coefficients in $X$ are non-negative (real or rational, does not make a difference), then we get  \emph{fractional isomorphism}, which is characterised by homomorphisms from trees~\cite[Theorem 1]{groheDellRattan2018}. If we add the requirement that all coefficients in $X$ are non-negative integers, then we get isomorphism.  
@@ -99,11 +102,8 @@ Using these compositionality ideas, we prove the lemma in the appendix.\end{proo
 \smallparagraph{Equivalence for transducers over rational power series}
 Thanks to the above lemma, in order to prove Theorem~\ref{thm:path-equivalence}, it remains to show that equivalence is decidable for register transducers over the algebra $\aalg$ of rational power series that is used in the above lemma.  For this decidability result, we use the embedding of rational power series into rational functions. 
 
-Recall that a \emph{rational function} with variable $x$ is a fraction like 
-\begin{align*}
-\frac{3x^2 -2x +1}{4x^3 -2},
-\end{align*}
-where  the numerator and denominator are polynomials in $\Int[x]$, the denominator is nonzero. Addition and multiplication are defined as usual, and a fraction is 0 if and only if its numerator is 0; two fractions are equal if and only if their difference is 0. We write $\Int(x)$ for the rational functions; this is a field. Let $A$ be a proper series. Then $A^+ \times (1-A) = A$, hence $A^+$ can be seen as a fraction of polynomials of $A$; by induction, all proper rational power series  are fractions of polynomials, which yields the embedding. 
+Recall that a \emph{rational function} with variable $x$ is a fraction $P(x)/Q(x)$ 
+where  the numerator $P(x)$ and denominator $Q(x)$ are polynomials in $\Int[x]$, the denominator is nonzero, and fractions are considered equal up to cancelling common factors. Addition and multiplication are defined as usual, and a fraction is 0 if and only if its numerator is 0; two fractions are equal if and only if their difference is 0. We write $\Int(x)$ for the rational functions; this is a field. Let $A$ be a proper series. Then $A^+ \times (1-A) = A$, hence $A^+$ can be seen as a fraction of polynomials of $A$; by induction, all proper rational power series  are fractions of polynomials, which yields the embedding. 
 
 Consider a register transducer over the ring $\Int[x]$. Such a register transducer can store a rational function using two registers: one for the enumerator and one for the denominator. The field operations on rational functions can be simulated by term operations using this representation (including division operation; division is the reason of doing the numerator-enumerator construction instead of taking rational functions as a basic ring), and therefore one can reduce the equivalence problem for register transducers over the algebra $\aalg$ to the equivalence problem for register transducers over $\Int[x]$. It remains to show that the latter problem is decidable. This follows from a more general result.
 
