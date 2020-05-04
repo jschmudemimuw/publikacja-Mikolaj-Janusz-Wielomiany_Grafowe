@@ -7,7 +7,11 @@ In this paper, when transducers input trees, then these trees are  ranked trees 
  We use standard tree terminology, such as descendant, ancestor or parent. From now on, when talking about trees, we mean the ranked trees described above, and not any of the other trees discussed in the previous section.
 
 We now describe the transducer model that will be used in the paper. The idea is that the transducer processes an input tree bottom-up, and uses registers to stores elements of some output algebra.  This idea has its roots in the synthesized attributes of attribute grammars of Knuth~\cite{Knuth:1968aa}, and can also be found in the cost register automata of Alur et al.~\cite[p.~15]{alurDantoniDeshmukhYuan2013}. Our definition is based on  terminology of universal algebra that was discussed in Section~\ref{sec:treewidth-definition}.
-For a short definition, we omit states and output function from the model. They would make some constructions easier, but they do not add expressive power, because they can be simulated using extra registers and encoding output function into register updates.
+For a short definition, we omit states 
+%and output function 
+from the model. They would make some constructions easier, but they do not add expressive power, because they can be simulated using extra registers
+% and encoding output function into register updates
+.
 
 % Define a \emph{polynomial operation of input arity $k$ and output arity $n$} to be any function of type  $A^k \to A^n$, which is given by a $n$ polynomial operations of type $A^k \to A$.
 \begin{definition}[Register transducer] \label{def:register-transducer}  The syntax of a  \emph{(implicitly, nondeterministic) register transducer} consists of:

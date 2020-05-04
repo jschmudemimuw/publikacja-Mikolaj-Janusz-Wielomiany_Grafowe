@@ -48,13 +48,13 @@ For the same reasons as in Fact~\ref{fact:equi-decidable}, the above problem is 
 The rest of this section is devoted to showing decidability for the  $\sim$-equivalence problem. We first show how a register transducer can compute a representation of the output graph modulo $\sim$ in terms of a power series. Then we show that equivalence is decidable for register transducers which manipulate such power series. Combining this with the reduction to register transducers from Lemma~\ref{lem:transduction-to-registers}, we get the theorem.
 
 \smallparagraph{Walk series}
-An infinite sequence $a_0,a_1,\ldots \in \Nat$ can be visualised as san infinite  polynomial
+An infinite sequence $a_0,a_1,\ldots \in \Nat$ can be visualised as an infinite polynomial
 \begin{align*}
  A = a_0 + a_1x^1 + a_2x^2 + \cdots
 \end{align*}
 with one variable $x$.
 We use the name \emph{power series} for such polynomials, and write $\powerseries{ \Nat}$ for the set of power series. 
-We use the name $i$-th term for $a_i$; and we call $a_0$ the constant term.   The power series form a semiring, with addition defined coordinatewise, and product being Cauchy product (see~\cite[part III]{sakarovitch2009elements} for more on rational power series). Among all power series, we are particularly interested in the rational ones: a power series is called \emph{rational} if it can be generated from proper finite power series (a finite power series is one where all but finitely many terms are zero) using the semiring operations $+$ and $\times$ of power series, as well as the  unary   \emph{Kleene plus} operation, which maps $A$ to $A^+ = A + A^2 + A^3 + \cdots$.
+We use the name $i$-th term for $a_i$; and we call $a_0$ the constant term.   The power series form a semiring, with addition defined coordinatewise, and product being Cauchy product (see~\cite[part III]{sakarovitch2009elements} for more on rational power series). Among all power series, we are particularly interested in the rational ones: a power series is called \emph{rational} if it can be generated from finite power series (a finite power series is one where all but finitely many terms are zero) using the semiring operations $+$ and $\times$ of power series, as well as the  unary  \emph{Kleene plus} operation, which maps $A$ to $A^+ = A + A^2 + A^3 + \cdots$.
 The Kleene plus is defined only if the power series is  \emph{proper} (i.e.~its constant term is zero), which ensures that the infinite sum in $A^+$ is well defined. If $A$ were not proper, then its Kleene plus would need to have the divergent value $a_0 + a_0^2 + a_0^3 + \cdots$ as its constant term.
 
 For a graph $G$, define its \emph{shifted walk series} to be the proper power series 
@@ -91,7 +91,7 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
     \end{align*}
     The more interesting case is the forget operation. Suppose that $G$ is a $k$-sourced graph and $G_\ell$ is the result of forgetting source $\ell \in \set{1,\ldots,k}$. An inner walk in $G_\ell$ is either an inner walk in $G$, or it can be decomposed as a composition of: first go to source $\ell$, then take a finite number of loops around source $\ell$, and then leave source $\ell$. Since composing walks corresponds to Cauchy product of power series, we get the  following equation:
     \begin{align*}
-    \varphi_{ij}(\text{forget source $\ell$ in $G$}) = \varphi_{ij}(G) + \varphi_{i\ell}(G) \times (1 + (\varphi_{\ell \ell}(G))^+) \times \varphi_{\ell j}(G)
+    \varphi_{ij}(\text{forget source $\ell$ in $G$}) = \varphi_{ij}(G) + \varphi_{i\ell}(G) \times (1 + (\varphi_{\ell \ell}(G))^+) \times \varphi_{\ell j}(G).
     \end{align*}
     \end{proof}
 
@@ -110,7 +110,7 @@ Consider a register transducer over the ring $\Int[x]$. Such a register transduc
 \begin{restatable}{theoremrestat}{thmequivalenceComputableRing}\label{thm:equivalence-for-computable-ring}
     Let $\Ring$ be a commutative ring which is computable (its elements can be enumerated so that the ring operations are computable) and has no zero divisors (if $a,b$ are nonzero, then so is $a \times b$). Then equivalence is decidable for register transducers over $\Ring$.
 \end{restatable}
-This result is proved in the appendix, by adapting a proof for the special case of the ring of integers that was given in\cite[Theorem 6.6]{seidlManethKemper2018}. 
+This result is proved in the appendix, by adapting a proof for the special case of the ring of integers that was given in~\cite[Theorem 6.6]{seidlManethKemper2018}. 
 % Then we lift these results to register transducers that use division. 
 Applying the above result to the ring $\Int[x]$, and then the encoding of $\aalg$ in $\Int[x]$, we see that equivalence is decidable for register transducers over $\aalg$. Combining this with Lemma~\ref{lem:compute-power-series}, we finish the proof of Theorem~\ref{thm:path-equivalence}.
 

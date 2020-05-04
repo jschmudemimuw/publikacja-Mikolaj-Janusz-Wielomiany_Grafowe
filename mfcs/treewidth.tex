@@ -10,7 +10,7 @@ For treewidth, we use Courcelle's  approach via universal algebra \cite{courcell
 \smallparagraph{Algebras and terms operations} We begin by introducing some terminology from universal algebra. By an \emph{algebra}, we mean an underlying set equipped with some  operations, e.g.~the ring of integers $(\Int, + , \times, 0, 1)$ or the free monoid $(\Sigma^*, \cdot, \varepsilon)$. We write $\aalg, \balg, \ldots$ for algebras. By abuse of notation, we write $a \in \aalg$ if $a$ belongs to the underlying set in the algebra $\aalg$. 
 We use the name \emph{basic operations} for the operations that are given in the algebra. This is to distinguish them from the more general \emph{term operations}, which are defined below.
         For a finite sets of variables $X$ and an algebra $\aalg$, a function $f : \aalg^X \to \aalg,$
-            is called a \emph{term operation} if it is induced by a  term  constructed using the basic operations of the algebra and variables from $X$.  If s the set $X$ is $\set{0,\ldots,k-1}$ then we talk about term operations of type $\aalg^k \to \aalg$.
+            is called a \emph{term operation} if it is induced by a  term  constructed using the basic operations of the algebra and variables from $X$.  If the set $X$ is $\set{0,\ldots,k-1}$ then we talk about term operations of type $\aalg^k \to \aalg$.
         For example, the polynomial $3x^2 -2x+1$ can be viewed as a term in the algebra
             $(\Real, +,\times, -1,0,1)$,
         and it induces a term operation of type $\Real \to \Real$. 
@@ -72,7 +72,7 @@ To define treewidth, we consider graphs with distinguished vertices and equip th
     We  use logic, especially monadic second-order logic, to define properties and transformations of graphs. 
 
     \smallparagraph{Transductions}
-    A  \emph{vocabulary} is defined to be  a set of relation names, each one with an associated arity. A \emph{model over vocabulary $\tau$} consists of a set, called the \emph{universe} of the model, together with an \emph{interpretation}, that maps the relations names from the vocabulary $\tau$ to  relations over the universe of same arity. To define properties of such models, we use mainly monadic second-order logic \mso, which  is the extension of first-order logic that allows quantification over sets of elements (but not sets of pairs, or triples, etc.). We assume that the reader is familiar with \mso, for an introduction see~\cite[Section 2]{Thomas97}.
+    A  \emph{vocabulary} is defined to be  a set of relation names, each one with an associated arity. A \emph{model over vocabulary $\tau$} consists of a set, called the \emph{universe} of the model, together with an \emph{interpretation}, that maps the relation names from the vocabulary $\tau$ to  relations over the universe of same arity. To define properties of such models, we use mainly monadic second-order logic \mso, which  is the extension of first-order logic that allows quantification over sets of elements (but not sets of pairs, or triples, etc.). We assume that the reader is familiar with \mso, for an introduction see~\cite[Section 2]{Thomas97}.
      
      
  The central topic of this paper is \mso transductions, which are graph transformations definable in \mso (from now on, when talking about \mso we mean graph properties that are definable in monadic second-order logic using the \msotwo representation of graphs as models). The transductions can be nondeterministic, in which case they represent binary relations and not functions.
@@ -100,7 +100,7 @@ Kind 1 is a partial function, kinds 2, 3, 4 are functions, and kind 5 is a relat
 \end{enumerate}
 \end{definition}
 
-\smallparagraph{Logic and transdcutions on graphs}
+\smallparagraph{Logic and transductions on graphs}
 To define properties and transductions for graphs in \mso, we represent graphs as models. There are at least two ways to do this, called  \msoone and \msotwo following 
 Courcelle~\cite[Definition 1.7]{courcelleVI}. In this paper, we use the more expressive \msotwo  model: the universe is the disjoint union of vertices and edges, and there is a binary  \emph{incidence relation} that consists of pairs $(v,e)$ such that vertex $v$ participates in edge $e$.  We present our results for monadic second-order logic without modulo counting, but all of our results can be easily extended to include modulo counting. 
 
@@ -112,9 +112,8 @@ If $\Tt$ is functional, which means that for every input graph there is at most 
     Consider the partial function which maps a clique of size $n^2$ to an $n\times n$ grid, and is undefined for other inputs.  This is an \mso transduction: (1) nondeterministically colour the edges to select those that participate in the grid; (2) remove the other edges; (3) check that the result is indeed a grid. For this example it is important that we use the \msotwo representation, which enables colouring edges.  Also note  different sets of edges might be removed in steps (2), but the result is always the same up to isomorphism.
 \end{example}    
 
-\smallparagraph{The equivalence problem.}
+\smallparagraph{The equivalence problem}
 The topic of this paper is   the following  decision problem for functional \mso graph-to-graph transductions. 
-
 
 \decisionproblem{equivalence for functional graph-to-graph \mso transductions of bounded treewidth}{ $\ell, k \in \set{1,2,\ldots}$ and two functional graph-to-graph \mso transductions $\Tt_1,\Tt_2$.}{is it the case that for every input $G$ of treewidth at most $\ell$, the two outputs  $\Tt_1(G),\Tt_2(G)$ are isomorphic and have treewidth at most $k$?}
 
@@ -161,12 +160,18 @@ The rest of this paper is devoted to a discussion of the above two problems, inc
 We begin with two examples which illustrate the fact that equivalence problem for graph-to-graph transductions is unsolved even for very restricted instances.
 
 \noindent{\bf Example: treewidth 1.} 
-    Consider the special case of the equivalence problem for functional graph-to-graph \mso transductions of bounded treewidth, where both input and output graphs have treewidth 1. (As we will see in Lemma~\ref{lem:transduction-to-registers}, it is the output treewidth that is important, since the input treewidth can always be reduced to 1 without making the problem any easier.) This is a very special case of the equivalence problem, but even this special case we do not know how to solve.
+    Consider the
+    %special
+    case
+    %of the equivalence problem for functional graph-to-graph \mso transductions of bounded treewidth, 
+    where both input and output graphs have treewidth 1. (As we will see in Lemma~\ref{lem:transduction-to-registers}, it is the output treewidth that is important, since the input treewidth can always be reduced to 1 without making the problem any easier.) This is a very special case of the equivalence problem, but even this special case we do not know how to solve.
     
-    Let us compare this special case with a very similar problem that is already known to be decidable. There are three kinds of trees that can be considered, listed in order of increasing rigidity: (a) without a distinguished root and without sibling order; (b)  with a distinguished root and without sibling order; (c) with a distinguished root and with sibling order. The (a) variant is the special case of equivalence for graphs of treewidth 1.  As discussed in the introduction, the equivalence problem for \mso transductions is harder in  variant (b) than in variant (c), and for similar reasons (a) is harder than (b). Variant (b) is known to be decidable, but variant (a) remains open.  One idea would be to reduce variant (a) to variant (b) by transforming an  un-rooted tree into the rooted forest of all possible ways of choosing a root; this transformation has quadratic size outputs, and therefore it cannot be an \mso transduction.
+    Let us compare this 
+    %special case 
+    with a very similar problem that is already known to be decidable. There are three kinds of trees that can be considered, listed in order of increasing rigidity: (a) without a distinguished root and without sibling order; (b)  with a distinguished root and without sibling order; (c) with a distinguished root and with sibling order. The (a) variant is the special case of equivalence for graphs of treewidth 1.  As discussed in the introduction, the equivalence problem for \mso transductions is harder in  variant (b) than in variant (c), and for similar reasons (a) is harder than (b). Variant (b) is known to be decidable, but variant (a) remains open.  One idea would be to reduce variant (a) to variant (b) by transforming an  un-rooted tree into the rooted forest of all possible ways of choosing a root; this transformation has quadratic size outputs, and therefore it cannot be an \mso transduction.
     
 
-    \noindent{\bf Example: strings modulo cyclic shift.} Here is another special case of our problem, which seems entertaining and is also open.
+    \noindent{\bf Example: strings modulo cyclic shift.} Here is another special case of our problem, which seems entertaining and also is open.
     % \begin{example}
         Define \emph{cyclic equivalence} to be the equivalence relation $\sim$ on strings which identifies two strings modulo cyclic shifts (for example $abcd \sim cdab$).
          \begin{wrapfigure}{r}{0.5\textwidth}
