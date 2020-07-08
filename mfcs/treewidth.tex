@@ -119,7 +119,7 @@ The topic of this paper is   the following  decision problem for functional \mso
 
 If the  transductions in the instance are not functional, then there are no requirements on the answer to the algorithm. This motivates the following problem:
 
-\decisionproblem{functionality for graph-to-graph \mso transdcutions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and a graph-to-graph \mso transduction,  not necessarily functional.}{is it the case that for every input  of treewidth at most $\ell$, there is at most one output, and this output -- if defined -- has  treewidth at most $k$?}
+\decisionproblem{functionality for graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and a graph-to-graph \mso transduction,  not necessarily functional.}{is it the case that for every input  of treewidth at most $\ell$, there is at most one output, and this output -- if defined -- has  treewidth at most $k$?}
     
 We do not know how to solve any of the above problems, but at least we know that they are equi-decidable, i.e.~if one is decidable then the other is decidable. 
 
@@ -177,7 +177,7 @@ We begin with two examples which illustrate the fact that equivalence problem fo
     for graphs of treewidth 1.  As discussed in the introduction, the equivalence problem for \mso transductions is harder in  variant (b) than in variant (c), and for similar reasons (a) is harder than (b). Variant (b) is known to be decidable, but variant (a) remains open.  One idea would be to reduce variant (a) to variant (b) by transforming an  un-rooted tree into the rooted forest of all possible ways of choosing a root; 
     this transformation has quadratic size outputs, and therefore it cannot be an \mso transduction.
 
-    \noindent{\bf Example: strings modulo cyclic shift.} Here is another special case of our problem, which seems entertaining and also is open.
+    \noindent{\bf Example: strings modulo cyclic shift.} Here is another special case of our problem, which seems entertaining and is also  open.
     % \begin{example}
         Define \emph{cyclic equivalence} to be the equivalence relation $\sim$ on strings which identifies two strings modulo cyclic shifts (for example $abcd \sim cdab$).
          \begin{wrapfigure}{r}{0.5\textwidth}
@@ -185,7 +185,7 @@ We begin with two examples which illustrate the fact that equivalence problem fo
          \end{wrapfigure}
          Consider the following  problem: given two functional string-to-string \mso transductions~\cite[Definition 1]{engelfrietMSODefinableString2001},
         decide if for every input string, the two output strings are equal  modulo cyclic equivalence. %	This seems to be an entertaining problem.
-         It is a special case of the graph-to-graph equivalence problem, since  strings modulo cyclic equivalence  can be represented as graphs of treewidth at most 2, as explained in the  picture.
+         It is a special case of the graph-to-graph equivalence problem, since  strings modulo cyclic equivalence  can be represented as graphs of treewidth at most 2, as explained in the  picture. (The cycle is directed, which can be encoded using gadgets in undirected graphs.)
         % \end{example}
 
 

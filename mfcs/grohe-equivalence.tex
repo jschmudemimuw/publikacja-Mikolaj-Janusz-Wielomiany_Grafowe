@@ -3,7 +3,7 @@
 In this section, we present our main result, which says  that equivalence is decidable for graph-to-graph transductions of bounded treewidth, modulo a certain equivalence on the output graphs. 
 
 \smallparagraph{Counting homomorphisms} The equivalence on output graphs is based on a paper by Grohe, Dell and Rattan~\cite{groheDellRattan2018}, which gives examples of how various relaxations of isomorphism on graphs, notably Weisfeiler-Leman equivalence, can be characterised in terms of counting homomorphisms. 
-Define a \emph{homomorphism} from a graph $G$ to a graph $H$ to be  function $h$ which maps vertices  of $G$ to vertices of $H$ and edges of $G$ to edges of $H$, which is consistent with the incidence relation in the natural way. We write $\homset(G,H)$ for the set of homomorphism from $G$ to $H$. A seminal result of  Lov\'asz~\cite[p.~326]{lovasz1967operations} says that two graphs are isomorphic if and only if they admit the same number of homomorphisms from every graph:
+Define a \emph{homomorphism} from a graph $G$ to a graph $H$ to be  function $h$ which maps vertices  of $G$ to vertices of $H$ and edges of $G$ to edges of $H$, which is consistent with the incidence relation in the natural way. We write $\homset(G,H)$ for the set of homomorphisms from $G$ to $H$. A seminal result of  Lov\'asz~\cite[p.~326]{lovasz1967operations} says that two graphs are isomorphic if and only if they admit the same number of homomorphisms from every graph:
 \begin{align*}
 \underbrace{G \simeq H}_{\text{isomorphism}} \qquad \text{iff} \qquad  |\homset(F,G)|=|\homset(F,H)| \ \text{for every graph $F$.}
 \end{align*}
@@ -39,7 +39,7 @@ In the following theorem, we show that equivalence for graph-to-graph \mso trans
 \begin{theorem}\label{thm:path-equivalence}
     Let $\sim$ be the equivalence relation on graphs described in Theorem~\ref{thm:grohe}. 
     The following problem is decidable:
-    \decisionproblem{$\sim$-equivalence for graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and two functional graph-to-graph \mso transductions $\Tt$.}{is it the case that for every input $G$ of treewidth at most $\ell$, the two outputs  $\Tt_1(G),\Tt_2(G)$ are equivalent under $\sim$ and have treewidth at most $k$?}
+    \decisionproblem{$\sim$-equivalence for graph-to-graph \mso transductions of bounded treewidth.}{ $\ell, k \in \set{1,2,\ldots}$ and two functional graph-to-graph \mso transductions $\Tt_1$ and $\Tt_2$.}{is it the case that for every input $G$ of treewidth at most $\ell$, the two outputs  $\Tt_1(G),\Tt_2(G)$ are equivalent under $\sim$ and have treewidth at most $k$?}
 \end{theorem}
 % By Lemma~\ref{lem:transduction-to-registers}, the above problem reduces to deciding $\sim$-functionality for nondeterministic \regTsover{\aalg}, where $\aalg$ is the algebra of $k$-sourced graphs. Here, $\sim$-functionality means that output graphs are identified modulo $\sim$. 
  
@@ -70,7 +70,7 @@ The first step in the proof of Theorem~\ref{thm:path-equivalence} is the followi
         \item[Domain:] proper rational power series in $\powerseries \Nat$;
         \item[Operations:] $+$, $\times$, Kleene plus and constant $x$.
     \end{description}
-    For every $k \in \set{1,2,\ldots}$ and every nondeterministic register transducer $\Aa$ over the algebra of $k$-sourced graphs, there is a  nondeterministic register transducer $\Bb$ over the algebra  $\aalg$ defined above which makes the following diagram commute (arrows are binary relations):
+    Given $k \in \set{1,2,\ldots}$ and a nondeterministic register transducer $\Aa$ over the algebra of $k$-sourced graphs, one can compute a  nondeterministic register transducer $\Bb$ over the algebra  $\aalg$ defined above which makes the following diagram commute (arrows are binary relations):
     \begin{align*}
     \xymatrix@C=1cm@R=0.5cm{
        &  \trees \Sigma   

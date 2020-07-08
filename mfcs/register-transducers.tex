@@ -36,7 +36,7 @@ Pairs in this relation are obtained by  executing the register updates on the in
     \begin{align*}
     \aalg = (\set{0,1},\lor, \land, \neg, 0, 1).
     \end{align*}
-    A valuation of the registers can be seen as a state from a finite set of bit vectors. Since every operation on bit vectors can be described  by a term of Boolean algebra, it follows that  register transducers with this output algebra are the same thing as  nondeterministic bottom-up tree automata, which define exactly the regular languages~\cite[Section 2]{thatcherGeneralizedFiniteAutomata1968}. 
+    A valuation of the registers can be seen as a state from a finite set of bit vectors. Since every operation on bit vectors can be described  by a term of Boolean algebra, it follows that  register transducers with this output algebra are the same thing as  nondeterministic bottom-up tree automata, which define exactly the regular tree languages~\cite[Section 2]{thatcherGeneralizedFiniteAutomata1968}. 
 \end{example}
 
 For register transducers over  a fixed  output algebra, we will study the functionality and equivalence problems.  The functionality problem is defined as follows.
@@ -66,7 +66,7 @@ We are mainly interested in the case when the input trees are tree decomposition
 % A device as described above is a special case of what we call a \emph{\treetotreewidth k register transducer}, i.e.~this is a register transducer where  the algebra is the algebra of $k$-sourced graphs.  
 
 \begin{lemma}\label{lem:transduction-to-registers}
-    Let $\ell, k \in \set{1,2,\ldots}$, and  let $\Tt$ be an \mso transduction where all output graphs have treewidth at most $k$. There is a nondeterministic register transducer over the algebra of $2k$-sourced graphs, which makes the following diagram commute (arrows in the diagram are binary relations):
+    Let $\ell, k \in \set{1,2,\ldots}$, and  let $\Tt$ be an \mso transduction where all output graphs have treewidth at most $k$. One can compute  a nondeterministic register transducer $\Aa$ over the algebra of $2k$-sourced graphs, which makes the following diagram commute (arrows in the diagram are binary relations):
     \begin{align*}
     \xymatrix@C=0.5cm{
          & \txt{tree decompositions of width $< \ell$}
@@ -81,6 +81,6 @@ The proof of the above lemma uses ideas from~\cite{courcelleMonadicSecondorderLo
 
 \begin{corollary}
 %The functionality of nondeterministic and 
-Equivalence of functional graph-to-graph \mso transductions of bounded treewidth reduces to the equivalence problem for deterministic register transducers over $k$-sourced graphs (for some $k$). 
+For every $k \in \set{1,2,\ldots}$ there is some $\ell \in \set{1,2,\ldots}$ such that equivalence of functional graph-to-graph \mso transductions of treewidth at most $k$ reduces to the equivalence problem for deterministic register transducers over $\ell$-sourced graphs. 
 \end{corollary}
 

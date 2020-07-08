@@ -43,12 +43,14 @@ Warsaw, Poland}{jschmude@mimuw.edu.pl}{}{}
 
 \ccsdesc[100]{Theory of computation~Formal languages and automata}%TODO mandatory: Please choose ACM 2012 classifications from https://dl.acm.org/ccs/ccs_flat.cfm 
 
-\keywords{mso transductions, equivalence problem, register transducers, bounded treewidth, Hilbert method}
+\keywords{equivalence for mso transductions, bounded treewidth, Hilbert basis}
+
+\acknowledgements{Supported by ERC Consolidator Grant LIPA, agreement no. 683080.}%optional
 
 \maketitle
 
 \begin{abstract}
-    We  study the following decision problem: given two \mso transductions that input and output graphs of bounded treewidth, decide if they are equivalent, i.e.~isomorphic inputs give isomorphic outputs. We do not know  if this problem is decidable, but  we  propose an approach to deciding the problem which uses algebra. We  show how the approach can be successful for a variant of the problem, where instead of isomorphism on output graphs, we consider certain relaxation of isomorphism. Our solution uses a variant of polynomial automata, extended with a division operation.
+    We  study the following decision problem: given two \mso transductions that input and output graphs of bounded treewidth, decide if they are equivalent, i.e.~isomorphic inputs give isomorphic outputs. We do not know how to decide it, but  we  propose an approach that uses automata manipulating elements of a ring extended with division. The  approach works for  a variant of the problem, where  isomorphism on output graphs is replaced by a relaxation of isomorphism.
 \end{abstract}
 \input{introduction}
 \input{treewidth}
